@@ -1,0 +1,35 @@
+---
+description: Project workflow compass — STATUS.md + Superpowers cycle gates
+alwaysApply: true
+---
+
+# Command Center workflow
+
+## Orientation
+
+1. At session start (and on “Where are we?” / “Continue”), **read `STATUS.md` first**.
+2. Treat `STATUS.md` as the only source for current phase, cycle, stage, and next action.
+3. Use `PROJECT_ROADMAP.md` for long-term vision — not as the live cursor.
+
+## Cycle (each unit of work)
+
+```
+brainstorm → design spec → implementation plan → execute → finish
+```
+
+| Stage | Skill | Artifact |
+|-------|--------|----------|
+| brainstorm / spec | `brainstorming` | `docs/superpowers/specs/YYYY-MM-DD-<topic>-design.md` |
+| plan | `writing-plans` | `docs/superpowers/plans/YYYY-MM-DD-<topic>.md` |
+| execute | `subagent-driven-development` or `executing-plans` | code + plan checkboxes |
+| finish | `finishing-a-development-branch` | merge / PR / keep |
+
+## Hard gates
+
+- No implementation code until the design is approved and the spec is written.
+- No execute until an implementation plan exists.
+- Do not skip Superpowers skills when they apply.
+
+## STATUS.md discipline
+
+Update `STATUS.md` at every gate transition: set **Stage**, **Active spec/plan** links, and **Next action**. When a cycle completes, set the next cycle (or phase) and stage `ready to brainstorm`.
