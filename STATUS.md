@@ -15,9 +15,9 @@
 
 ## Next action
 
-Begin Step 21 (Search) when ready — stage `ready to brainstorm`.
+Step 20 Soft GNOME + hover icon tint is **accepted**. Decide on optional `# COLOR=` metadata (r/g/b/…) then implement a small trial, or begin Step 21 (Search) brainstorm.
 
-Manual verification pending: launch `framework/menu.py` in light/dark themes (Soft GNOME cards, blue hover outline); folder / refresh / run scripts; `python3 -m unittest test_textutil.py -v`.
+Accepted look: Soft GNOME cards; symbolic icons tint blue on hover; Lockdown uses `system-lock-screen-symbolic`.
 
 ## Stages (per cycle)
 

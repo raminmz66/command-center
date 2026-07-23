@@ -52,6 +52,25 @@
   color: #3584e4;
 }
 
+/* Optional # COLOR= metadata (always-on tint; brighter on hover) */
+.command-card image.command-icon-r { color: #e01b24; }
+.command-card:hover image.command-icon-r { color: #c01c28; }
+
+.command-card image.command-icon-g { color: #2ec27e; }
+.command-card:hover image.command-icon-g { color: #26a269; }
+
+.command-card image.command-icon-b { color: #3584e4; }
+.command-card:hover image.command-icon-b { color: #1c71d8; }
+
+.command-card image.command-icon-o { color: #ff7800; }
+.command-card:hover image.command-icon-o { color: #e66100; }
+
+.command-card image.command-icon-p { color: #9141ac; }
+.command-card:hover image.command-icon-p { color: #813d9c; }
+
+.command-card image.command-icon-y { color: #f5c211; }
+.command-card:hover image.command-icon-y { color: #e5a50a; }
+
 .command-title {
   font-weight: bold;
   color: @theme_fg_color;

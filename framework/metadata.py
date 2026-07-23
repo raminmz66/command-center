@@ -11,7 +11,8 @@ def read_metadata(path):
         "desc": "",
         "category": "General",
         "terminal": False,
-        "confirm": False
+        "confirm": False,
+        "color": None,
     }
 
 
@@ -59,6 +60,13 @@ def read_metadata(path):
                         .strip()
                         .lower()
                         == "true"
+                    )
+
+                elif line.startswith("# COLOR="):
+                    meta["color"] = (
+                        line.split("=", 1)[1]
+                        .strip()
+                        .lower()
                     )
 
 

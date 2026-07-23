@@ -2,6 +2,7 @@
 # NAME=Lockdown Status
 # ICON=system-lock-screen-symbolic
 # DESC=Show automatic update lockdown status
+# COLOR=r
 # TERMINAL=true
 
 sudo update-lockdown --status
