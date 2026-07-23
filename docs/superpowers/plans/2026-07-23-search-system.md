@@ -1,6 +1,6 @@
 # Search System Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking. (Completed tasks marked `- [x]`.)
 
 **Goal:** Add HeaderBar `Gtk.SearchEntry` that instantly filters command cards by name + description, with focus on open and `Ctrl+F` / `/`.
 
@@ -42,7 +42,7 @@
   - Casefold substring on `meta.get("name","")` or `meta.get("desc","")`
   - Missing keys → treat as `""`
 
-- [ ] **Step 1: Append failing tests** to `framework/test_textutil.py`:
+- [x] **Step 1: Append failing tests** to `framework/test_textutil.py`:
 
 ```python
 from textutil import truncate_description, normalize_icon_color, matches_query
@@ -79,7 +79,7 @@ class MatchesQueryTests(unittest.TestCase):
 
 Update the import line at the top of the test file accordingly.
 
-- [ ] **Step 2: Run tests — expect FAIL**
+- [x] **Step 2: Run tests — expect FAIL**
 
 ```bash
 cd /home/ramin/CommandCenter/framework && python3 -m unittest test_textutil.MatchesQueryTests -v
@@ -87,7 +87,7 @@ cd /home/ramin/CommandCenter/framework && python3 -m unittest test_textutil.Matc
 
 Expected: ImportError or AttributeError for `matches_query`.
 
-- [ ] **Step 3: Implement** in `framework/textutil.py`:
+- [x] **Step 3: Implement** in `framework/textutil.py`:
 
 ```python
 def matches_query(meta, query):
@@ -100,7 +100,7 @@ def matches_query(meta, query):
     return needle in name or needle in desc
 ```
 
-- [ ] **Step 4: Run tests — expect PASS**
+- [x] **Step 4: Run tests — expect PASS**
 
 ```bash
 cd /home/ramin/CommandCenter/framework && python3 -m unittest test_textutil.py -v
@@ -108,7 +108,7 @@ cd /home/ramin/CommandCenter/framework && python3 -m unittest test_textutil.py -
 
 Expected: all OK (existing + new).
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 cd /home/ramin/CommandCenter
@@ -138,14 +138,14 @@ EOF
 - `Ctrl+F` and `/` focus search (window key-press or accel group)
 - Focus search after `show_all` / `map-event` or idle add
 
-- [ ] **Step 1: Update imports**
+- [x] **Step 1: Update imports**
 
 ```python
 from gi.repository import Gtk, Gdk, GLib
 from textutil import matches_query
 ```
 
-- [ ] **Step 2: In `__init__`, after header setup, before grid:**
+- [x] **Step 2: In `__init__`, after header setup, before grid:**
 
 Replace the simple title-only header packing end-state with search entry. Keep folder/refresh `pack_start`. After packing refresh:
 
@@ -164,7 +164,7 @@ Replace the simple title-only header packing end-state with search entry. Keep f
 
 Keep `header.set_title` / `set_subtitle` as today (search sits on the end).
 
-- [ ] **Step 3: Replace `load_commands` with discover + render**
+- [x] **Step 3: Replace `load_commands` with discover + render**
 
 ```python
     def discover_commands(self):
@@ -237,7 +237,7 @@ Or after `load_commands()` in `__init__`:
         GLib.idle_add(self.focus_search)
 ```
 
-- [ ] **Step 4: Syntax check**
+- [x] **Step 4: Syntax check**
 
 ```bash
 python3 -m py_compile /home/ramin/CommandCenter/framework/menu.py
@@ -246,7 +246,7 @@ cd /home/ramin/CommandCenter/framework && python3 -m unittest test_textutil.py -
 
 Expected: exit 0.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 cd /home/ramin/CommandCenter
@@ -268,7 +268,7 @@ EOF
 **Interfaces:**
 - Style class `cc-search-entry` (and `entry.cc-search-entry` if needed)
 
-- [ ] **Step 1: Append to `framework/style.css`:**
+- [x] **Step 1: Append to `framework/style.css`:**
 
 ```css
 entry.cc-search-entry,
@@ -287,7 +287,7 @@ entry.cc-search-entry:focus,
 }
 ```
 
-- [ ] **Step 2: Load CSS check**
+- [x] **Step 2: Load CSS check**
 
 ```bash
 python3 - <<'PY'
@@ -300,7 +300,7 @@ print("css-ok")
 PY
 ```
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 cd /home/ramin/CommandCenter
@@ -320,11 +320,11 @@ EOF
 - Modify: `STATUS.md`
 - Modify: `docs/superpowers/plans/2026-07-23-search-system.md` (this file)
 
-- [ ] **Step 1: Set STATUS** — Cycle Step 21 stage `done`; next Step 22 Categories `ready to brainstorm`; note search accepted pending manual QA.
+- [x] **Step 1: Set STATUS** — Cycle Step 21 stage `done`; next Step 22 Categories `ready to brainstorm`; note search accepted pending manual QA.
 
-- [ ] **Step 2: Mark all `- [ ]` in this plan as `- [x]`**
+- [x] **Step 2: Mark all `- [ ]` in this plan as `- [x]`**
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 cd /home/ramin/CommandCenter

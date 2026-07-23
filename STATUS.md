@@ -9,13 +9,15 @@
 |-------|--------|
 | **Phase** | 1 — UI Professionalization |
 | **Cycle** | Step 21 — Search system |
-| **Stage** | `execute` |
+| **Stage** | `done` |
 | **Active spec** | [docs/superpowers/specs/2026-07-23-search-system-design.md](docs/superpowers/specs/2026-07-23-search-system-design.md) |
 | **Active plan** | [docs/superpowers/plans/2026-07-23-search-system.md](docs/superpowers/plans/2026-07-23-search-system.md) |
 
 ## Next action
 
-Execute Step 21 search plan via subagent-driven development (commit after each task).
+Begin **Step 22 — Categories** when ready (stage `ready to brainstorm`).
+
+Step 21 accepted pending manual QA: HeaderBar search, live filter, `Ctrl+F` / `/`, Escape clears query.
 
 ## Stages (per cycle)
 
@@ -27,7 +29,7 @@ Then either start the next cycle or advance the phase.
 
 | Phase | Focus | Status |
 |-------|--------|--------|
-| 1 | UI Professionalization (Steps 20–23) | **In progress** — Step 20 done; on Step 21 |
+| 1 | UI Professionalization (Steps 20–23) | **In progress** — Step 21 done; on Step 22 |
 | 2 | Smart Launcher (Steps 24–26) | Pending |
 | 3 | Desktop Integration (Steps 27–29) | Pending |
 | 4 | Framework Release (Steps 30–32) | Pending |
