@@ -1,0 +1,54 @@
+/* Soft GNOME — Command Center
+   Theme-aware surfaces; accent used for hover outline.
+   Targets Adwaita / Yaru (GTK 3).
+*/
+
+.command-center-window {
+  background-color: @theme_bg_color;
+}
+
+.command-grid {
+  margin: 4px;
+}
+
+.cc-header-button {
+  border-radius: 8px;
+  padding: 4px;
+  min-width: 28px;
+  min-height: 28px;
+}
+
+.cc-header-button:hover {
+  background-color: alpha(@theme_fg_color, 0.08);
+}
+
+.command-card {
+  border-radius: 14px;
+  border: 1px solid alpha(@borders, 0.9);
+  padding: 14px 10px;
+  background-color: @theme_base_color;
+  box-shadow: 0 1px 2px alpha(black, 0.06);
+  transition: border-color 100ms ease-in-out;
+}
+
+.command-card:hover {
+  border-color: #3584e4;
+  border-width: 2px;
+  background-color: alpha(@theme_selected_bg_color, 0.12);
+  box-shadow: 0 4px 12px alpha(#3584e4, 0.18);
+}
+
+.command-card:active {
+  background-color: alpha(@theme_selected_bg_color, 0.20);
+}
+
+.command-title {
+  font-weight: bold;
+  color: @theme_fg_color;
+}
+
+.command-desc {
+  font-size: 0.85em;
+  color: alpha(@theme_fg_color, 0.65);
+  opacity: 0.9;
+}
