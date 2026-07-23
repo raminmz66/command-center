@@ -6,6 +6,8 @@ gi.require_version("Gtk", "3.0")
 
 from gi.repository import Gtk
 
+from textutil import truncate_description
+
 
 class CommandCard(Gtk.Button):
 
@@ -13,23 +15,19 @@ class CommandCard(Gtk.Button):
 
         super().__init__()
 
-
         self.set_size_request(
-            170,
-            120
+            180,
+            130
         )
-
 
         self.get_style_context().add_class(
             "command-card"
         )
 
-
         box = Gtk.Box(
             orientation=Gtk.Orientation.VERTICAL,
             spacing=8
         )
-
 
         box.set_halign(
             Gtk.Align.CENTER
@@ -39,12 +37,9 @@ class CommandCard(Gtk.Button):
             Gtk.Align.CENTER
         )
 
-
         icon = Gtk.Image()
 
-
         theme = Gtk.IconTheme.get_default()
-
 
         if theme.has_icon(meta["icon"]):
 
@@ -60,7 +55,6 @@ class CommandCard(Gtk.Button):
                 Gtk.IconSize.DIALOG
             )
 
-
         title = Gtk.Label(
             label=meta["name"]
         )
@@ -69,11 +63,17 @@ class CommandCard(Gtk.Button):
             f"<b>{meta['name']}</b>"
         )
 
-
-        description = Gtk.Label(
-            label=meta["desc"]
+        title.get_style_context().add_class(
+            "command-title"
         )
 
+        desc_text = truncate_description(
+            meta.get("desc", "")
+        )
+
+        description = Gtk.Label(
+            label=desc_text
+        )
 
         description.set_line_wrap(
             True
@@ -83,6 +83,13 @@ class CommandCard(Gtk.Button):
             Gtk.Justification.CENTER
         )
 
+        description.set_max_width_chars(
+            22
+        )
+
+        description.get_style_context().add_class(
+            "command-desc"
+        )
 
         box.pack_start(
             icon,
@@ -98,8 +105,7 @@ class CommandCard(Gtk.Button):
             0
         )
 
-
-        if meta["desc"]:
+        if desc_text:
 
             box.pack_start(
                 description,
@@ -107,7 +113,6 @@ class CommandCard(Gtk.Button):
                 False,
                 0
             )
-
 
         self.add(
             box
