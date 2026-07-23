@@ -36,3 +36,13 @@ def truncate_description(text, max_len=48):
         return "…"[:max_len]
 
     return text[: max_len - 1].rstrip() + "…"
+
+
+def matches_query(meta, query):
+    if query is None or not str(query).strip():
+        return True
+
+    needle = str(query).casefold()
+    name = str(meta.get("name") or "").casefold()
+    desc = str(meta.get("desc") or "").casefold()
+    return needle in name or needle in desc

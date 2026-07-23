@@ -2,7 +2,7 @@
 
 import unittest
 
-from textutil import truncate_description, normalize_icon_color
+from textutil import truncate_description, normalize_icon_color, matches_query
 
 
 class TruncateDescriptionTests(unittest.TestCase):
@@ -46,6 +46,35 @@ class NormalizeIconColorTests(unittest.TestCase):
         self.assertIsNone(normalize_icon_color(""))
         self.assertIsNone(normalize_icon_color(None))
         self.assertIsNone(normalize_icon_color("pink"))
+
+
+class MatchesQueryTests(unittest.TestCase):
+
+    def setUp(self):
+        self.meta = {
+            "name": "Conky",
+            "desc": "Start desktop widgets",
+        }
+
+    def test_empty_query_matches(self):
+        self.assertTrue(matches_query(self.meta, ""))
+        self.assertTrue(matches_query(self.meta, "   "))
+
+    def test_name_hit(self):
+        self.assertTrue(matches_query(self.meta, "con"))
+
+    def test_desc_hit(self):
+        self.assertTrue(matches_query(self.meta, "widgets"))
+
+    def test_miss(self):
+        self.assertFalse(matches_query(self.meta, "vpn"))
+
+    def test_case_insensitive(self):
+        self.assertTrue(matches_query(self.meta, "CONKY"))
+
+    def test_missing_desc(self):
+        self.assertTrue(matches_query({"name": "Backup"}, "back"))
+        self.assertFalse(matches_query({"name": "Backup"}, "widgets"))
 
 
 if __name__ == "__main__":
