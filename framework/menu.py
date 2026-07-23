@@ -156,6 +156,7 @@ class CommandCenter(Gtk.Window):
         header.pack_end(self.search_entry)
 
         self.commands = []
+        self._initial_search_focus = False
 
         self.grid = Gtk.Grid()
 
@@ -184,10 +185,8 @@ class CommandCenter(Gtk.Window):
         self.load_commands()
 
         self.connect("key-press-event", self.on_window_key_press)
-        self.connect(
-            "map-event",
-            lambda *a: GLib.idle_add(self.focus_search) or False,
-        )
+        # Focus search once on first map only — not after every grid rebuild.
+        self.connect("map-event", self.on_map_event)
 
     def clear_grid(self):
 
@@ -210,6 +209,15 @@ class CommandCenter(Gtk.Window):
             self.commands.append((path, meta))
 
     def render_commands(self):
+        # Preserve caret: rebuilding cards must not steal focus or select-all.
+        had_search_focus = (
+            self.search_entry is not None
+            and self.search_entry.has_focus()
+        )
+        cursor = None
+        if had_search_focus:
+            cursor = self.search_entry.get_position()
+
         self.clear_grid()
         query = ""
         if hasattr(self, "search_entry") and self.search_entry is not None:
@@ -220,13 +228,18 @@ class CommandCenter(Gtk.Window):
             if not matches_query(meta, query):
                 continue
             card = CommandCard(meta)
+            card.set_can_focus(False)
             card.connect("clicked", run_command, path, meta["terminal"])
             self.grid.attach(card, col, row, 1, 1)
             col += 1
             if col == 3:
                 col = 0
                 row += 1
-        self.show_all()
+        # Only show the grid — window show_all() remaps widgets and steals focus.
+        self.grid.show_all()
+
+        if had_search_focus:
+            self._restore_search_focus(cursor)
 
     def load_commands(self):
         self.discover_commands()
@@ -241,17 +254,37 @@ class CommandCenter(Gtk.Window):
             return True
         return False
 
+    def on_map_event(self, *args):
+        if not self._initial_search_focus:
+            self._initial_search_focus = True
+            GLib.idle_add(self.focus_search)
+        return False
+
+    def _restore_search_focus(self, cursor=None):
+        entry = self.search_entry
+        if hasattr(entry, "grab_focus_without_selecting"):
+            entry.grab_focus_without_selecting()
+        else:
+            entry.grab_focus()
+        if cursor is not None:
+            entry.set_position(cursor)
+        return False
+
     def focus_search(self, *args):
-        self.search_entry.grab_focus()
-        return True
+        self._restore_search_focus()
+        return False
 
     def on_window_key_press(self, widget, event):
+        # Don't intercept keys while typing in the search field.
+        if self.search_entry.has_focus():
+            return False
         ctrl = bool(event.state & Gdk.ModifierType.CONTROL_MASK)
         if ctrl and event.keyval in (Gdk.KEY_f, Gdk.KEY_F):
-            return self.focus_search()
-        # Slash focuses search when not already typing in the entry
-        if event.keyval == Gdk.KEY_slash and not self.search_entry.is_focus():
-            return self.focus_search()
+            self.focus_search()
+            return True
+        if event.keyval == Gdk.KEY_slash:
+            self.focus_search()
+            return True
         return False
 
     def refresh(
