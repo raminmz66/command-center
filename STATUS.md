@@ -8,10 +8,10 @@
 | Field | Value |
 |-------|--------|
 | **Phase** | 1 — UI Professionalization |
-| **Cycle** | Step 20 — Professional CSS redesign |
-| **Stage** | `done` |
-| **Active spec** | [docs/superpowers/specs/2026-07-23-soft-gnome-css-redesign-design.md](docs/superpowers/specs/2026-07-23-soft-gnome-css-redesign-design.md) |
-| **Active plan** | [docs/superpowers/plans/2026-07-23-soft-gnome-css-redesign.md](docs/superpowers/plans/2026-07-23-soft-gnome-css-redesign.md) |
+| **Cycle** | Step 21 — Search system |
+| **Stage** | `ready to brainstorm` |
+| **Active spec** | — |
+| **Active plan** | — |
 
 ## Next action
 
@@ -29,7 +29,7 @@ Then either start the next cycle or advance the phase.
 
 | Phase | Focus | Status |
 |-------|--------|--------|
-| 1 | UI Professionalization (Steps 20–23) | **In progress** — Step 20 complete |
+| 1 | UI Professionalization (Steps 20–23) | **In progress** — Step 20 done; on Step 21 |
 | 2 | Smart Launcher (Steps 24–26) | Pending |
 | 3 | Desktop Integration (Steps 27–29) | Pending |
 | 4 | Framework Release (Steps 30–32) | Pending |
