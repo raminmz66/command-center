@@ -6,9 +6,10 @@ import subprocess
 
 gi.require_version("Gtk", "3.0")
 
-from gi.repository import Gtk, Gdk
+from gi.repository import Gtk, Gdk, GLib
 
 from metadata import read_metadata
+from textutil import matches_query
 from widgets import CommandCard
 from launcher import run_command
 
@@ -145,6 +146,16 @@ class CommandCenter(Gtk.Window):
             refresh_button
         )
 
+        self.search_entry = Gtk.SearchEntry()
+        self.search_entry.set_placeholder_text("Search commands…")
+        self.search_entry.get_style_context().add_class("cc-search-entry")
+        self.search_entry.set_hexpand(True)
+        self.search_entry.set_size_request(220, -1)
+        self.search_entry.connect("search-changed", self.on_search_changed)
+        self.search_entry.connect("key-press-event", self.on_search_key_press)
+        header.pack_end(self.search_entry)
+
+        self.commands = []
 
         self.grid = Gtk.Grid()
 
@@ -172,6 +183,11 @@ class CommandCenter(Gtk.Window):
 
         self.load_commands()
 
+        self.connect("key-press-event", self.on_window_key_press)
+        self.connect(
+            "map-event",
+            lambda *a: GLib.idle_add(self.focus_search) or False,
+        )
 
     def clear_grid(self):
 
@@ -182,74 +198,61 @@ class CommandCenter(Gtk.Window):
             )
 
 
-    def load_commands(self):
-
-        self.clear_grid()
-
-        row = 0
-        col = 0
-
-
-        if not os.path.exists(
-            SCRIPTS_DIR
-        ):
-
+    def discover_commands(self):
+        self.commands = []
+        if not os.path.exists(SCRIPTS_DIR):
             return
-
-
-        for file in sorted(
-            os.listdir(SCRIPTS_DIR)
-        ):
-
-
+        for file in sorted(os.listdir(SCRIPTS_DIR)):
             if not file.endswith(".sh"):
                 continue
+            path = os.path.join(SCRIPTS_DIR, file)
+            meta = read_metadata(path)
+            self.commands.append((path, meta))
 
-
-            path = os.path.join(
-                SCRIPTS_DIR,
-                file
-            )
-
-
-            meta = read_metadata(
-                path
-            )
-
-
-            card = CommandCard(
-                meta
-            )
-
-
-            card.connect(
-                "clicked",
-                run_command,
-                path,
-                meta["terminal"]
-            )
-
-
-            self.grid.attach(
-                card,
-                col,
-                row,
-                1,
-                1
-            )
-
-
+    def render_commands(self):
+        self.clear_grid()
+        query = ""
+        if hasattr(self, "search_entry") and self.search_entry is not None:
+            query = self.search_entry.get_text()
+        row = 0
+        col = 0
+        for path, meta in self.commands:
+            if not matches_query(meta, query):
+                continue
+            card = CommandCard(meta)
+            card.connect("clicked", run_command, path, meta["terminal"])
+            self.grid.attach(card, col, row, 1, 1)
             col += 1
-
-
             if col == 3:
-
                 col = 0
                 row += 1
-
-
         self.show_all()
 
+    def load_commands(self):
+        self.discover_commands()
+        self.render_commands()
+
+    def on_search_changed(self, entry):
+        self.render_commands()
+
+    def on_search_key_press(self, widget, event):
+        if event.keyval == Gdk.KEY_Escape:
+            self.search_entry.set_text("")
+            return True
+        return False
+
+    def focus_search(self, *args):
+        self.search_entry.grab_focus()
+        return True
+
+    def on_window_key_press(self, widget, event):
+        ctrl = bool(event.state & Gdk.ModifierType.CONTROL_MASK)
+        if ctrl and event.keyval in (Gdk.KEY_f, Gdk.KEY_F):
+            return self.focus_search()
+        # Slash focuses search when not already typing in the entry
+        if event.keyval == Gdk.KEY_slash and not self.search_entry.is_focus():
+            return self.focus_search()
+        return False
 
     def refresh(
         self,
