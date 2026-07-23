@@ -9,13 +9,15 @@
 |-------|--------|
 | **Phase** | 1 — UI Professionalization |
 | **Cycle** | Step 20 — Professional CSS redesign |
-| **Stage** | `execute` |
+| **Stage** | `done` |
 | **Active spec** | [docs/superpowers/specs/2026-07-23-soft-gnome-css-redesign-design.md](docs/superpowers/specs/2026-07-23-soft-gnome-css-redesign-design.md) |
 | **Active plan** | [docs/superpowers/plans/2026-07-23-soft-gnome-css-redesign.md](docs/superpowers/plans/2026-07-23-soft-gnome-css-redesign.md) |
 
 ## Next action
 
-Execute Soft GNOME redesign plan via subagent-driven development (commit after each task).
+Begin Step 21 (Search) when ready — stage `ready to brainstorm`.
+
+Manual verification pending: launch `framework/menu.py` in light/dark themes (Soft GNOME cards, blue hover outline); folder / refresh / run scripts; `python3 -m unittest test_textutil.py -v`.
 
 ## Stages (per cycle)
 
@@ -27,7 +29,7 @@ Then either start the next cycle or advance the phase.
 
 | Phase | Focus | Status |
 |-------|--------|--------|
-| 1 | UI Professionalization (Steps 20–23) | **In progress** — on Step 20 |
+| 1 | UI Professionalization (Steps 20–23) | **In progress** — Step 20 complete |
 | 2 | Smart Launcher (Steps 24–26) | Pending |
 | 3 | Desktop Integration (Steps 27–29) | Pending |
 | 4 | Framework Release (Steps 30–32) | Pending |

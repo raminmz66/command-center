@@ -1,6 +1,6 @@
 # Soft GNOME CSS Redesign Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [x]`) syntax for tracking.
 
 **Goal:** Deliver Soft GNOME visuals (rounded cards, light elevation, Adwaita-blue hover outline, balanced cards) via CSS-first styling plus light Python hooks.
 
@@ -49,7 +49,7 @@
   - Else → return `text[: max_len - 1].rstrip() + "…"` (Unicode ellipsis)
   - Never raise on normal string input
 
-- [ ] **Step 1: Write the failing tests**
+- [x] **Step 1: Write the failing tests**
 
 Create `framework/test_textutil.py`:
 
@@ -94,7 +94,7 @@ if __name__ == "__main__":
     unittest.main()
 ```
 
-- [ ] **Step 2: Run tests to verify they fail**
+- [x] **Step 2: Run tests to verify they fail**
 
 Run from `framework/`:
 
@@ -104,7 +104,7 @@ cd /home/ramin/CommandCenter/framework && python3 -m unittest test_textutil.py -
 
 Expected: FAIL / ERROR importing `textutil` (module not found) or missing function.
 
-- [ ] **Step 3: Write minimal implementation**
+- [x] **Step 3: Write minimal implementation**
 
 Create `framework/textutil.py`:
 
@@ -125,7 +125,7 @@ def truncate_description(text, max_len=48):
     return text[: max_len - 1].rstrip() + "…"
 ```
 
-- [ ] **Step 4: Run tests to verify they pass**
+- [x] **Step 4: Run tests to verify they pass**
 
 ```bash
 cd /home/ramin/CommandCenter/framework && python3 -m unittest test_textutil.py -v
@@ -133,7 +133,7 @@ cd /home/ramin/CommandCenter/framework && python3 -m unittest test_textutil.py -
 
 Expected: all 5 tests OK.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 cd /home/ramin/CommandCenter
@@ -162,7 +162,7 @@ EOF
 - Size request: `180` × `130` (Soft GNOME balanced cards)
 - Keep vertical box: icon → title → description; title may keep bold markup
 
-- [ ] **Step 1: Update `framework/widgets.py` to match this full file**
+- [x] **Step 1: Update `framework/widgets.py` to match this full file**
 
 ```python
 #!/usr/bin/env python3
@@ -286,7 +286,7 @@ class CommandCard(Gtk.Button):
         )
 ```
 
-- [ ] **Step 2: Sanity-check import**
+- [x] **Step 2: Sanity-check import**
 
 ```bash
 cd /home/ramin/CommandCenter/framework && python3 -c "from widgets import CommandCard; print('ok')"
@@ -294,7 +294,7 @@ cd /home/ramin/CommandCenter/framework && python3 -c "from widgets import Comman
 
 Expected: `ok` (may warn about Gtk if no display; import should succeed).
 
-- [ ] **Step 3: Re-run unit tests**
+- [x] **Step 3: Re-run unit tests**
 
 ```bash
 cd /home/ramin/CommandCenter/framework && python3 -m unittest test_textutil.py -v
@@ -302,7 +302,7 @@ cd /home/ramin/CommandCenter/framework && python3 -m unittest test_textutil.py -
 
 Expected: all OK.
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 cd /home/ramin/CommandCenter
@@ -329,7 +329,7 @@ EOF
 - Default size `640` × `540`
 - Behavior unchanged (load/refresh/open_folder/run)
 
-- [ ] **Step 1: Apply these targeted edits in `framework/menu.py`**
+- [x] **Step 1: Apply these targeted edits in `framework/menu.py`**
 
 After `super().__init__()` in `CommandCenter.__init__`, add:
 
@@ -388,7 +388,7 @@ After creating `self.grid`, add class and set spacing to 12:
 
 (Remove the previous 15/15 spacing assignments or replace them with 12.)
 
-- [ ] **Step 2: Syntax check**
+- [x] **Step 2: Syntax check**
 
 ```bash
 python3 -m py_compile /home/ramin/CommandCenter/framework/menu.py
@@ -396,7 +396,7 @@ python3 -m py_compile /home/ramin/CommandCenter/framework/menu.py
 
 Expected: exit 0, no output.
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 cd /home/ramin/CommandCenter
@@ -421,7 +421,7 @@ EOF
 - Prefer theme colors for surfaces/text; accent mainly on hover
 - No heavy animation
 
-- [ ] **Step 1: Replace `framework/style.css` with**
+- [x] **Step 1: Replace `framework/style.css` with**
 
 ```css
 /* Soft GNOME — Command Center
@@ -480,7 +480,7 @@ EOF
 }
 ```
 
-- [ ] **Step 2: Confirm CSS file is non-empty and loadable**
+- [x] **Step 2: Confirm CSS file is non-empty and loadable**
 
 ```bash
 test -s /home/ramin/CommandCenter/framework/style.css && wc -l /home/ramin/CommandCenter/framework/style.css
@@ -496,7 +496,7 @@ PY
 
 Expected: line count > 0 and `css-ok`.
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 cd /home/ramin/CommandCenter
@@ -520,7 +520,7 @@ EOF
 - STATUS stage → `done` for Step 20; next action → Phase 1 Step 21 ready to brainstorm
 - Active plan link set; note verification is manual (light/dark launch)
 
-- [ ] **Step 1: Update STATUS.md Now / Next action**
+- [x] **Step 1: Update STATUS.md Now / Next action**
 
 Set:
 
@@ -536,9 +536,9 @@ Next action: Begin Step 21 (Search) when ready — stage `ready to brainstorm`.
 
 Roadmap snapshot: Phase 1 still in progress; Step 20 complete.
 
-- [ ] **Step 2: Mark every `- [ ]` in this plan file as `- [x]`**
+- [x] **Step 2: Mark every `- [x]` in this plan file as `- [x]`**
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 cd /home/ramin/CommandCenter
