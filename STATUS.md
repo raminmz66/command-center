@@ -8,16 +8,16 @@
 | Field | Value |
 |-------|--------|
 | **Phase** | 1 — UI Professionalization |
-| **Cycle** | Step 21 — Search system |
-| **Stage** | `done` |
-| **Active spec** | [docs/superpowers/specs/2026-07-23-search-system-design.md](docs/superpowers/specs/2026-07-23-search-system-design.md) |
-| **Active plan** | [docs/superpowers/plans/2026-07-23-search-system.md](docs/superpowers/plans/2026-07-23-search-system.md) |
+| **Cycle** | Step 22 — Categories |
+| **Stage** | `brainstorm` |
+| **Active spec** | — |
+| **Active plan** | — |
 
 ## Next action
 
-Begin **Step 22 — Categories** when ready (stage `ready to brainstorm`).
+Continue Superpowers **brainstorming** for Step 22 Categories — clarify UX, then design → spec → plan. No category UI code until approved.
 
-Step 21 search **accepted** (multi-char typing fixed; HeaderBar filter + shortcuts work).
+Step 21 search accepted.
 
 ## Stages (per cycle)
 
