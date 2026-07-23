@@ -9,15 +9,13 @@
 |-------|--------|
 | **Phase** | 1 — UI Professionalization |
 | **Cycle** | Step 21 — Search system |
-| **Stage** | `ready to brainstorm` |
-| **Active spec** | — |
+| **Stage** | `spec` |
+| **Active spec** | [docs/superpowers/specs/2026-07-23-search-system-design.md](docs/superpowers/specs/2026-07-23-search-system-design.md) |
 | **Active plan** | — |
 
 ## Next action
 
-Begin **Step 21 — Search** when ready (stage `ready to brainstorm`).
-
-Step 20 accepted: Soft GNOME cards, hover icon tint, `# COLOR=` metadata (`r|g|b|o|p|y` / full names).
+User reviews the Step 21 search design spec. On approval, run Superpowers **writing-plans**. No search UI code until the plan exists.
 
 ## Stages (per cycle)
 
