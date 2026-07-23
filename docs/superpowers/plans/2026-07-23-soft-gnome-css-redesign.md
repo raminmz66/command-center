@@ -1,6 +1,6 @@
 # Soft GNOME CSS Redesign Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [x]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking. (Completed tasks marked `- [x]`.)
 
 **Goal:** Deliver Soft GNOME visuals (rounded cards, light elevation, Adwaita-blue hover outline, balanced cards) via CSS-first styling plus light Python hooks.
 
@@ -536,7 +536,7 @@ Next action: Begin Step 21 (Search) when ready — stage `ready to brainstorm`.
 
 Roadmap snapshot: Phase 1 still in progress; Step 20 complete.
 
-- [x] **Step 2: Mark every `- [x]` in this plan file as `- [x]`**
+- [x] **Step 2: Mark every `- [ ]` in this plan file as `- [x]`**
 
 - [x] **Step 3: Commit**
 
