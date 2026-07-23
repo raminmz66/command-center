@@ -9,13 +9,13 @@
 |-------|--------|
 | **Phase** | 1 — UI Professionalization |
 | **Cycle** | Step 20 — Professional CSS redesign |
-| **Stage** | `spec` |
+| **Stage** | `execute` |
 | **Active spec** | [docs/superpowers/specs/2026-07-23-soft-gnome-css-redesign-design.md](docs/superpowers/specs/2026-07-23-soft-gnome-css-redesign-design.md) |
-| **Active plan** | — |
+| **Active plan** | [docs/superpowers/plans/2026-07-23-soft-gnome-css-redesign.md](docs/superpowers/plans/2026-07-23-soft-gnome-css-redesign.md) |
 
 ## Next action
 
-User reviews the Step 20 design spec. On approval, run Superpowers **writing-plans**. No CSS/Python implementation until the plan exists.
+Execute Soft GNOME redesign plan via subagent-driven development (commit after each task).
 
 ## Stages (per cycle)
 
