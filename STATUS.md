@@ -9,13 +9,13 @@
 |-------|--------|
 | **Phase** | 1 — UI Professionalization |
 | **Cycle** | Step 21 — Search system |
-| **Stage** | `spec` |
+| **Stage** | `execute` |
 | **Active spec** | [docs/superpowers/specs/2026-07-23-search-system-design.md](docs/superpowers/specs/2026-07-23-search-system-design.md) |
-| **Active plan** | — |
+| **Active plan** | [docs/superpowers/plans/2026-07-23-search-system.md](docs/superpowers/plans/2026-07-23-search-system.md) |
 
 ## Next action
 
-User reviews the Step 21 search design spec. On approval, run Superpowers **writing-plans**. No search UI code until the plan exists.
+Execute Step 21 search plan via subagent-driven development (commit after each task).
 
 ## Stages (per cycle)
 
