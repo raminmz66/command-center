@@ -41,19 +41,27 @@ class CommandCard(Gtk.Button):
 
         theme = Gtk.IconTheme.get_default()
 
-        if theme.has_icon(meta["icon"]):
+        icon_name = meta.get("icon") or "application-x-executable"
 
-            icon.set_from_icon_name(
-                meta["icon"],
-                Gtk.IconSize.DIALOG
+        if not theme.has_icon(icon_name):
+            symbolic = (
+                icon_name
+                if icon_name.endswith("-symbolic")
+                else f"{icon_name}-symbolic"
             )
+            if theme.has_icon(symbolic):
+                icon_name = symbolic
+            else:
+                icon_name = "application-x-executable"
 
-        else:
+        icon.set_from_icon_name(
+            icon_name,
+            Gtk.IconSize.DIALOG
+        )
 
-            icon.set_from_icon_name(
-                "application-x-executable",
-                Gtk.IconSize.DIALOG
-            )
+        icon.get_style_context().add_class(
+            "command-icon"
+        )
 
         title = Gtk.Label(
             label=meta["name"]

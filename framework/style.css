@@ -42,6 +42,16 @@
   background-color: alpha(@theme_selected_bg_color, 0.20);
 }
 
+/* Symbolic icons follow theme; tint blue on card hover */
+.command-card image.command-icon {
+  color: @theme_fg_color;
+  -gtk-icon-style: symbolic;
+}
+
+.command-card:hover image.command-icon {
+  color: #3584e4;
+}
+
 .command-title {
   font-weight: bold;
   color: @theme_fg_color;
