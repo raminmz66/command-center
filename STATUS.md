@@ -17,7 +17,7 @@
 
 Begin **Step 22 — Categories** when ready (stage `ready to brainstorm`).
 
-Step 21 accepted pending manual QA: HeaderBar search, live filter, `Ctrl+F` / `/`, Escape clears query.
+Step 21 search **accepted** (multi-char typing fixed; HeaderBar filter + shortcuts work).
 
 ## Stages (per cycle)
 
