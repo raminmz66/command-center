@@ -9,13 +9,13 @@
 |-------|--------|
 | **Phase** | 1 — UI Professionalization |
 | **Cycle** | Step 20 — Professional CSS redesign |
-| **Stage** | `ready to brainstorm` |
-| **Active spec** | — |
+| **Stage** | `spec` |
+| **Active spec** | [docs/superpowers/specs/2026-07-23-soft-gnome-css-redesign-design.md](docs/superpowers/specs/2026-07-23-soft-gnome-css-redesign-design.md) |
 | **Active plan** | — |
 
 ## Next action
 
-Start Step 20 with Superpowers **brainstorming** (design → spec → plan → execute). Do not write CSS until the design is approved and a plan exists.
+User reviews the Step 20 design spec. On approval, run Superpowers **writing-plans**. No CSS/Python implementation until the plan exists.
 
 ## Stages (per cycle)
 
