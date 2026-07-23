@@ -45,13 +45,17 @@ class CommandCenter(Gtk.Window):
 
         super().__init__()
 
+        self.get_style_context().add_class(
+            "command-center-window"
+        )
+
         self.set_title(
             "Command Center"
         )
 
         self.set_default_size(
-            620,
-            520
+            640,
+            540
         )
 
         self.set_resizable(
@@ -59,7 +63,7 @@ class CommandCenter(Gtk.Window):
         )
 
         self.set_border_width(
-            15
+            18
         )
 
 
@@ -97,6 +101,10 @@ class CommandCenter(Gtk.Window):
             "Open scripts folder"
         )
 
+        folder_button.get_style_context().add_class(
+            "cc-header-button"
+        )
+
         folder_button.connect(
             "clicked",
             self.open_folder
@@ -123,6 +131,10 @@ class CommandCenter(Gtk.Window):
             "Reload commands"
         )
 
+        refresh_button.get_style_context().add_class(
+            "cc-header-button"
+        )
+
         refresh_button.connect(
             "clicked",
             self.refresh
@@ -136,12 +148,16 @@ class CommandCenter(Gtk.Window):
 
         self.grid = Gtk.Grid()
 
+        self.grid.get_style_context().add_class(
+            "command-grid"
+        )
+
         self.grid.set_row_spacing(
-            15
+            12
         )
 
         self.grid.set_column_spacing(
-            15
+            12
         )
 
         self.grid.set_halign(
