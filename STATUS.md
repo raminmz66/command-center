@@ -15,9 +15,9 @@
 
 ## Next action
 
-Step 20 Soft GNOME + hover icon tint is **accepted**. Decide on optional `# COLOR=` metadata (r/g/b/…) then implement a small trial, or begin Step 21 (Search) brainstorm.
+Begin **Step 21 — Search** when ready (stage `ready to brainstorm`).
 
-Accepted look: Soft GNOME cards; symbolic icons tint blue on hover; Lockdown uses `system-lock-screen-symbolic`.
+Step 20 accepted: Soft GNOME cards, hover icon tint, `# COLOR=` metadata (`r|g|b|o|p|y` / full names).
 
 ## Stages (per cycle)
 
