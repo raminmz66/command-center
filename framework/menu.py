@@ -9,7 +9,7 @@ gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk, Gdk, GLib
 
 from metadata import read_metadata
-from textutil import matches_query
+from textutil import matches_filters, ordered_categories, normalize_category
 from widgets import CommandCard
 from launcher import run_command
 
@@ -176,11 +176,26 @@ class CommandCenter(Gtk.Window):
             Gtk.Align.CENTER
         )
 
+        self.selected_category = "All"
+        self.chip_buttons = {}
 
-        self.add(
-            self.grid
+        self.chip_box = Gtk.FlowBox()
+        self.chip_box.set_selection_mode(Gtk.SelectionMode.NONE)
+        self.chip_box.set_max_children_per_line(12)
+        self.chip_box.set_min_children_per_line(1)
+        self.chip_box.set_homogeneous(False)
+        self.chip_box.set_column_spacing(6)
+        self.chip_box.set_row_spacing(6)
+        self.chip_box.set_halign(Gtk.Align.START)
+        self.chip_box.get_style_context().add_class("cc-category-bar")
+
+        self.content = Gtk.Box(
+            orientation=Gtk.Orientation.VERTICAL,
+            spacing=10,
         )
-
+        self.content.pack_start(self.chip_box, False, False, 0)
+        self.content.pack_start(self.grid, True, True, 0)
+        self.add(self.content)
 
         self.load_commands()
 
@@ -225,7 +240,7 @@ class CommandCenter(Gtk.Window):
         row = 0
         col = 0
         for path, meta in self.commands:
-            if not matches_query(meta, query):
+            if not matches_filters(meta, query, self.selected_category):
                 continue
             card = CommandCard(meta)
             card.set_can_focus(False)
@@ -241,8 +256,62 @@ class CommandCenter(Gtk.Window):
         if had_search_focus:
             self._restore_search_focus(cursor)
 
+    def rebuild_category_chips(self):
+        for child in self.chip_box.get_children():
+            self.chip_box.remove(child)
+        self.chip_buttons = {}
+
+        cats = []
+        for _path, meta in self.commands:
+            cats.append(normalize_category(meta.get("category")))
+        labels = ["All"] + ordered_categories(cats)
+
+        if (
+            self.selected_category != "All"
+            and self.selected_category.casefold()
+            not in {c.casefold() for c in labels[1:]}
+        ):
+            self.selected_category = "All"
+
+        for label in labels:
+            button = Gtk.ToggleButton(label=label)
+            button.get_style_context().add_class("cc-category-chip")
+            button.set_can_focus(False)
+            active = label.casefold() == self.selected_category.casefold()
+            button.set_active(active)
+            if active:
+                button.get_style_context().add_class("active")
+            button.connect("toggled", self.on_category_toggled, label)
+            self.chip_box.add(button)
+            self.chip_buttons[label] = button
+
+        self.chip_box.show_all()
+
+    def on_category_toggled(self, button, label):
+        if not button.get_active():
+            # Prevent fully clearing selection — re-assert if user clicks active chip off
+            if label.casefold() == self.selected_category.casefold():
+                button.handler_block_by_func(self.on_category_toggled)
+                button.set_active(True)
+                button.handler_unblock_by_func(self.on_category_toggled)
+            return
+        self.selected_category = label
+        for name, other in self.chip_buttons.items():
+            is_sel = name.casefold() == label.casefold()
+            if other is not button:
+                other.handler_block_by_func(self.on_category_toggled)
+                other.set_active(False)
+                other.handler_unblock_by_func(self.on_category_toggled)
+            ctx = other.get_style_context()
+            if is_sel:
+                ctx.add_class("active")
+            else:
+                ctx.remove_class("active")
+        self.render_commands()
+
     def load_commands(self):
         self.discover_commands()
+        self.rebuild_category_chips()
         self.render_commands()
 
     def on_search_changed(self, entry):
