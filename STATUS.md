@@ -17,7 +17,7 @@
 
 Brainstorm **Step 23 — Favorites** via Superpowers brainstorming.
 
-Step 22 categories **done**. Manual QA pending: chips All / Desktop / System / Security; category filter AND search; multi-char search still works.
+Step 22 categories **done** and approved (horizontal chips, active color `#f6c32a`).
 
 ## Stages (per cycle)
 

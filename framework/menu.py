@@ -179,14 +179,10 @@ class CommandCenter(Gtk.Window):
         self.selected_category = "All"
         self.chip_buttons = {}
 
-        self.chip_box = Gtk.FlowBox()
-        self.chip_box.set_selection_mode(Gtk.SelectionMode.NONE)
-        self.chip_box.set_max_children_per_line(12)
-        self.chip_box.set_min_children_per_line(1)
-        self.chip_box.set_homogeneous(False)
-        self.chip_box.set_column_spacing(6)
-        self.chip_box.set_row_spacing(6)
+        # Horizontal chip row (not FlowBox — START-aligned FlowBox collapses to one column).
+        self.chip_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
         self.chip_box.set_halign(Gtk.Align.START)
+        self.chip_box.set_valign(Gtk.Align.START)
         self.chip_box.get_style_context().add_class("cc-category-bar")
 
         self.content = Gtk.Box(
@@ -282,7 +278,7 @@ class CommandCenter(Gtk.Window):
             if active:
                 button.get_style_context().add_class("active")
             button.connect("toggled", self.on_category_toggled, label)
-            self.chip_box.add(button)
+            self.chip_box.pack_start(button, False, False, 0)
             self.chip_buttons[label] = button
 
         self.chip_box.show_all()
