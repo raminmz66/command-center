@@ -2,7 +2,14 @@
 
 import unittest
 
-from textutil import truncate_description, normalize_icon_color, matches_query
+from textutil import (
+    truncate_description,
+    normalize_icon_color,
+    matches_query,
+    ordered_categories,
+    matches_filters,
+    normalize_category,
+)
 
 
 class TruncateDescriptionTests(unittest.TestCase):
@@ -75,6 +82,73 @@ class MatchesQueryTests(unittest.TestCase):
     def test_missing_desc(self):
         self.assertTrue(matches_query({"name": "Backup"}, "back"))
         self.assertFalse(matches_query({"name": "Backup"}, "widgets"))
+
+
+class NormalizeCategoryTests(unittest.TestCase):
+
+    def test_empty_becomes_general(self):
+        self.assertEqual(normalize_category(""), "General")
+        self.assertEqual(normalize_category(None), "General")
+        self.assertEqual(normalize_category("  "), "General")
+
+    def test_strip(self):
+        self.assertEqual(normalize_category("  System  "), "System")
+
+
+class OrderedCategoriesTests(unittest.TestCase):
+
+    def test_preferred_order(self):
+        self.assertEqual(
+            ordered_categories(["General", "Desktop", "Security"]),
+            ["Desktop", "Security", "General"],
+        )
+
+    def test_extras_sorted(self):
+        self.assertEqual(
+            ordered_categories(["Zoo", "Desktop", "Alpha"]),
+            ["Desktop", "Alpha", "Zoo"],
+        )
+
+    def test_unique_casefold(self):
+        self.assertEqual(
+            ordered_categories(["desktop", "Desktop", "System"]),
+            ["Desktop", "System"],
+        )
+
+    def test_skips_empty(self):
+        self.assertEqual(
+            ordered_categories(["", None, "Network"]),
+            ["Network"],
+        )
+
+
+class MatchesFiltersTests(unittest.TestCase):
+
+    def setUp(self):
+        self.meta = {
+            "name": "Conky",
+            "desc": "Start desktop widgets",
+            "category": "Desktop",
+        }
+
+    def test_all_with_query(self):
+        self.assertTrue(matches_filters(self.meta, "con", "All"))
+        self.assertFalse(matches_filters(self.meta, "vpn", "All"))
+
+    def test_category_only(self):
+        self.assertTrue(matches_filters(self.meta, "", "Desktop"))
+        self.assertFalse(matches_filters(self.meta, "", "System"))
+
+    def test_and_miss(self):
+        self.assertFalse(matches_filters(self.meta, "con", "System"))
+
+    def test_category_case_insensitive(self):
+        self.assertTrue(matches_filters(self.meta, "", "desktop"))
+
+    def test_missing_category_is_general(self):
+        meta = {"name": "X", "desc": ""}
+        self.assertTrue(matches_filters(meta, "", "General"))
+        self.assertFalse(matches_filters(meta, "", "Desktop"))
 
 
 if __name__ == "__main__":
