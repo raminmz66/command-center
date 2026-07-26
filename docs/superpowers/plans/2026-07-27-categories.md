@@ -1,6 +1,6 @@
 # Categories Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [x]`) syntax for tracking.
 
 **Goal:** Add Soft GNOME category filter chips under the HeaderBar that AND with search, using dynamic categories with a preferred order.
 
@@ -46,7 +46,7 @@
   - `normalize_category(value) -> str` — strip; empty/None → `"General"`; otherwise return stripped string (preserve caller casing for display from first seen, or use preferred canonical if casefold matches preferred)
   - `matches_filters(meta, query, category) -> bool` — requires `matches_query(meta, query)`; if `category` is None/empty/`"All"` (casefold) → True for category part; else compare `normalize_category(meta.get("category"))` to `normalize_category(category)` casefold
 
-- [ ] **Step 1: Append failing tests** to `framework/test_textutil.py`
+- [x] **Step 1: Append failing tests** to `framework/test_textutil.py`
 
 Update import:
 
@@ -131,7 +131,7 @@ class MatchesFiltersTests(unittest.TestCase):
         self.assertFalse(matches_filters(meta, "", "Desktop"))
 ```
 
-- [ ] **Step 2: Run tests — expect FAIL**
+- [x] **Step 2: Run tests — expect FAIL**
 
 ```bash
 cd /home/ramin/CommandCenter/framework && python3 -m unittest test_textutil.OrderedCategoriesTests test_textutil.MatchesFiltersTests test_textutil.NormalizeCategoryTests -v
@@ -139,7 +139,7 @@ cd /home/ramin/CommandCenter/framework && python3 -m unittest test_textutil.Orde
 
 Expected: ImportError / AttributeError for new symbols.
 
-- [ ] **Step 3: Implement** in `framework/textutil.py` (append):
+- [x] **Step 3: Implement** in `framework/textutil.py` (append):
 
 ```python
 PREFERRED_CATEGORIES = (
@@ -201,13 +201,13 @@ def matches_filters(meta, query, category):
     return meta_cat.casefold() == want.casefold()
 ```
 
-- [ ] **Step 4: Run full unit tests — expect PASS**
+- [x] **Step 4: Run full unit tests — expect PASS**
 
 ```bash
 cd /home/ramin/CommandCenter/framework && python3 -m unittest test_textutil.py -v
 ```
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 cd /home/ramin/CommandCenter
@@ -236,7 +236,7 @@ EOF
 - `render_commands` uses `matches_filters(meta, query, self.selected_category)` instead of `matches_query` alone
 - Keep search focus restore behavior; show `chip_box.show_all()` and `grid.show_all()` after rebuilds (not window `show_all`)
 
-- [ ] **Step 1: Update imports**
+- [x] **Step 1: Update imports**
 
 ```python
 from textutil import matches_filters, ordered_categories, normalize_category
@@ -244,7 +244,7 @@ from textutil import matches_filters, ordered_categories, normalize_category
 
 Remove unused `matches_query` import if no longer referenced.
 
-- [ ] **Step 2: In `__init__`, replace `self.add(self.grid)` with content box + chips**
+- [x] **Step 2: In `__init__`, replace `self.add(self.grid)` with content box + chips**
 
 After creating `self.grid` and before `load_commands()`:
 
@@ -273,7 +273,7 @@ After creating `self.grid` and before `load_commands()`:
 
 Remove the old `self.add(self.grid)` call.
 
-- [ ] **Step 3: Add chip rebuild + click handlers; wire discover/load/render**
+- [x] **Step 3: Add chip rebuild + click handlers; wire discover/load/render**
 
 ```python
     def rebuild_category_chips(self):
@@ -346,14 +346,14 @@ In `render_commands`, replace `matches_query` check with:
                 continue
 ```
 
-- [ ] **Step 4: Syntax + unit tests**
+- [x] **Step 4: Syntax + unit tests**
 
 ```bash
 python3 -m py_compile /home/ramin/CommandCenter/framework/menu.py
 cd /home/ramin/CommandCenter/framework && python3 -m unittest test_textutil.py -q
 ```
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 cd /home/ramin/CommandCenter
@@ -373,7 +373,7 @@ EOF
 - Modify: `framework/style.css`
 - Modify: `scripts/conky.sh`, `scripts/test-terminal.sh`, `scripts/update-lockdown-status.sh`
 
-- [ ] **Step 1: Append CSS**
+- [x] **Step 1: Append CSS**
 
 ```css
 .cc-category-bar {
@@ -409,7 +409,7 @@ EOF
 }
 ```
 
-- [ ] **Step 2: Add CATEGORY lines to samples**
+- [x] **Step 2: Add CATEGORY lines to samples**
 
 `scripts/conky.sh` — add `# CATEGORY=Desktop` (near other metadata).
 
@@ -417,7 +417,7 @@ EOF
 
 `scripts/update-lockdown-status.sh` — add `# CATEGORY=Security`.
 
-- [ ] **Step 3: CSS load check**
+- [x] **Step 3: CSS load check**
 
 ```bash
 python3 - <<'PY'
@@ -430,7 +430,7 @@ print("css-ok")
 PY
 ```
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 cd /home/ramin/CommandCenter
@@ -450,11 +450,11 @@ EOF
 - Modify: `STATUS.md`
 - Modify: `docs/superpowers/plans/2026-07-27-categories.md` (this file)
 
-- [ ] **Step 1: Update STATUS** — Cycle Step 22 `done`; next Step 23 Favorites `ready to brainstorm`; active spec/plan links for Step 22; note manual QA for chips.
+- [x] **Step 1: Update STATUS** — Cycle Step 22 `done`; next Step 23 Favorites `ready to brainstorm`; active spec/plan links for Step 22; note manual QA for chips.
 
-- [ ] **Step 2: Mark every `- [ ]` in this plan as `- [x]`**
+- [x] **Step 2: Mark every `- [x]` in this plan as `- [x]`**
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 cd /home/ramin/CommandCenter

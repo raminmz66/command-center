@@ -8,14 +8,16 @@
 | Field | Value |
 |-------|--------|
 | **Phase** | 1 — UI Professionalization |
-| **Cycle** | Step 22 — Categories |
-| **Stage** | `execute` |
-| **Active spec** | [docs/superpowers/specs/2026-07-27-categories-design.md](docs/superpowers/specs/2026-07-27-categories-design.md) |
-| **Active plan** | [docs/superpowers/plans/2026-07-27-categories.md](docs/superpowers/plans/2026-07-27-categories.md) |
+| **Cycle** | Step 23 — Favorites |
+| **Stage** | `ready to brainstorm` |
+| **Active spec** | [docs/superpowers/specs/2026-07-27-categories-design.md](docs/superpowers/specs/2026-07-27-categories-design.md) *(Step 22 completed)* |
+| **Active plan** | [docs/superpowers/plans/2026-07-27-categories.md](docs/superpowers/plans/2026-07-27-categories.md) *(Step 22 completed)* |
 
 ## Next action
 
-Execute Step 22 categories via subagent-driven development (commit after each task).
+Brainstorm **Step 23 — Favorites** via Superpowers brainstorming.
+
+Step 22 categories **done**. Manual QA pending: chips All / Desktop / System / Security; category filter AND search; multi-char search still works.
 
 ## Stages (per cycle)
 
@@ -27,7 +29,7 @@ Then either start the next cycle or advance the phase.
 
 | Phase | Focus | Status |
 |-------|--------|--------|
-| 1 | UI Professionalization (Steps 20–23) | **In progress** — Step 21 done; on Step 22 |
+| 1 | UI Professionalization (Steps 20–23) | **In progress** — Step 22 done; on Step 23 |
 | 2 | Smart Launcher (Steps 24–26) | Pending |
 | 3 | Desktop Integration (Steps 27–29) | Pending |
 | 4 | Framework Release (Steps 30–32) | Pending |
