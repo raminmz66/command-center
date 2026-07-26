@@ -9,15 +9,13 @@
 |-------|--------|
 | **Phase** | 1 — UI Professionalization |
 | **Cycle** | Step 22 — Categories |
-| **Stage** | `brainstorm` |
-| **Active spec** | — |
+| **Stage** | `spec` |
+| **Active spec** | [docs/superpowers/specs/2026-07-27-categories-design.md](docs/superpowers/specs/2026-07-27-categories-design.md) |
 | **Active plan** | — |
 
 ## Next action
 
-Continue Superpowers **brainstorming** for Step 22 Categories — clarify UX, then design → spec → plan. No category UI code until approved.
-
-Step 21 search accepted.
+User reviews the Step 22 categories design spec. On approval, run Superpowers **writing-plans**. No category UI code until the plan exists.
 
 ## Stages (per cycle)
 
