@@ -9,13 +9,13 @@
 |-------|--------|
 | **Phase** | 1 — UI Professionalization |
 | **Cycle** | Step 22 — Categories |
-| **Stage** | `spec` |
+| **Stage** | `plan` |
 | **Active spec** | [docs/superpowers/specs/2026-07-27-categories-design.md](docs/superpowers/specs/2026-07-27-categories-design.md) |
-| **Active plan** | — |
+| **Active plan** | [docs/superpowers/plans/2026-07-27-categories.md](docs/superpowers/plans/2026-07-27-categories.md) |
 
 ## Next action
 
-User reviews the Step 22 categories design spec. On approval, run Superpowers **writing-plans**. No category UI code until the plan exists.
+Execute Step 22 categories plan (subagent-driven or inline). No code until you choose execution.
 
 ## Stages (per cycle)
 
