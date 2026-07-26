@@ -4,6 +4,7 @@
 # DESC=Show automatic update lockdown status
 # COLOR=r
 # TERMINAL=true
+# CATEGORY=Security
 
 sudo update-lockdown --status
 

@@ -4,5 +4,6 @@
 # DESC=Start desktop widgets
 # COLOR=b
 # TERMINAL=false
+# CATEGORY=Desktop
 
 conky &

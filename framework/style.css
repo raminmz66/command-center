@@ -96,3 +96,35 @@ entry.cc-search-entry:focus,
 .cc-search-entry:focus {
   border-color: #3584e4;
 }
+
+.cc-category-bar {
+  margin: 0 2px 2px;
+}
+
+.cc-category-chip {
+  border-radius: 999px;
+  padding: 4px 12px;
+  border: 1px solid alpha(@borders, 0.9);
+  background-color: @theme_base_color;
+  color: @theme_fg_color;
+  font-weight: 600;
+  box-shadow: none;
+}
+
+.cc-category-chip:hover {
+  background-color: alpha(@theme_fg_color, 0.06);
+}
+
+.cc-category-chip:checked,
+.cc-category-chip.active {
+  background-color: #3584e4;
+  border-color: #3584e4;
+  color: white;
+}
+
+.cc-category-chip:checked:hover,
+.cc-category-chip.active:hover {
+  background-color: #1c71d8;
+  border-color: #1c71d8;
+  color: white;
+}
