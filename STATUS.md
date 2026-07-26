@@ -9,13 +9,13 @@
 |-------|--------|
 | **Phase** | 1 — UI Professionalization |
 | **Cycle** | Step 22 — Categories |
-| **Stage** | `plan` |
+| **Stage** | `execute` |
 | **Active spec** | [docs/superpowers/specs/2026-07-27-categories-design.md](docs/superpowers/specs/2026-07-27-categories-design.md) |
 | **Active plan** | [docs/superpowers/plans/2026-07-27-categories.md](docs/superpowers/plans/2026-07-27-categories.md) |
 
 ## Next action
 
-Execute Step 22 categories plan (subagent-driven or inline). No code until you choose execution.
+Execute Step 22 categories via subagent-driven development (commit after each task).
 
 ## Stages (per cycle)
 
