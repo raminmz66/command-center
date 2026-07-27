@@ -64,7 +64,8 @@ CommandCard (widgets.py) — optional star display when edit_mode / is_favorite
   - `save_favorites(names: list[str]) -> None`
   - `is_favorite(basename: str) -> bool`
   - `toggle_favorite(basename: str) -> bool` — returns new state; appends when adding; removes when unfavoriting; persists immediately
-- Optionally prune basenames that no longer exist on successful save after render/discover (recommended: prune unknown ids on save after toggle or on load+discover merge in menu)
+- On save after toggle: prune basenames that are not among currently discovered scripts (menu passes the known set, or intersects before `save_favorites`)
+- Unknown basenames still in JSON at load time: keep until next save/prune; skip when rendering
 
 ### `menu.py`
 
@@ -107,7 +108,7 @@ CommandCard (widgets.py) — optional star display when edit_mode / is_favorite
 
 - Missing or invalid JSON → empty favorites, no crash
 - Basename in JSON but script gone → skip in UI; drop on next save/prune
-- Config dir not writable → toggle fails gracefully (keep prior in-memory state; optional stderr/log — do not crash UI)
+- Config dir not writable → leave in-memory list unchanged; do not crash the UI (silent fail is acceptable for v1)
 
 ## Verification
 
