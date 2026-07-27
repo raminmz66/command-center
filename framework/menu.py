@@ -390,19 +390,20 @@ class CommandCenter(Gtk.Window):
         else:
             data = read_script(path)
             self.authoring.load(path=path, meta=data["meta"], body=data["body"])
-        self.content.hide()
+        # Let Gtk.Stack own child visibility — do not hide() stack children.
         self._set_launcher_chrome_visible(False)
-        self.stack.set_visible_child_name("authoring")
         self.authoring.set_hexpand(True)
         self.authoring.set_vexpand(True)
         self.authoring.show_all()
+        self.stack.set_visible_child_name("authoring")
 
     def show_launcher(self):
         self.hide_delete_overlay()
-        self._set_launcher_chrome_visible(True)
-        self.stack.set_visible_child_name("launcher")
-        self.content.show()
+        # Child must be visible BEFORE set_visible_child_name, or Stack ignores it.
+        self.content.set_no_show_all(False)
         self.content.show_all()
+        self.stack.set_visible_child_name("launcher")
+        self._set_launcher_chrome_visible(True)
         self._sync_edit_cmd_button()
         self.render_commands()
 
