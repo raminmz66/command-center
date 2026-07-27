@@ -8,8 +8,16 @@ gi.require_version("Gtk", "3.0")
 
 from gi.repository import Gtk, Gdk, GLib
 
+from authoring import AuthoringForm
 from favorites import load_favorites, save_favorites
 from metadata import read_metadata
+from scriptio import (
+    delete_script,
+    read_script,
+    slug_filename,
+    unique_path,
+    write_script,
+)
 from textutil import matches_filters, ordered_categories, normalize_category
 from widgets import CommandCard
 from launcher import run_command
@@ -150,10 +158,12 @@ class CommandCenter(Gtk.Window):
         self.commands = []
         self.favorites = load_favorites()
         self.edit_favorites = False
+        self.edit_commands = False
         self.pending_favorites = None
         self.pending_confirm = None
         self.confirm_popover = None
         self._initial_search_focus = False
+        self._header = header
 
         self.edit_fav_button = Gtk.Button()
         self.edit_fav_button.set_tooltip_text("Edit favorites")
@@ -162,6 +172,20 @@ class CommandCenter(Gtk.Window):
         self._sync_edit_fav_button()
         self.edit_fav_button.connect("clicked", self.on_edit_favorites_clicked)
         header.pack_start(self.edit_fav_button)
+
+        self.edit_cmd_button = Gtk.Button(label="Edit")
+        self.edit_cmd_button.set_tooltip_text("Edit commands")
+        self.edit_cmd_button.get_style_context().add_class("cc-header-button")
+        self.edit_cmd_button.get_style_context().add_class("cc-edit-commands")
+        self.edit_cmd_button.connect("clicked", self.on_edit_commands_clicked)
+        header.pack_start(self.edit_cmd_button)
+
+        self.add_cmd_button = Gtk.Button(label="+")
+        self.add_cmd_button.set_tooltip_text("New command")
+        self.add_cmd_button.get_style_context().add_class("cc-header-button")
+        self.add_cmd_button.get_style_context().add_class("cc-header-plus")
+        self.add_cmd_button.connect("clicked", self.on_add_command_clicked)
+        header.pack_end(self.add_cmd_button)
 
         self.search_entry = Gtk.SearchEntry()
         self.search_entry.set_placeholder_text("Search commands…")
@@ -212,14 +236,33 @@ class CommandCenter(Gtk.Window):
         self.favorites_box.pack_start(self.favorites_label, False, False, 0)
         self.favorites_box.pack_start(self.favorites_grid, False, False, 0)
 
+        self.edit_banner = Gtk.Label(
+            label="Editing commands — tap ✎ to edit or 🗑 to delete. Launch paused."
+        )
+        self.edit_banner.set_line_wrap(True)
+        self.edit_banner.get_style_context().add_class("cc-edit-banner")
+        self.edit_banner.set_no_show_all(True)
+        self.edit_banner.hide()
+
         self.content = Gtk.Box(
             orientation=Gtk.Orientation.VERTICAL,
             spacing=10,
         )
         self.content.pack_start(self.chip_box, False, False, 0)
+        self.content.pack_start(self.edit_banner, False, False, 0)
         self.content.pack_start(self.favorites_box, False, False, 0)
         self.content.pack_start(self.grid, True, True, 0)
-        self.add(self.content)
+
+        self.authoring = AuthoringForm()
+        self.authoring.on_save = self.on_authoring_save
+        self.authoring.on_cancel = self.on_authoring_cancel
+
+        self.stack = Gtk.Stack()
+        self.stack.set_transition_type(Gtk.StackTransitionType.CROSSFADE)
+        self.stack.set_transition_duration(120)
+        self.stack.add_named(self.content, "launcher")
+        self.stack.add_named(self.authoring, "authoring")
+        self.add(self.stack)
 
         self.load_commands()
 
@@ -250,7 +293,10 @@ class CommandCenter(Gtk.Window):
             self.edit_fav_button.get_style_context().remove_class("active")
 
     def on_edit_favorites_clicked(self, *_args):
+        if self.stack.get_visible_child_name() == "authoring":
+            return
         if not self.edit_favorites:
+            self._exit_edit_commands(render=False)
             self.edit_favorites = True
             self.pending_favorites = list(self.favorites)
             self._sync_edit_fav_button()
@@ -265,6 +311,174 @@ class CommandCenter(Gtk.Window):
         self.edit_favorites = False
         self._sync_edit_fav_button()
         self.render_commands()
+
+    def _exit_edit_favorites(self, apply=False):
+        if not self.edit_favorites:
+            return
+        if apply:
+            known = self._known_basenames()
+            names = [n for n in (self.pending_favorites or []) if n in known]
+            save_favorites(names)
+            self.favorites = load_favorites()
+        self.pending_favorites = None
+        self.edit_favorites = False
+        self._sync_edit_fav_button()
+
+    def _sync_edit_cmd_button(self):
+        ctx = self.edit_cmd_button.get_style_context()
+        if self.edit_commands:
+            ctx.add_class("active")
+            self.edit_cmd_button.set_tooltip_text("Done editing commands")
+            self.edit_banner.show()
+        else:
+            ctx.remove_class("active")
+            self.edit_cmd_button.set_tooltip_text("Edit commands")
+            self.edit_banner.hide()
+
+    def _exit_edit_commands(self, render=True):
+        if not self.edit_commands:
+            return
+        self.edit_commands = False
+        self._sync_edit_cmd_button()
+        if render:
+            self.render_commands()
+
+    def on_edit_commands_clicked(self, *_args):
+        if self.stack.get_visible_child_name() == "authoring":
+            return
+        if self.edit_commands:
+            self._exit_edit_commands()
+            return
+        self._exit_edit_favorites(apply=False)
+        self.edit_commands = True
+        self._sync_edit_cmd_button()
+        self.render_commands()
+
+    def on_add_command_clicked(self, *_args):
+        self.show_authoring(None)
+
+    def show_authoring(self, path):
+        self.hide_confirm()
+        if path is None:
+            self.authoring.load(path=None, meta={
+                "name": "",
+                "desc": "",
+                "category": "General",
+                "icon": "applications-utilities-symbolic",
+                "color": None,
+                "terminal": False,
+                "confirm": False,
+            }, body="")
+        else:
+            data = read_script(path)
+            self.authoring.load(path=path, meta=data["meta"], body=data["body"])
+        self.stack.set_visible_child_name("authoring")
+        self.authoring.show_all()
+
+    def show_launcher(self):
+        self.stack.set_visible_child_name("launcher")
+        self.content.show_all()
+        self._sync_edit_cmd_button()
+        self.render_commands()
+
+    def on_authoring_save(self, form):
+        err = form.validate()
+        if err:
+            form.show_error(err)
+            return
+        meta, body = form.get_values()
+        path = form.get_path()
+        try:
+            if path is None:
+                filename = slug_filename(meta["name"])
+                path = unique_path(SCRIPTS_DIR, filename)
+            write_script(path, meta, body)
+        except OSError as exc:
+            form.show_error(str(exc))
+            return
+        self.show_launcher()
+        self.load_commands()
+
+    def on_authoring_cancel(self, form):
+        if form.is_dirty():
+            dialog = Gtk.MessageDialog(
+                transient_for=self,
+                modal=True,
+                message_type=Gtk.MessageType.QUESTION,
+                buttons=Gtk.ButtonsType.NONE,
+                text="Discard changes?",
+            )
+            dialog.format_secondary_text(
+                "You have unsaved edits. Discard them and return?"
+            )
+            dialog.add_button("Keep editing", Gtk.ResponseType.CANCEL)
+            dialog.add_button("Discard", Gtk.ResponseType.ACCEPT)
+            response = dialog.run()
+            dialog.destroy()
+            if response != Gtk.ResponseType.ACCEPT:
+                return
+        self.show_launcher()
+
+    def on_edit_script(self, path):
+        self.show_authoring(path)
+
+    def on_delete_script(self, path, meta):
+        name = meta.get("name") or os.path.basename(path)
+        base = os.path.basename(path)
+        dialog = Gtk.Dialog(
+            title="Delete command?",
+            transient_for=self,
+            modal=True,
+        )
+        dialog.set_default_size(320, -1)
+        box = dialog.get_content_area()
+        box.set_spacing(0)
+        panel = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=8)
+        panel.get_style_context().add_class("cc-delete-dialog")
+        panel.set_margin_top(8)
+        panel.set_margin_bottom(8)
+        panel.set_margin_start(8)
+        panel.set_margin_end(8)
+        title = Gtk.Label(label="Delete command?", xalign=0)
+        title.get_style_context().add_class("cc-delete-dialog-title")
+        body = Gtk.Label(
+            label=(
+                f"Remove {name}? This deletes the script file {base} "
+                "and cannot be undone from the app."
+            ),
+            xalign=0,
+        )
+        body.set_line_wrap(True)
+        body.get_style_context().add_class("cc-delete-dialog-body")
+        panel.pack_start(title, False, False, 0)
+        panel.pack_start(body, False, False, 0)
+        box.add(panel)
+        dialog.add_button("Cancel", Gtk.ResponseType.CANCEL)
+        delete_btn = dialog.add_button("Delete", Gtk.ResponseType.ACCEPT)
+        delete_btn.get_style_context().add_class("cc-delete-confirm")
+        dialog.show_all()
+        response = dialog.run()
+        dialog.destroy()
+        if response != Gtk.ResponseType.ACCEPT:
+            return
+        try:
+            delete_script(path)
+        except OSError as exc:
+            err = Gtk.MessageDialog(
+                transient_for=self,
+                modal=True,
+                message_type=Gtk.MessageType.ERROR,
+                buttons=Gtk.ButtonsType.OK,
+                text="Could not delete script",
+            )
+            err.format_secondary_text(str(exc))
+            err.run()
+            err.destroy()
+            return
+        names = [n for n in load_favorites() if n != base]
+        save_favorites(names)
+        self.favorites = names
+        self.load_commands()
 
     def _known_basenames(self):
         return {os.path.basename(path) for path, _meta in self.commands}
@@ -286,11 +500,25 @@ class CommandCenter(Gtk.Window):
                 meta,
                 favorited=favorited,
                 edit_mode=self.edit_favorites,
+                commands_edit=self.edit_commands,
+                on_edit=(
+                    (lambda p=path: self.on_edit_script(p))
+                    if self.edit_commands
+                    else None
+                ),
+                on_delete=(
+                    (lambda p=path, m=meta: self.on_delete_script(p, m))
+                    if self.edit_commands
+                    else None
+                ),
             )
             card.set_can_focus(False)
             card._cc_script_path = path
             if self.edit_favorites:
                 card.connect("clicked", self.on_favorite_card_clicked, path)
+            elif self.edit_commands:
+                # Launch paused — ignore card body clicks.
+                pass
             else:
                 card.connect("clicked", self.on_command_clicked, path, meta)
             container.attach(card, col, row, 1, 1)
@@ -509,6 +737,25 @@ class CommandCenter(Gtk.Window):
             if os.environ.get("CC_QA_CONFIRM") == "1":
                 # After layout/show_all settle so the target card exists.
                 GLib.timeout_add(400, self._qa_show_first_confirm)
+            qa = os.environ.get("CC_QA_AUTHORING", "").strip().lower()
+            if qa in ("edit", "new", "delete"):
+                GLib.timeout_add(450, self._qa_authoring, qa)
+        return False
+
+    def _qa_authoring(self, mode):
+        if mode == "edit":
+            self.edit_commands = True
+            self._sync_edit_cmd_button()
+            self.render_commands()
+        elif mode == "new":
+            self.show_authoring(None)
+        elif mode == "delete":
+            self.edit_commands = True
+            self._sync_edit_cmd_button()
+            self.render_commands()
+            if self.commands:
+                path, meta = self.commands[0]
+                GLib.timeout_add(300, lambda: self.on_delete_script(path, meta) or False)
         return False
 
     def _qa_show_first_confirm(self):
@@ -539,6 +786,11 @@ class CommandCenter(Gtk.Window):
     def on_window_key_press(self, widget, event):
         # Don't intercept keys while typing in the search field.
         if self.search_entry.has_focus():
+            return False
+        if self.stack.get_visible_child_name() == "authoring":
+            if event.keyval == Gdk.KEY_Escape:
+                self.on_authoring_cancel(self.authoring)
+                return True
             return False
         if (
             self.pending_confirm is not None
