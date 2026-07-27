@@ -113,24 +113,29 @@ class AuthoringForm(Gtk.Box):
         grid_wrap = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
         grid_wrap.set_hexpand(True)
         self.icon_grid = Gtk.Grid()
-        self.icon_grid.set_column_spacing(5)
-        self.icon_grid.set_row_spacing(5)
+        self.icon_grid.set_column_spacing(2)
+        self.icon_grid.set_row_spacing(2)
         self.icon_grid.set_column_homogeneous(True)
         self.icon_grid.set_row_homogeneous(True)
         self._icon_buttons = {}
         for idx, (name, glyph) in enumerate(CURATED_ICONS):
-            btn = Gtk.Button()
-            btn.set_relief(Gtk.ReliefStyle.NONE)
-            btn.set_can_focus(False)
-            btn.set_size_request(40, 40)
+            cell = Gtk.EventBox()
+            cell.set_visible_window(True)
+            cell.set_can_focus(False)
+            cell.set_tooltip_text(name)
+            cell.get_style_context().add_class("cc-authoring-icon-cell")
             label = Gtk.Label(label=glyph)
+            label.set_halign(Gtk.Align.CENTER)
+            label.set_valign(Gtk.Align.CENTER)
             label.get_style_context().add_class("cc-authoring-icon-glyph")
-            btn.add(label)
-            btn.set_tooltip_text(name)
-            btn.get_style_context().add_class("cc-authoring-icon-cell")
-            btn.connect("clicked", self._on_icon_picked, name)
-            self._icon_buttons[name] = btn
-            self.icon_grid.attach(btn, idx % 6, idx // 6, 1, 1)
+            cell.add(label)
+            cell.connect(
+                "button-press-event",
+                self._on_icon_cell_pressed,
+                name,
+            )
+            self._icon_buttons[name] = cell
+            self.icon_grid.attach(cell, idx % 6, idx // 6, 1, 1)
         grid_wrap.pack_start(self.icon_grid, False, False, 0)
 
         self.custom_icon_entry = Gtk.Entry()
@@ -238,6 +243,12 @@ class AuthoringForm(Gtk.Box):
         box.pack_start(switch, False, False, 0)
         box.pack_start(Gtk.Label(label=label, xalign=0), False, False, 0)
         return box
+
+    def _on_icon_cell_pressed(self, _widget, event, name):
+        if event.button != 1:
+            return False
+        self._on_icon_picked(None, name)
+        return True
 
     def _on_icon_picked(self, _btn, name):
         self.custom_icon_entry.set_text("")
