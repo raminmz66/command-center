@@ -17,10 +17,9 @@
 
 | Cycle | Spec | Plan |
 |-------|------|------|
+| Step 23c — Favorites separation | [docs/superpowers/specs/2026-07-27-favorites-separation-design.md](docs/superpowers/specs/2026-07-27-favorites-separation-design.md) | [docs/superpowers/plans/2026-07-27-favorites-separation.md](docs/superpowers/plans/2026-07-27-favorites-separation.md) |
 | Step 23b — Favorites Apply polish | [docs/superpowers/specs/2026-07-27-favorites-apply-design.md](docs/superpowers/specs/2026-07-27-favorites-apply-design.md) | [docs/superpowers/plans/2026-07-27-favorites-apply.md](docs/superpowers/plans/2026-07-27-favorites-apply.md) |
 | Step 23 — Favorites | [docs/superpowers/specs/2026-07-27-favorites-design.md](docs/superpowers/specs/2026-07-27-favorites-design.md) | [docs/superpowers/plans/2026-07-27-favorites.md](docs/superpowers/plans/2026-07-27-favorites.md) |
-
-**Manual QA pending (Favorites Apply polish):** bigger edit-mode stars; card toggles update star glyphs only — Favorites strip membership unchanged until **Apply**; Apply saves, refreshes strip, exits edit.
 
 ## Next action
 
@@ -36,7 +35,7 @@ Then either start the next cycle or advance the phase.
 
 | Phase | Focus | Status |
 |-------|--------|--------|
-| 1 | UI Professionalization (Steps 20–23) | **Complete** |
+| 1 | UI Professionalization (Steps 20–23) | **Complete** (+ polish 23b/23c) |
 | 2 | Smart Launcher (Steps 24–26) | Pending — next: Step 24 Confirmation |
 | 3 | Desktop Integration (Steps 27–29) | Pending |
 | 4 | Framework Release (Steps 30–32) | Pending |

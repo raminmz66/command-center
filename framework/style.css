@@ -134,14 +134,19 @@ button.cc-category-chip.active:hover {
 }
 
 .cc-favorites-section {
-  margin: 2px 4px 6px;
+  margin: 14px 8px 16px;
+  padding: 14px;
+  border-radius: 12px;
+  background-color: alpha(@theme_fg_color, 0.07);
+  border: 1px solid alpha(@borders, 0.9);
 }
 
 .cc-favorites-label {
   font-weight: 700;
-  font-size: 0.85em;
-  opacity: 0.75;
-  margin: 0 4px 2px;
+  font-size: 16px;
+  opacity: 0.92;
+  margin: 0 4px 12px;
+  color: @theme_fg_color;
 }
 
 .cc-edit-favorites.active {
