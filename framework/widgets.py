@@ -11,7 +11,15 @@ from textutil import truncate_description, normalize_icon_color
 
 class CommandCard(Gtk.Button):
 
-    def __init__(self, meta, favorited=False, edit_mode=False):
+    def __init__(
+        self,
+        meta,
+        favorited=False,
+        edit_mode=False,
+        commands_edit=False,
+        on_edit=None,
+        on_delete=None,
+    ):
 
         super().__init__()
 
@@ -23,6 +31,8 @@ class CommandCard(Gtk.Button):
         self.get_style_context().add_class(
             "command-card"
         )
+
+        overlay = Gtk.Overlay()
 
         box = Gtk.Box(
             orientation=Gtk.Orientation.VERTICAL,
@@ -37,7 +47,7 @@ class CommandCard(Gtk.Button):
             Gtk.Align.CENTER
         )
 
-        if edit_mode:
+        if edit_mode and not commands_edit:
             star = Gtk.Label(label="★" if favorited else "☆")
             star.get_style_context().add_class("cc-favorite-star")
             if favorited:
@@ -140,6 +150,49 @@ class CommandCard(Gtk.Button):
                 0
             )
 
+        overlay.add(box)
+
+        if commands_edit:
+            actions = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=4)
+            actions.set_halign(Gtk.Align.END)
+            actions.set_valign(Gtk.Align.START)
+            actions.set_margin_top(4)
+            actions.set_margin_end(4)
+            actions.get_style_context().add_class("cc-card-actions")
+
+            edit_btn = Gtk.Button()
+            edit_btn.set_relief(Gtk.ReliefStyle.NONE)
+            edit_btn.set_tooltip_text("Edit")
+            edit_btn.get_style_context().add_class("cc-card-edit")
+            edit_icon = Gtk.Image.new_from_icon_name(
+                "document-edit-symbolic",
+                Gtk.IconSize.BUTTON,
+            )
+            if not Gtk.IconTheme.get_default().has_icon("document-edit-symbolic"):
+                edit_icon = Gtk.Image.new_from_icon_name(
+                    "gtk-edit",
+                    Gtk.IconSize.BUTTON,
+                )
+            edit_btn.set_image(edit_icon)
+            if on_edit:
+                edit_btn.connect("clicked", lambda *_: on_edit())
+
+            del_btn = Gtk.Button()
+            del_btn.set_relief(Gtk.ReliefStyle.NONE)
+            del_btn.set_tooltip_text("Delete")
+            del_btn.get_style_context().add_class("cc-card-delete")
+            del_icon = Gtk.Image.new_from_icon_name(
+                "user-trash-symbolic",
+                Gtk.IconSize.BUTTON,
+            )
+            del_btn.set_image(del_icon)
+            if on_delete:
+                del_btn.connect("clicked", lambda *_: on_delete())
+
+            actions.pack_start(edit_btn, False, False, 0)
+            actions.pack_start(del_btn, False, False, 0)
+            overlay.add_overlay(actions)
+
         self.add(
-            box
+            overlay
         )

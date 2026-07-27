@@ -230,3 +230,231 @@ button.cc-confirm-run:hover {
   border-color: #a51d2d;
   color: white;
 }
+
+/* —— Script authoring —— */
+
+.cc-edit-commands.active {
+  background-color: #f6c32a;
+  color: #1a1a1a;
+  border-radius: 8px;
+  font-weight: 700;
+}
+
+button.cc-header-plus {
+  background-image: none;
+  background-color: alpha(#f6c32a, 0.55);
+  border: 1px solid alpha(#f6c32a, 0.7);
+  border-radius: 8px;
+  font-weight: 800;
+  min-width: 32px;
+}
+
+button.cc-header-plus:hover {
+  background-image: none;
+  background-color: #f6c32a;
+}
+
+.cc-edit-banner {
+  background-color: alpha(#f6c32a, 0.28);
+  border: 1px solid alpha(#f6c32a, 0.55);
+  border-radius: 10px;
+  padding: 7px 10px;
+  font-weight: 600;
+  font-size: 13px;
+  color: #1a1a1a;
+}
+
+.cc-card-actions {
+  margin: 0;
+}
+
+button.cc-card-edit,
+button.cc-card-delete {
+  background-image: none;
+  min-width: 26px;
+  min-height: 26px;
+  padding: 2px;
+  border-radius: 7px;
+  border: 1px solid alpha(@borders, 0.95);
+  box-shadow: 0 1px 2px alpha(black, 0.06);
+}
+
+button.cc-card-edit {
+  background-color: #fff8e7;
+}
+
+button.cc-card-edit:hover {
+  background-image: none;
+  border-color: #3584e4;
+}
+
+button.cc-card-delete {
+  background-color: alpha(#c01c28, 0.1);
+  border-color: alpha(#c01c28, 0.28);
+  color: #c01c28;
+}
+
+button.cc-card-delete:hover {
+  background-image: none;
+  background-color: #c01c28;
+  border-color: #c01c28;
+  color: white;
+}
+
+.cc-authoring-page {
+  background-color: alpha(@theme_bg_color, 1.0);
+}
+
+.cc-authoring-header {
+  margin: 0 0 4px;
+}
+
+.cc-authoring-title {
+  font-weight: 700;
+  font-size: 15px;
+}
+
+button.cc-authoring-back {
+  background-image: none;
+  background-color: transparent;
+  border: none;
+  font-weight: 700;
+  padding: 6px 10px;
+}
+
+button.cc-authoring-save {
+  background-image: none;
+  background-color: #f6c32a;
+  border: 1px solid #d4a017;
+  border-radius: 9px;
+  padding: 7px 14px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+button.cc-authoring-save:hover {
+  background-image: none;
+  background-color: #e0b020;
+}
+
+button.cc-authoring-cancel {
+  background-image: none;
+  background-color: #ffffff;
+  border: 1px solid alpha(@borders, 0.95);
+  border-radius: 9px;
+  padding: 7px 14px;
+  font-weight: 700;
+}
+
+.cc-authoring-shell {
+  background-color: #fff8e7;
+  border: 1px solid alpha(#f6c32a, 0.4);
+  border-radius: 14px;
+  padding: 14px;
+}
+
+.cc-authoring-label {
+  font-size: 11px;
+  font-weight: 700;
+  opacity: 0.75;
+  letter-spacing: 0.04em;
+}
+
+.cc-authoring-entry {
+  border-radius: 8px;
+  min-height: 34px;
+}
+
+.cc-authoring-icon-preview-frame {
+  border-radius: 12px;
+  border: 1px solid alpha(@borders, 0.95);
+  background-color: #ffffff;
+  padding: 8px;
+}
+
+button.cc-authoring-icon-cell {
+  background-image: none;
+  background-color: #ffffff;
+  border: 1px solid alpha(@borders, 0.9);
+  border-radius: 8px;
+  min-width: 36px;
+  min-height: 36px;
+  padding: 4px;
+}
+
+button.cc-authoring-icon-cell.selected {
+  border: 2px solid #f6c32a;
+  background-color: alpha(#f6c32a, 0.22);
+}
+
+button.cc-color-swatch {
+  background-image: none;
+  border-radius: 999px;
+  border: 2px solid #ffffff;
+  box-shadow: 0 0 0 1px alpha(@borders, 0.9);
+  min-width: 24px;
+  min-height: 24px;
+  padding: 0;
+}
+
+button.cc-color-swatch.selected {
+  box-shadow: 0 0 0 2px #1a1a1a;
+}
+
+button.cc-color-none {
+  background-color: #ffffff;
+  font-size: 11px;
+}
+
+button.cc-color-r { background-color: #e01b24; }
+button.cc-color-g { background-color: #2ec27e; }
+button.cc-color-b { background-color: #3584e4; }
+button.cc-color-o { background-color: #ff7800; }
+button.cc-color-p { background-color: #9141ac; }
+button.cc-color-y { background-color: #f5c211; }
+
+.cc-authoring-script-frame {
+  border: 1px solid alpha(@borders, 0.95);
+  border-radius: 8px;
+  background-color: #ffffff;
+}
+
+.cc-authoring-error {
+  color: #c01c28;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.cc-delete-dialog {
+  background-color: #fff8e7;
+  border: 1px solid alpha(#f6c32a, 0.5);
+  border-radius: 14px;
+  padding: 16px;
+}
+
+.cc-delete-dialog-title {
+  font-weight: 700;
+  font-size: 16px;
+  margin-bottom: 6px;
+}
+
+.cc-delete-dialog-body {
+  opacity: 0.85;
+  margin-bottom: 12px;
+}
+
+button.cc-delete-confirm {
+  background-image: none;
+  background-color: #c01c28;
+  border: 1px solid #a51d2d;
+  border-radius: 9px;
+  padding: 7px 14px;
+  font-weight: 700;
+  color: white;
+}
+
+button.cc-delete-confirm:hover {
+  background-image: none;
+  background-color: #a51d2d;
+  color: white;
+}
