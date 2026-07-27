@@ -8,9 +8,9 @@
 | Field | Value |
 |-------|--------|
 | **Phase** | 2 — Smart Launcher |
-| **Cycle** | Step 25 — Advanced Execution Engine |
-| **Stage** | `ready to brainstorm` |
-| **Active spec** | — |
+| **Cycle** | Step 24b — Confirm placement UX |
+| **Stage** | `spec` |
+| **Active spec** | [docs/superpowers/specs/2026-07-27-confirm-popover-design.md](docs/superpowers/specs/2026-07-27-confirm-popover-design.md) |
 | **Active plan** | — |
 
 ## Completed references
@@ -24,7 +24,7 @@
 
 ## Next action
 
-Brainstorm Step 25 Advanced Execution Engine (Phase 2).
+User reviews confirm-popover design spec; on approval → writing-plans.
 
 ## Stages (per cycle)
 
