@@ -11,7 +11,7 @@ from textutil import truncate_description, normalize_icon_color
 
 class CommandCard(Gtk.Button):
 
-    def __init__(self, meta):
+    def __init__(self, meta, favorited=False, edit_mode=False):
 
         super().__init__()
 
@@ -36,6 +36,15 @@ class CommandCard(Gtk.Button):
         box.set_valign(
             Gtk.Align.CENTER
         )
+
+        if edit_mode:
+            star = Gtk.Label(label="★" if favorited else "☆")
+            star.get_style_context().add_class("cc-favorite-star")
+            if favorited:
+                star.get_style_context().add_class("favorited")
+            star.set_halign(Gtk.Align.END)
+            star.set_valign(Gtk.Align.START)
+            box.pack_start(star, False, False, 0)
 
         icon = Gtk.Image()
 
