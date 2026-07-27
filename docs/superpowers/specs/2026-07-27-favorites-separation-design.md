@@ -19,9 +19,9 @@ Make the Favorites strip visually distinct from category chips above and the mai
 
 ## In scope
 
-- Stronger panel: fill `alpha(@theme_fg_color, 0.07)`, border `1px solid alpha(@borders, 0.9)`, radius ~12px
+- Stronger panel: fill `alpha(@theme_fg_color, 0.09)`, border `1px solid alpha(@borders, 1.0)`, radius ~12px
 - Padding ~14px; margin ~14px top / ~16px bottom
-- Label: ~16px, font-weight 700, higher contrast (reduce opacity fade)
+- Label: ~17px, font-weight 700, full opacity (no fade)
 - Empty Favorites section remains hidden (existing `no_show_all` behavior)
 
 ## Out of scope
