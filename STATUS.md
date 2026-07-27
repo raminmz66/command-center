@@ -9,13 +9,13 @@
 |-------|--------|
 | **Phase** | 1 — UI Professionalization |
 | **Cycle** | Step 23 — Favorites |
-| **Stage** | `spec` |
+| **Stage** | `execute` |
 | **Active spec** | [docs/superpowers/specs/2026-07-27-favorites-design.md](docs/superpowers/specs/2026-07-27-favorites-design.md) |
-| **Active plan** | — |
+| **Active plan** | [docs/superpowers/plans/2026-07-27-favorites.md](docs/superpowers/plans/2026-07-27-favorites.md) |
 
 ## Next action
 
-User reviews Favorites design spec; on approval → writing-plans.
+Execute Step 23 favorites via subagent-driven development (commit after each task).
 
 ## Stages (per cycle)
 
