@@ -8,6 +8,7 @@ gi.require_version("Gtk", "3.0")
 
 from gi.repository import Gtk, Gdk, GLib
 
+from favorites import load_favorites, toggle_favorite
 from metadata import read_metadata
 from textutil import matches_filters, ordered_categories, normalize_category
 from widgets import CommandCard
@@ -146,6 +147,14 @@ class CommandCenter(Gtk.Window):
             refresh_button
         )
 
+        self.edit_fav_button = Gtk.Button()
+        self.edit_fav_button.set_tooltip_text("Edit favorites")
+        self.edit_fav_button.get_style_context().add_class("cc-header-button")
+        self.edit_fav_button.get_style_context().add_class("cc-edit-favorites")
+        self._sync_edit_fav_button()
+        self.edit_fav_button.connect("clicked", self.on_edit_favorites_clicked)
+        header.pack_start(self.edit_fav_button)
+
         self.search_entry = Gtk.SearchEntry()
         self.search_entry.set_placeholder_text("Search commands…")
         self.search_entry.get_style_context().add_class("cc-search-entry")
@@ -156,6 +165,8 @@ class CommandCenter(Gtk.Window):
         header.pack_end(self.search_entry)
 
         self.commands = []
+        self.favorites = load_favorites()
+        self.edit_favorites = False
         self._initial_search_focus = False
 
         self.grid = Gtk.Grid()
@@ -185,11 +196,23 @@ class CommandCenter(Gtk.Window):
         self.chip_box.set_valign(Gtk.Align.START)
         self.chip_box.get_style_context().add_class("cc-category-bar")
 
+        self.favorites_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
+        self.favorites_box.get_style_context().add_class("cc-favorites-section")
+        self.favorites_label = Gtk.Label(label="Favorites", xalign=0)
+        self.favorites_label.get_style_context().add_class("cc-favorites-label")
+        self.favorites_grid = Gtk.Grid()
+        self.favorites_grid.set_row_spacing(12)
+        self.favorites_grid.set_column_spacing(12)
+        self.favorites_grid.set_halign(Gtk.Align.CENTER)
+        self.favorites_box.pack_start(self.favorites_label, False, False, 0)
+        self.favorites_box.pack_start(self.favorites_grid, False, False, 0)
+
         self.content = Gtk.Box(
             orientation=Gtk.Orientation.VERTICAL,
             spacing=10,
         )
         self.content.pack_start(self.chip_box, False, False, 0)
+        self.content.pack_start(self.favorites_box, False, False, 0)
         self.content.pack_start(self.grid, True, True, 0)
         self.add(self.content)
 
@@ -199,14 +222,65 @@ class CommandCenter(Gtk.Window):
         # Focus search once on first map only — not after every grid rebuild.
         self.connect("map-event", self.on_map_event)
 
-    def clear_grid(self):
+    def _sync_edit_fav_button(self):
+        if self.edit_favorites:
+            self.edit_fav_button.set_label("Done")
+            self.edit_fav_button.set_image(None)
+            self.edit_fav_button.set_tooltip_text("Finish editing favorites")
+            self.edit_fav_button.get_style_context().add_class("active")
+        else:
+            theme = Gtk.IconTheme.get_default()
+            icon_name = "starred-symbolic"
+            if not theme.has_icon(icon_name):
+                for fallback in ("emblem-favorite-symbolic", "starred"):
+                    if theme.has_icon(fallback):
+                        icon_name = fallback
+                        break
+            icon = Gtk.Image.new_from_icon_name(icon_name, Gtk.IconSize.BUTTON)
+            self.edit_fav_button.set_label(None)
+            self.edit_fav_button.set_image(icon)
+            self.edit_fav_button.set_tooltip_text("Edit favorites")
+            self.edit_fav_button.get_style_context().remove_class("active")
 
-        for child in self.grid.get_children():
+    def on_edit_favorites_clicked(self, *_args):
+        self.edit_favorites = not self.edit_favorites
+        self._sync_edit_fav_button()
+        self.render_commands()
 
-            self.grid.remove(
-                child
+    def _known_basenames(self):
+        return {os.path.basename(path) for path, _meta in self.commands}
+
+    def _clear_container(self, container):
+        for child in container.get_children():
+            container.remove(child)
+
+    def _attach_cards(self, container, items, columns=3):
+        self._clear_container(container)
+        row = col = 0
+        for path, meta in items:
+            basename = os.path.basename(path)
+            favorited = basename in self.favorites
+            card = CommandCard(
+                meta,
+                favorited=favorited,
+                edit_mode=self.edit_favorites,
             )
+            card.set_can_focus(False)
+            if self.edit_favorites:
+                card.connect("clicked", self.on_favorite_card_clicked, path)
+            else:
+                card.connect("clicked", run_command, path, meta["terminal"])
+            container.attach(card, col, row, 1, 1)
+            col += 1
+            if col == columns:
+                col = 0
+                row += 1
 
+    def on_favorite_card_clicked(self, _button, path):
+        basename = os.path.basename(path)
+        toggle_favorite(basename, known=self._known_basenames())
+        self.favorites = load_favorites()
+        self.render_commands()
 
     def discover_commands(self):
         self.commands = []
@@ -229,23 +303,28 @@ class CommandCenter(Gtk.Window):
         if had_search_focus:
             cursor = self.search_entry.get_position()
 
-        self.clear_grid()
         query = ""
         if hasattr(self, "search_entry") and self.search_entry is not None:
             query = self.search_entry.get_text()
-        row = 0
-        col = 0
+
+        by_base = {os.path.basename(p): (p, m) for p, m in self.commands}
+        fav_items = []
+        for name in self.favorites:
+            if name in by_base:
+                fav_items.append(by_base[name])
+
+        if not fav_items:
+            self.favorites_box.hide()
+        else:
+            self.favorites_box.show()
+            self._attach_cards(self.favorites_grid, fav_items)
+            self.favorites_box.show_all()
+
+        main_items = []
         for path, meta in self.commands:
-            if not matches_filters(meta, query, self.selected_category):
-                continue
-            card = CommandCard(meta)
-            card.set_can_focus(False)
-            card.connect("clicked", run_command, path, meta["terminal"])
-            self.grid.attach(card, col, row, 1, 1)
-            col += 1
-            if col == 3:
-                col = 0
-                row += 1
+            if matches_filters(meta, query, self.selected_category):
+                main_items.append((path, meta))
+        self._attach_cards(self.grid, main_items)
         # Only show the grid — window show_all() remaps widgets and steals focus.
         self.grid.show_all()
 
@@ -307,6 +386,7 @@ class CommandCenter(Gtk.Window):
 
     def load_commands(self):
         self.discover_commands()
+        self.favorites = load_favorites()
         self.rebuild_category_chips()
         self.render_commands()
 
