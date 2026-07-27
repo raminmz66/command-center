@@ -9,15 +9,13 @@
 |-------|--------|
 | **Phase** | 1 — UI Professionalization |
 | **Cycle** | Step 23 — Favorites |
-| **Stage** | `ready to brainstorm` |
-| **Active spec** | [docs/superpowers/specs/2026-07-27-categories-design.md](docs/superpowers/specs/2026-07-27-categories-design.md) *(Step 22 completed)* |
-| **Active plan** | [docs/superpowers/plans/2026-07-27-categories.md](docs/superpowers/plans/2026-07-27-categories.md) *(Step 22 completed)* |
+| **Stage** | `spec` |
+| **Active spec** | [docs/superpowers/specs/2026-07-27-favorites-design.md](docs/superpowers/specs/2026-07-27-favorites-design.md) |
+| **Active plan** | — |
 
 ## Next action
 
-Brainstorm **Step 23 — Favorites** via Superpowers brainstorming.
-
-Step 22 categories **done** and approved (horizontal chips, active color `#f6c32a`).
+User reviews Favorites design spec; on approval → writing-plans.
 
 ## Stages (per cycle)
 
