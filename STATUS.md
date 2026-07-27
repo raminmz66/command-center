@@ -9,9 +9,9 @@
 |-------|--------|
 | **Phase** | 4 — Framework Release (reordered) |
 | **Cycle** | Script authoring UI (parked: 25–29; ahead of packaging) |
-| **Stage** | `plan` |
+| **Stage** | `execute` |
 | **Active spec** | [docs/superpowers/specs/2026-07-28-script-authoring-design.md](docs/superpowers/specs/2026-07-28-script-authoring-design.md) |
-| **Active plan** | — |
+| **Active plan** | [docs/superpowers/plans/2026-07-28-script-authoring.md](docs/superpowers/plans/2026-07-28-script-authoring.md) |
 | **Visual ref** | [docs/superpowers/visuals/2026-07-28-script-authoring.html](docs/superpowers/visuals/2026-07-28-script-authoring.html) |
 
 ## Completed references
@@ -26,7 +26,7 @@
 
 ## Next action
 
-Write implementation plan for script authoring, then execute (commit per task; screenshot QA vs visual ref).
+Execute [script authoring plan](docs/superpowers/plans/2026-07-28-script-authoring.md); commit per task; visual QA vs reference.
 
 ## Stages (per cycle)
 
