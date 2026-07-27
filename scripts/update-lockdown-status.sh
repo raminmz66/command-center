@@ -5,6 +5,7 @@
 # COLOR=r
 # TERMINAL=true
 # CATEGORY=Security
+# CONFIRM=true
 
 sudo update-lockdown --status
 

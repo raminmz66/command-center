@@ -165,3 +165,54 @@ button.cc-category-chip.active:hover {
   color: #f6c32a;
   font-size: 22px;
 }
+
+.cc-confirm-banner {
+  margin: 10px 8px 12px;
+  padding: 14px 16px;
+  border-radius: 10px;
+  background-color: #fff8e7;
+  border: 2px solid #f6c32a;
+}
+
+.cc-confirm-label {
+  font-weight: 700;
+  font-size: 15px;
+  color: @theme_fg_color;
+  margin: 0 0 8px;
+}
+
+button.cc-confirm-cancel {
+  background-image: none;
+  background-color: #ffffff;
+  border: 1px solid alpha(@borders, 0.95);
+  border-radius: 6px;
+  padding: 7px 14px;
+  font-weight: 600;
+  color: @theme_fg_color;
+  box-shadow: none;
+  min-width: 72px;
+}
+
+button.cc-confirm-cancel:hover {
+  background-image: none;
+  background-color: alpha(@theme_fg_color, 0.06);
+}
+
+button.cc-confirm-run {
+  background-image: none;
+  background-color: #c01c28;
+  border: 1px solid #c01c28;
+  border-radius: 6px;
+  padding: 7px 14px;
+  font-weight: 600;
+  color: white;
+  box-shadow: none;
+  min-width: 72px;
+}
+
+button.cc-confirm-run:hover {
+  background-image: none;
+  background-color: #a51d2d;
+  border-color: #a51d2d;
+  color: white;
+}
