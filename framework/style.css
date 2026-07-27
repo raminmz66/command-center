@@ -166,8 +166,8 @@ button.cc-category-chip.active:hover {
   font-size: 22px;
 }
 
-.cc-confirm-banner {
-  margin: 10px 8px 12px;
+.cc-confirm-popover {
+  margin: 0;
   padding: 14px 16px;
   border-radius: 10px;
   background-color: #fff8e7;
