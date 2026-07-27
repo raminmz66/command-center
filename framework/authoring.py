@@ -10,19 +10,23 @@ from textutil import normalize_icon_color
 
 
 CURATED_ICONS = [
-    "system-monitor-app-symbolic",
-    "document-save-symbolic",
-    "security-high-symbolic",
-    "network-vpn-symbolic",
-    "preferences-system-symbolic",
-    "folder-symbolic",
-    "channel-secure-symbolic",
-    "network-wireless-symbolic",
-    "user-trash-symbolic",
-    "alarm-symbolic",
-    "package-x-generic-symbolic",
-    "applications-utilities-symbolic",
+    # (GNOME icon name stored in metadata, glyph shown in Soft GNOME picker)
+    ("system-monitor-app-symbolic", "🖥"),
+    ("document-save-symbolic", "💾"),
+    ("security-high-symbolic", "🔒"),
+    ("network-vpn-symbolic", "🌐"),
+    ("preferences-system-symbolic", "⚙"),
+    ("folder-symbolic", "🗂"),
+    ("channel-secure-symbolic", "🛡"),
+    ("network-wireless-symbolic", "📡"),
+    ("user-trash-symbolic", "🧹"),
+    ("alarm-symbolic", "⏱"),
+    ("package-x-generic-symbolic", "📦"),
+    ("applications-utilities-symbolic", "🔧"),
 ]
+
+_CURATED_BY_NAME = {name: glyph for name, glyph in CURATED_ICONS}
+_DEFAULT_ICON = CURATED_ICONS[0][0]
 
 COLOR_KEYS = [
     (None, "None"),
@@ -67,16 +71,14 @@ class AuthoringForm(Gtk.Box):
         header.pack_start(self.title_label, True, True, 0)
         header.pack_end(self.save_btn, False, False, 0)
 
-        scroll = Gtk.ScrolledWindow()
-        scroll.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
-        scroll.set_hexpand(True)
-        scroll.set_vexpand(True)
-
-        shell = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=12)
+        # No outer scroll — window height is sized to fit the form (reference).
+        shell = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=10)
         shell.get_style_context().add_class("cc-authoring-shell")
-        shell.set_margin_start(4)
-        shell.set_margin_end(4)
-        shell.set_margin_bottom(8)
+        shell.set_margin_start(2)
+        shell.set_margin_end(2)
+        shell.set_margin_bottom(4)
+        shell.set_hexpand(True)
+        shell.set_vexpand(True)
 
         row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
         self.name_entry = self._labeled_entry(row, "Name", expand=True)
@@ -91,37 +93,44 @@ class AuthoringForm(Gtk.Box):
         icon_block.pack_start(icon_lbl, False, False, 0)
 
         icon_row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
-        self.icon_preview = Gtk.Image.new_from_icon_name(
-            "application-x-executable",
-            Gtk.IconSize.DIALOG,
-        )
-        self.icon_preview.get_style_context().add_class("cc-authoring-icon-preview")
-        preview_frame = Gtk.Frame()
+        icon_row.set_valign(Gtk.Align.START)
+
+        preview_frame = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+        preview_frame.set_valign(Gtk.Align.CENTER)
+        preview_frame.set_halign(Gtk.Align.CENTER)
+        preview_frame.set_size_request(52, 52)
         preview_frame.get_style_context().add_class("cc-authoring-icon-preview-frame")
-        preview_frame.add(self.icon_preview)
+        self.preview_emoji = Gtk.Label(label="🔧")
+        self.preview_emoji.get_style_context().add_class("cc-authoring-icon-preview-emoji")
+        self.preview_image = Gtk.Image()
+        self.preview_image.get_style_context().add_class("cc-authoring-icon-preview")
+        self.preview_image.set_no_show_all(True)
+        self.preview_image.hide()
+        preview_frame.pack_start(self.preview_emoji, True, True, 0)
+        preview_frame.pack_start(self.preview_image, True, True, 0)
         icon_row.pack_start(preview_frame, False, False, 0)
 
-        grid_wrap = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=4)
-        self.icon_grid = Gtk.FlowBox()
-        self.icon_grid.set_min_children_per_line(6)
-        self.icon_grid.set_max_children_per_line(6)
-        self.icon_grid.set_selection_mode(Gtk.SelectionMode.NONE)
-        self.icon_grid.set_homogeneous(True)
-        self.icon_grid.set_column_spacing(4)
-        self.icon_grid.set_row_spacing(4)
+        grid_wrap = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
+        grid_wrap.set_hexpand(True)
+        self.icon_grid = Gtk.Grid()
+        self.icon_grid.set_column_spacing(5)
+        self.icon_grid.set_row_spacing(5)
+        self.icon_grid.set_column_homogeneous(True)
+        self.icon_grid.set_row_homogeneous(True)
         self._icon_buttons = {}
-        theme = Gtk.IconTheme.get_default()
-        for name in CURATED_ICONS:
-            use = name if theme.has_icon(name) else "application-x-executable"
+        for idx, (name, glyph) in enumerate(CURATED_ICONS):
             btn = Gtk.Button()
             btn.set_relief(Gtk.ReliefStyle.NONE)
-            img = Gtk.Image.new_from_icon_name(use, Gtk.IconSize.BUTTON)
-            btn.set_image(img)
+            btn.set_can_focus(False)
+            btn.set_size_request(40, 40)
+            label = Gtk.Label(label=glyph)
+            label.get_style_context().add_class("cc-authoring-icon-glyph")
+            btn.add(label)
             btn.set_tooltip_text(name)
             btn.get_style_context().add_class("cc-authoring-icon-cell")
             btn.connect("clicked", self._on_icon_picked, name)
             self._icon_buttons[name] = btn
-            self.icon_grid.add(btn)
+            self.icon_grid.attach(btn, idx % 6, idx // 6, 1, 1)
         grid_wrap.pack_start(self.icon_grid, False, False, 0)
 
         self.custom_icon_entry = Gtk.Entry()
@@ -179,7 +188,7 @@ class AuthoringForm(Gtk.Box):
         self.script_view.set_monospace(True)
         self.script_view.get_style_context().add_class("cc-authoring-script")
         script_frame = Gtk.ScrolledWindow()
-        script_frame.set_min_content_height(96)
+        script_frame.set_min_content_height(88)
         script_frame.set_vexpand(True)
         script_frame.set_policy(Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.AUTOMATIC)
         script_frame.add(self.script_view)
@@ -204,11 +213,10 @@ class AuthoringForm(Gtk.Box):
         footer.pack_start(save2, False, False, 0)
         shell.pack_start(footer, False, False, 0)
 
-        scroll.add(shell)
         self.pack_start(header, False, False, 0)
-        self.pack_start(scroll, True, True, 0)
+        self.pack_start(shell, True, True, 0)
 
-        self._icon_name = CURATED_ICONS[0]
+        self._icon_name = _DEFAULT_ICON
         self._select_icon(self._icon_name)
         self._select_color(None)
 
@@ -242,9 +250,17 @@ class AuthoringForm(Gtk.Box):
 
     def _select_icon(self, name, from_custom=False):
         self._icon_name = name
-        theme = Gtk.IconTheme.get_default()
-        use = name if theme.has_icon(name) else "application-x-executable"
-        self.icon_preview.set_from_icon_name(use, Gtk.IconSize.DIALOG)
+        glyph = _CURATED_BY_NAME.get(name)
+        if glyph and not from_custom:
+            self.preview_emoji.set_text(glyph)
+            self.preview_emoji.show()
+            self.preview_image.hide()
+        else:
+            theme = Gtk.IconTheme.get_default()
+            use = name if theme.has_icon(name) else "application-x-executable"
+            self.preview_image.set_from_icon_name(use, Gtk.IconSize.DIALOG)
+            self.preview_image.show()
+            self.preview_emoji.hide()
         for key, btn in self._icon_buttons.items():
             ctx = btn.get_style_context()
             if key == name and not from_custom:
@@ -263,14 +279,13 @@ class AuthoringForm(Gtk.Box):
                 ctx.add_class("selected")
             else:
                 ctx.remove_class("selected")
-        # refresh preview tint via CSS classes on preview
-        ctx = self.icon_preview.get_style_context()
+        # Tint preview emoji via style class on frame parent handled by color CSS if needed
+        ctx = self.preview_emoji.get_style_context()
         for c in list(ctx.list_classes()):
             if c.startswith("command-icon-"):
                 ctx.remove_class(c)
         nk = normalize_icon_color(key)
         if nk:
-            ctx.add_class("command-icon")
             ctx.add_class(f"command-icon-{nk}")
 
     def _script_text(self):
@@ -289,7 +304,7 @@ class AuthoringForm(Gtk.Box):
         self.name_entry.set_text(meta.get("name") or "")
         self.desc_entry.set_text(meta.get("desc") or "")
         self.category_entry.set_text(meta.get("category") or "General")
-        icon = meta.get("icon") or CURATED_ICONS[0]
+        icon = meta.get("icon") or _DEFAULT_ICON
         if icon in self._icon_buttons:
             self.custom_icon_entry.set_text("")
             self._select_icon(icon)

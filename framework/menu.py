@@ -65,7 +65,7 @@ class CommandCenter(Gtk.Window):
 
         self.set_default_size(
             640,
-            620
+            760
         )
 
         self.set_resizable(
@@ -785,11 +785,11 @@ class CommandCenter(Gtk.Window):
                 # After layout/show_all settle so the target card exists.
                 GLib.timeout_add(400, self._qa_show_first_confirm)
             qa = os.environ.get("CC_QA_AUTHORING", "").strip().lower()
-            if qa in ("edit", "new", "delete"):
+            if qa in ("edit", "new", "delete", "form"):
                 GLib.timeout_add(450, self._qa_authoring, qa)
             shot = os.environ.get("CC_QA_SHOT", "").strip()
             if shot:
-                delay = 1200 if qa == "delete" else 800
+                delay = 1200 if qa == "delete" else 900
                 GLib.timeout_add(delay, self._qa_shot_and_quit, shot)
         return False
 
@@ -816,6 +816,12 @@ class CommandCenter(Gtk.Window):
             self.render_commands()
         elif mode == "new":
             self.show_authoring(None)
+        elif mode == "form":
+            if self.commands:
+                path, _meta = self.commands[0]
+                self.show_authoring(path)
+            else:
+                self.show_authoring(None)
         elif mode == "delete":
             self.edit_commands = True
             self._sync_edit_cmd_button()

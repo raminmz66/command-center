@@ -371,7 +371,18 @@ button.cc-authoring-cancel {
   border-radius: 12px;
   border: 1px solid alpha(@borders, 0.95);
   background-color: #ffffff;
-  padding: 8px;
+  padding: 6px;
+  min-width: 52px;
+  min-height: 52px;
+}
+
+.cc-authoring-icon-preview-emoji {
+  font-size: 26px;
+  padding: 4px;
+}
+
+.cc-authoring-icon-glyph {
+  font-size: 16px;
 }
 
 button.cc-authoring-icon-cell {
@@ -379,14 +390,24 @@ button.cc-authoring-icon-cell {
   background-color: #ffffff;
   border: 1px solid alpha(@borders, 0.9);
   border-radius: 8px;
-  min-width: 36px;
-  min-height: 36px;
+  min-width: 40px;
+  min-height: 40px;
   padding: 4px;
+  box-shadow: none;
+  outline: none;
+}
+
+button.cc-authoring-icon-cell:hover {
+  background-image: none;
+  background-color: alpha(#f6c32a, 0.12);
+  border-color: alpha(#f6c32a, 0.55);
 }
 
 button.cc-authoring-icon-cell.selected {
+  background-image: none;
   border: 2px solid #f6c32a;
   background-color: alpha(#f6c32a, 0.22);
+  padding: 3px;
 }
 
 button.cc-color-swatch {
