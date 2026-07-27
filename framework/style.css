@@ -382,30 +382,28 @@ button.cc-authoring-cancel {
 }
 
 .cc-authoring-icon-glyph {
-  font-size: 18px;
+  font-size: 20px;
   padding: 0;
   margin: 0;
 }
 
-/* Flat glyph tiles — not chunky buttons */
+/* Flat glyphs only — no button chrome */
 .cc-authoring-icon-cell {
   background-color: transparent;
   border: none;
   border-radius: 6px;
-  padding: 4px 6px;
-  min-width: 28px;
-  min-height: 28px;
+  padding: 2px;
   box-shadow: none;
   outline: none;
 }
 
 .cc-authoring-icon-cell:hover {
-  background-color: alpha(#f6c32a, 0.14);
+  background-color: alpha(#f6c32a, 0.16);
 }
 
 .cc-authoring-icon-cell.selected {
-  background-color: alpha(#f6c32a, 0.28);
-  box-shadow: inset 0 -2px 0 #f6c32a;
+  background-color: alpha(#f6c32a, 0.22);
+  box-shadow: 0 0 0 1.5px #f6c32a;
 }
 
 button.cc-color-swatch {
