@@ -32,7 +32,7 @@
 **Files:**
 - Modify: `framework/style.css`
 
-- [ ] **Step 1: Update star CSS**
+- [x] **Step 1: Update star CSS**
 
 Replace `.cc-favorite-star` rules with:
 
@@ -50,7 +50,7 @@ Replace `.cc-favorite-star` rules with:
 }
 ```
 
-- [ ] **Step 2: CSS load check**
+- [x] **Step 2: CSS load check**
 
 ```bash
 python3 - <<'PY'
@@ -63,7 +63,7 @@ print("css-ok")
 PY
 ```
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 cd /home/ramin/CommandCenter
@@ -90,7 +90,7 @@ EOF
 - Star glyph: `favorited = basename in (self.pending_favorites if self.edit_favorites else self.favorites)`
 - Strip membership: always from `self.favorites` (saved), never from pending
 
-- [ ] **Step 1: Init pending + fix Apply label in `_sync_edit_fav_button`**
+- [x] **Step 1: Init pending + fix Apply label in `_sync_edit_fav_button`**
 
 After `self.edit_favorites = False`:
 
@@ -111,7 +111,7 @@ In `_sync_edit_fav_button` when editing, use label **Apply** (not Done):
 
 Keep the non-edit branch (star icon) as today.
 
-- [ ] **Step 2: Enter / Apply handler**
+- [x] **Step 2: Enter / Apply handler**
 
 Replace `on_edit_favorites_clicked` with:
 
@@ -136,7 +136,7 @@ Replace `on_edit_favorites_clicked` with:
 
 Update imports: need `save_favorites` from `favorites` (keep `load_favorites`, `toggle_favorite` only if still used — remove `toggle_favorite` if unused after this change).
 
-- [ ] **Step 3: Card click toggles pending only**
+- [x] **Step 3: Card click toggles pending only**
 
 ```python
     def on_favorite_card_clicked(self, _button, path):
@@ -150,7 +150,7 @@ Update imports: need `save_favorites` from `favorites` (keep `load_favorites`, `
         self.render_commands()
 ```
 
-- [ ] **Step 4: `_attach_cards` uses pending for star state**
+- [x] **Step 4: `_attach_cards` uses pending for star state**
 
 ```python
             if self.edit_favorites and self.pending_favorites is not None:
@@ -181,14 +181,14 @@ window.render_commands()
 Gtk.main()
 ```
 
-- [ ] **Step 5: Verify**
+- [x] **Step 5: Verify**
 
 ```bash
 python3 -m py_compile /home/ramin/CommandCenter/framework/menu.py
 cd /home/ramin/CommandCenter/framework && python3 -m unittest test_favorites.py test_textutil.py -q
 ```
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 cd /home/ramin/CommandCenter
@@ -208,15 +208,15 @@ EOF
 - Modify: `STATUS.md`
 - Modify: `docs/superpowers/plans/2026-07-27-favorites-apply.md` (this file)
 
-- [ ] **Step 1: Update STATUS**
+- [x] **Step 1: Update STATUS**
 
 - Note Step 23b favorites polish done (or in progress→done after execute)
 - Return Next action to Step 24 Confirmation `ready to brainstorm`
 - Mention manual QA: bigger stars; edit toggles don’t move strip until Apply
 
-- [ ] **Step 2: Mark all `- [ ]` in this plan as `- [x]`**
+- [x] **Step 2: Mark all `- [ ]` in this plan as `- [x]`**
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 cd /home/ramin/CommandCenter
