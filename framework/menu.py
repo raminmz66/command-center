@@ -8,7 +8,7 @@ gi.require_version("Gtk", "3.0")
 
 from gi.repository import Gtk, Gdk, GLib
 
-from favorites import load_favorites, toggle_favorite
+from favorites import load_favorites, save_favorites
 from metadata import read_metadata
 from textutil import matches_filters, ordered_categories, normalize_category
 from widgets import CommandCard
@@ -147,6 +147,12 @@ class CommandCenter(Gtk.Window):
             refresh_button
         )
 
+        self.commands = []
+        self.favorites = load_favorites()
+        self.edit_favorites = False
+        self.pending_favorites = None
+        self._initial_search_focus = False
+
         self.edit_fav_button = Gtk.Button()
         self.edit_fav_button.set_tooltip_text("Edit favorites")
         self.edit_fav_button.get_style_context().add_class("cc-header-button")
@@ -163,11 +169,6 @@ class CommandCenter(Gtk.Window):
         self.search_entry.connect("search-changed", self.on_search_changed)
         self.search_entry.connect("key-press-event", self.on_search_key_press)
         header.pack_end(self.search_entry)
-
-        self.commands = []
-        self.favorites = load_favorites()
-        self.edit_favorites = False
-        self._initial_search_focus = False
 
         self.grid = Gtk.Grid()
 
@@ -198,6 +199,8 @@ class CommandCenter(Gtk.Window):
 
         self.favorites_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
         self.favorites_box.get_style_context().add_class("cc-favorites-section")
+        self.favorites_box.set_no_show_all(True)
+        self.favorites_box.hide()
         self.favorites_label = Gtk.Label(label="Favorites", xalign=0)
         self.favorites_label.get_style_context().add_class("cc-favorites-label")
         self.favorites_grid = Gtk.Grid()
@@ -224,9 +227,10 @@ class CommandCenter(Gtk.Window):
 
     def _sync_edit_fav_button(self):
         if self.edit_favorites:
-            self.edit_fav_button.set_label("Done")
-            self.edit_fav_button.set_image(None)
-            self.edit_fav_button.set_tooltip_text("Finish editing favorites")
+            self.edit_fav_button.set_label("Apply")
+            self.edit_fav_button.set_image(Gtk.Image())
+            self.edit_fav_button.set_always_show_image(False)
+            self.edit_fav_button.set_tooltip_text("Apply favorite changes")
             self.edit_fav_button.get_style_context().add_class("active")
         else:
             theme = Gtk.IconTheme.get_default()
@@ -237,13 +241,26 @@ class CommandCenter(Gtk.Window):
                         icon_name = fallback
                         break
             icon = Gtk.Image.new_from_icon_name(icon_name, Gtk.IconSize.BUTTON)
-            self.edit_fav_button.set_label(None)
+            self.edit_fav_button.set_label("")
             self.edit_fav_button.set_image(icon)
+            self.edit_fav_button.set_always_show_image(True)
             self.edit_fav_button.set_tooltip_text("Edit favorites")
             self.edit_fav_button.get_style_context().remove_class("active")
 
     def on_edit_favorites_clicked(self, *_args):
-        self.edit_favorites = not self.edit_favorites
+        if not self.edit_favorites:
+            self.edit_favorites = True
+            self.pending_favorites = list(self.favorites)
+            self._sync_edit_fav_button()
+            self.render_commands()
+            return
+        # Apply pending → disk, exit edit
+        known = self._known_basenames()
+        names = [n for n in (self.pending_favorites or []) if n in known]
+        save_favorites(names)
+        self.favorites = load_favorites()
+        self.pending_favorites = None
+        self.edit_favorites = False
         self._sync_edit_fav_button()
         self.render_commands()
 
@@ -259,7 +276,10 @@ class CommandCenter(Gtk.Window):
         row = col = 0
         for path, meta in items:
             basename = os.path.basename(path)
-            favorited = basename in self.favorites
+            if self.edit_favorites and self.pending_favorites is not None:
+                favorited = basename in self.pending_favorites
+            else:
+                favorited = basename in self.favorites
             card = CommandCard(
                 meta,
                 favorited=favorited,
@@ -278,8 +298,12 @@ class CommandCenter(Gtk.Window):
 
     def on_favorite_card_clicked(self, _button, path):
         basename = os.path.basename(path)
-        toggle_favorite(basename, known=self._known_basenames())
-        self.favorites = load_favorites()
+        pending = list(self.pending_favorites or [])
+        if basename in pending:
+            pending = [n for n in pending if n != basename]
+        else:
+            pending.append(basename)
+        self.pending_favorites = pending
         self.render_commands()
 
     def discover_commands(self):
@@ -314,9 +338,11 @@ class CommandCenter(Gtk.Window):
                 fav_items.append(by_base[name])
 
         if not fav_items:
+            # no_show_all so startup window.show_all() cannot revive an empty strip
+            self.favorites_box.set_no_show_all(True)
             self.favorites_box.hide()
         else:
-            self.favorites_box.show()
+            self.favorites_box.set_no_show_all(False)
             self._attach_cards(self.favorites_grid, fav_items)
             self.favorites_box.show_all()
 
@@ -465,5 +491,7 @@ window.connect(
 
 
 window.show_all()
+# show_all can fight Favorites visibility — re-apply strip show/hide.
+window.render_commands()
 
 Gtk.main()
