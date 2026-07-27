@@ -9,7 +9,7 @@
 |-------|--------|
 | **Phase** | 4 — Framework Release (reordered) |
 | **Cycle** | Script authoring UI (parked: 25–29; ahead of packaging) |
-| **Stage** | `execute` (visual QA) |
+| **Stage** | `done` |
 | **Active spec** | [docs/superpowers/specs/2026-07-28-script-authoring-design.md](docs/superpowers/specs/2026-07-28-script-authoring-design.md) |
 | **Active plan** | [docs/superpowers/plans/2026-07-28-script-authoring.md](docs/superpowers/plans/2026-07-28-script-authoring.md) |
 | **Visual ref** | [docs/superpowers/visuals/2026-07-28-script-authoring.html](docs/superpowers/visuals/2026-07-28-script-authoring.html) |
@@ -18,6 +18,7 @@
 
 | Cycle | Spec | Plan |
 |-------|------|------|
+| Script authoring | [docs/superpowers/specs/2026-07-28-script-authoring-design.md](docs/superpowers/specs/2026-07-28-script-authoring-design.md) | [docs/superpowers/plans/2026-07-28-script-authoring.md](docs/superpowers/plans/2026-07-28-script-authoring.md) |
 | Step 24b — Confirm popover | [docs/superpowers/specs/2026-07-27-confirm-popover-design.md](docs/superpowers/specs/2026-07-27-confirm-popover-design.md) | [docs/superpowers/plans/2026-07-27-confirm-popover.md](docs/superpowers/plans/2026-07-27-confirm-popover.md) |
 | Step 24 — Confirmation | [docs/superpowers/specs/2026-07-27-confirmation-design.md](docs/superpowers/specs/2026-07-27-confirmation-design.md) | [docs/superpowers/plans/2026-07-27-confirmation.md](docs/superpowers/plans/2026-07-27-confirmation.md) |
 | Step 23c — Favorites separation | [docs/superpowers/specs/2026-07-27-favorites-separation-design.md](docs/superpowers/specs/2026-07-27-favorites-separation-design.md) | [docs/superpowers/plans/2026-07-27-favorites-separation.md](docs/superpowers/plans/2026-07-27-favorites-separation.md) |
@@ -26,7 +27,7 @@
 
 ## Next action
 
-Visual QA loop vs [script-authoring.html](docs/superpowers/visuals/2026-07-28-script-authoring.html); fix until match; final commit.
+Ready for packaging brainstorm (**Step 32**) or next parked feature. Say **continue** / **start packaging**.
 
 ## Stages (per cycle)
 
@@ -41,7 +42,7 @@ Then either start the next cycle or advance the phase.
 | 1 | UI Professionalization (Steps 20–23) | **Complete** (+ polish 23b/23c) |
 | 2 | Smart Launcher (Steps 24–26) | Step 24 done; **25–26 parked** |
 | 3 | Desktop Integration (Steps 27–29) | **Parked** |
-| 4 | Framework Release (Steps 30–32) | **In progress** — authoring UI first, then packaging |
+| 4 | Framework Release (Steps 30–32) | Authoring **done**; packaging (32) next; 30–31 optional |
 
 ## Session cues
 

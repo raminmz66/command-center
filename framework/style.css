@@ -234,10 +234,12 @@ button.cc-confirm-run:hover {
 /* —— Script authoring —— */
 
 .cc-edit-commands.active {
+  background-image: none;
   background-color: #f6c32a;
   color: #1a1a1a;
   border-radius: 8px;
   font-weight: 700;
+  border: 1px solid #d4a017;
 }
 
 button.cc-header-plus {
@@ -302,7 +304,7 @@ button.cc-card-delete:hover {
 }
 
 .cc-authoring-page {
-  background-color: alpha(@theme_bg_color, 1.0);
+  background-color: #f6f6f6;
 }
 
 .cc-authoring-header {
@@ -430,6 +432,11 @@ button.cc-color-y { background-color: #f5c211; }
   border: 1px solid alpha(#f6c32a, 0.5);
   border-radius: 14px;
   padding: 16px;
+  min-width: 280px;
+}
+
+.cc-delete-overlay {
+  background-color: alpha(black, 0.48);
 }
 
 .cc-delete-dialog-title {

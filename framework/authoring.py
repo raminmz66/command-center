@@ -105,8 +105,10 @@ class AuthoringForm(Gtk.Box):
         self.icon_grid = Gtk.FlowBox()
         self.icon_grid.set_min_children_per_line(6)
         self.icon_grid.set_max_children_per_line(6)
-        self.icon_grid.set_selection_mode(Gtk.SelectionMode.SINGLE)
+        self.icon_grid.set_selection_mode(Gtk.SelectionMode.NONE)
         self.icon_grid.set_homogeneous(True)
+        self.icon_grid.set_column_spacing(4)
+        self.icon_grid.set_row_spacing(4)
         self._icon_buttons = {}
         theme = Gtk.IconTheme.get_default()
         for name in CURATED_ICONS:
@@ -177,7 +179,8 @@ class AuthoringForm(Gtk.Box):
         self.script_view.set_monospace(True)
         self.script_view.get_style_context().add_class("cc-authoring-script")
         script_frame = Gtk.ScrolledWindow()
-        script_frame.set_min_content_height(110)
+        script_frame.set_min_content_height(96)
+        script_frame.set_vexpand(True)
         script_frame.set_policy(Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.AUTOMATIC)
         script_frame.add(self.script_view)
         script_frame.get_style_context().add_class("cc-authoring-script-frame")

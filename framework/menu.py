@@ -65,7 +65,7 @@ class CommandCenter(Gtk.Window):
 
         self.set_default_size(
             640,
-            540
+            620
         )
 
         self.set_resizable(
@@ -258,11 +258,16 @@ class CommandCenter(Gtk.Window):
         self.authoring.on_cancel = self.on_authoring_cancel
 
         self.stack = Gtk.Stack()
-        self.stack.set_transition_type(Gtk.StackTransitionType.CROSSFADE)
-        self.stack.set_transition_duration(120)
+        self.stack.set_transition_type(Gtk.StackTransitionType.NONE)
+        self.stack.set_hexpand(True)
+        self.stack.set_vexpand(True)
         self.stack.add_named(self.content, "launcher")
         self.stack.add_named(self.authoring, "authoring")
-        self.add(self.stack)
+
+        self.root_overlay = Gtk.Overlay()
+        self.root_overlay.add(self.stack)
+        self.add(self.root_overlay)
+        self._delete_overlay = None
 
         self.load_commands()
 
@@ -357,8 +362,21 @@ class CommandCenter(Gtk.Window):
     def on_add_command_clicked(self, *_args):
         self.show_authoring(None)
 
+    def _set_launcher_chrome_visible(self, visible):
+        for widget in (
+            self.search_entry,
+            self.edit_cmd_button,
+            self.edit_fav_button,
+            self.add_cmd_button,
+        ):
+            if visible:
+                widget.show()
+            else:
+                widget.hide()
+
     def show_authoring(self, path):
         self.hide_confirm()
+        self.hide_delete_overlay()
         if path is None:
             self.authoring.load(path=None, meta={
                 "name": "",
@@ -372,11 +390,18 @@ class CommandCenter(Gtk.Window):
         else:
             data = read_script(path)
             self.authoring.load(path=path, meta=data["meta"], body=data["body"])
+        self.content.hide()
+        self._set_launcher_chrome_visible(False)
         self.stack.set_visible_child_name("authoring")
+        self.authoring.set_hexpand(True)
+        self.authoring.set_vexpand(True)
         self.authoring.show_all()
 
     def show_launcher(self):
+        self.hide_delete_overlay()
+        self._set_launcher_chrome_visible(True)
         self.stack.set_visible_child_name("launcher")
+        self.content.show()
         self.content.show_all()
         self._sync_edit_cmd_button()
         self.render_commands()
@@ -422,23 +447,29 @@ class CommandCenter(Gtk.Window):
     def on_edit_script(self, path):
         self.show_authoring(path)
 
+    def hide_delete_overlay(self):
+        if self._delete_overlay is None:
+            return
+        overlay = self._delete_overlay
+        self._delete_overlay = None
+        self.root_overlay.remove(overlay)
+
     def on_delete_script(self, path, meta):
+        self.hide_delete_overlay()
         name = meta.get("name") or os.path.basename(path)
         base = os.path.basename(path)
-        dialog = Gtk.Dialog(
-            title="Delete command?",
-            transient_for=self,
-            modal=True,
-        )
-        dialog.set_default_size(320, -1)
-        box = dialog.get_content_area()
-        box.set_spacing(0)
-        panel = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=8)
+
+        dim = Gtk.EventBox()
+        dim.get_style_context().add_class("cc-delete-overlay")
+        dim.set_hexpand(True)
+        dim.set_vexpand(True)
+
+        center = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+        center.set_halign(Gtk.Align.CENTER)
+        center.set_valign(Gtk.Align.CENTER)
+
+        panel = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=10)
         panel.get_style_context().add_class("cc-delete-dialog")
-        panel.set_margin_top(8)
-        panel.set_margin_bottom(8)
-        panel.set_margin_start(8)
-        panel.set_margin_end(8)
         title = Gtk.Label(label="Delete command?", xalign=0)
         title.get_style_context().add_class("cc-delete-dialog-title")
         body = Gtk.Label(
@@ -449,36 +480,51 @@ class CommandCenter(Gtk.Window):
             xalign=0,
         )
         body.set_line_wrap(True)
+        body.set_max_width_chars(36)
         body.get_style_context().add_class("cc-delete-dialog-body")
+        actions = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8)
+        actions.set_halign(Gtk.Align.END)
+        cancel = Gtk.Button(label="Cancel")
+        cancel.get_style_context().add_class("cc-authoring-cancel")
+        delete_btn = Gtk.Button(label="Delete")
+        delete_btn.get_style_context().add_class("cc-delete-confirm")
+
+        def on_cancel(*_a):
+            self.hide_delete_overlay()
+
+        def on_delete(*_a):
+            self.hide_delete_overlay()
+            try:
+                delete_script(path)
+            except OSError as exc:
+                err = Gtk.MessageDialog(
+                    transient_for=self,
+                    modal=True,
+                    message_type=Gtk.MessageType.ERROR,
+                    buttons=Gtk.ButtonsType.OK,
+                    text="Could not delete script",
+                )
+                err.format_secondary_text(str(exc))
+                err.run()
+                err.destroy()
+                return
+            names = [n for n in load_favorites() if n != base]
+            save_favorites(names)
+            self.favorites = names
+            self.load_commands()
+
+        cancel.connect("clicked", on_cancel)
+        delete_btn.connect("clicked", on_delete)
+        actions.pack_start(cancel, False, False, 0)
+        actions.pack_start(delete_btn, False, False, 0)
         panel.pack_start(title, False, False, 0)
         panel.pack_start(body, False, False, 0)
-        box.add(panel)
-        dialog.add_button("Cancel", Gtk.ResponseType.CANCEL)
-        delete_btn = dialog.add_button("Delete", Gtk.ResponseType.ACCEPT)
-        delete_btn.get_style_context().add_class("cc-delete-confirm")
-        dialog.show_all()
-        response = dialog.run()
-        dialog.destroy()
-        if response != Gtk.ResponseType.ACCEPT:
-            return
-        try:
-            delete_script(path)
-        except OSError as exc:
-            err = Gtk.MessageDialog(
-                transient_for=self,
-                modal=True,
-                message_type=Gtk.MessageType.ERROR,
-                buttons=Gtk.ButtonsType.OK,
-                text="Could not delete script",
-            )
-            err.format_secondary_text(str(exc))
-            err.run()
-            err.destroy()
-            return
-        names = [n for n in load_favorites() if n != base]
-        save_favorites(names)
-        self.favorites = names
-        self.load_commands()
+        panel.pack_start(actions, False, False, 0)
+        center.pack_start(panel, False, False, 0)
+        dim.add(center)
+        dim.show_all()
+        self.root_overlay.add_overlay(dim)
+        self._delete_overlay = dim
 
     def _known_basenames(self):
         return {os.path.basename(path) for path, _meta in self.commands}
@@ -740,6 +786,26 @@ class CommandCenter(Gtk.Window):
             qa = os.environ.get("CC_QA_AUTHORING", "").strip().lower()
             if qa in ("edit", "new", "delete"):
                 GLib.timeout_add(450, self._qa_authoring, qa)
+            shot = os.environ.get("CC_QA_SHOT", "").strip()
+            if shot:
+                delay = 1200 if qa == "delete" else 800
+                GLib.timeout_add(delay, self._qa_shot_and_quit, shot)
+        return False
+
+    def _qa_shot_and_quit(self, path):
+        try:
+            gdk_win = self.get_window()
+            if gdk_win is not None:
+                w = gdk_win.get_width()
+                h = gdk_win.get_height()
+                pb = Gdk.pixbuf_get_from_window(gdk_win, 0, 0, w, h)
+                if pb is not None:
+                    parent = os.path.dirname(path)
+                    if parent:
+                        os.makedirs(parent, exist_ok=True)
+                    pb.savev(path, "png", [], [])
+        finally:
+            Gtk.main_quit()
         return False
 
     def _qa_authoring(self, mode):

@@ -307,9 +307,9 @@ For each iteration (max 10):
 5. Fix CSS/layout gaps
 6. Commit fixes as needed; final commit when matched
 
-- [ ] **Step 1–N: Iterate until satisfied or 10 attempts**
+- [x] **Step 1–N: Iterate until satisfied or 10 attempts**
 
-- [ ] **Final commit:** `fix: align authoring UI with Soft GNOME visual reference.`
+- [x] **Final commit:** `fix: align authoring UI with Soft GNOME visual reference.`
 
 ---
 
