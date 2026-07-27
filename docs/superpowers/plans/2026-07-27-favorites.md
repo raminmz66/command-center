@@ -1,6 +1,6 @@
 # Favorites Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [x]`) syntax for tracking.
 
 **Goal:** Add an in-app Favorites strip above the main grid, toggled via edit mode, persisted to JSON under `~/.config/command-center/`.
 
@@ -49,7 +49,7 @@
   - `is_favorite(basename: str) -> bool`
   - `toggle_favorite(basename: str, known: set|list|None = None) -> bool` — add append / remove; if `known` provided, prune to members of `known` before save; returns new favorited state; on save failure return previous logical state after reload attempt or keep list without writing (tests: writable path)
 
-- [ ] **Step 1: Write failing tests** in `framework/test_favorites.py`
+- [x] **Step 1: Write failing tests** in `framework/test_favorites.py`
 
 ```python
 #!/usr/bin/env python3
@@ -116,7 +116,7 @@ if __name__ == "__main__":
     unittest.main()
 ```
 
-- [ ] **Step 2: Run tests — expect FAIL**
+- [x] **Step 2: Run tests — expect FAIL**
 
 ```bash
 cd /home/ramin/CommandCenter/framework && python3 -m unittest test_favorites.py -v
@@ -124,7 +124,7 @@ cd /home/ramin/CommandCenter/framework && python3 -m unittest test_favorites.py 
 
 Expected: ImportError or failures (module missing).
 
-- [ ] **Step 3: Implement** `framework/favorites.py`
+- [x] **Step 3: Implement** `framework/favorites.py`
 
 ```python
 #!/usr/bin/env python3
@@ -185,13 +185,13 @@ def toggle_favorite(basename, known=None):
     return now
 ```
 
-- [ ] **Step 4: Run tests — expect PASS**
+- [x] **Step 4: Run tests — expect PASS**
 
 ```bash
 cd /home/ramin/CommandCenter/framework && python3 -m unittest test_favorites.py -v
 ```
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 cd /home/ramin/CommandCenter
@@ -214,7 +214,7 @@ EOF
 - Consumes: none from Task 1 at runtime (menu will pass flags)
 - Produces: `CommandCard(meta, favorited=False, edit_mode=False)` — when `edit_mode` is True, show a `Gtk.Label` with class `cc-favorite-star` (and `favorited` class when favorited) displaying ★ / ☆; label must not be a separate button (whole card remains click target)
 
-- [ ] **Step 1: Update `CommandCard.__init__` signature and star UI**
+- [x] **Step 1: Update `CommandCard.__init__` signature and star UI**
 
 Change:
 
@@ -239,13 +239,13 @@ After creating `box` (vertical), if `edit_mode`, create star label first (or ove
 
 Keep existing icon/title/desc packing. Do not connect star to any signal.
 
-- [ ] **Step 2: Syntax check**
+- [x] **Step 2: Syntax check**
 
 ```bash
 python3 -m py_compile /home/ramin/CommandCenter/framework/widgets.py
 ```
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 cd /home/ramin/CommandCenter
@@ -268,7 +268,7 @@ EOF
 - Consumes: `load_favorites`, `toggle_favorite`, `is_favorite` from `favorites`; `CommandCard(..., favorited=, edit_mode=)`
 - Produces: working edit toggle, Favorites section, dual render, edit-vs-launch click wiring
 
-- [ ] **Step 1: Imports + state**
+- [x] **Step 1: Imports + state**
 
 ```python
 from favorites import load_favorites, toggle_favorite, is_favorite
@@ -281,7 +281,7 @@ In `__init__` after `self.commands = []`:
         self.edit_favorites = False
 ```
 
-- [ ] **Step 2: HeaderBar edit button**
+- [x] **Step 2: HeaderBar edit button**
 
 After packing `refresh_button` (before search), add:
 
@@ -322,7 +322,7 @@ Helpers:
 
 If `starred-symbolic` missing on some themes, fallback `"emblem-favorite-symbolic"` or `"starred"` via IconTheme check similar to widgets.
 
-- [ ] **Step 3: Favorites section widgets in layout**
+- [x] **Step 3: Favorites section widgets in layout**
 
 Replace content packing so order is: chips → favorites_box → grid:
 
@@ -345,7 +345,7 @@ Replace content packing so order is: chips → favorites_box → grid:
         self.add(self.content)
 ```
 
-- [ ] **Step 4: Render + click wiring**
+- [x] **Step 4: Render + click wiring**
 
 Add:
 
@@ -397,14 +397,14 @@ Rewrite `render_commands` to:
 
 Update `load_commands` / `refresh` to `self.favorites = load_favorites()` before render.
 
-- [ ] **Step 5: Verify**
+- [x] **Step 5: Verify**
 
 ```bash
 python3 -m py_compile /home/ramin/CommandCenter/framework/menu.py
 cd /home/ramin/CommandCenter/framework && python3 -m unittest test_favorites.py test_textutil.py -q
 ```
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 cd /home/ramin/CommandCenter
@@ -425,7 +425,7 @@ EOF
 - Modify: `STATUS.md`
 - Modify: `docs/superpowers/plans/2026-07-27-favorites.md` (this file — mark all steps `[x]`)
 
-- [ ] **Step 1: Append CSS**
+- [x] **Step 1: Append CSS**
 
 ```css
 .cc-favorites-section {
@@ -456,7 +456,7 @@ EOF
 }
 ```
 
-- [ ] **Step 2: CSS load check**
+- [x] **Step 2: CSS load check**
 
 ```bash
 python3 - <<'PY'
@@ -469,16 +469,16 @@ print("css-ok")
 PY
 ```
 
-- [ ] **Step 3: Update STATUS**
+- [x] **Step 3: Update STATUS**
 
 - Cycle Step 23 Favorites → done conceptually; next action: Phase 1 complete or ready for Phase 2 / next roadmap step
 - Per roadmap, Step 23 is last of Phase 1 UI Professionalization — set Cycle to note Phase 1 complete / ready for Phase 2 Step 24 Confirmation, stage `ready to brainstorm`
 - Active spec/plan: favorites (completed)
 - Note manual QA pending for favorites edit/persist/strip
 
-- [ ] **Step 4: Mark every `- [ ]` in this plan as `- [x]`**
+- [x] **Step 4: Mark every `- [x]` in this plan as `- [x]`**
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 cd /home/ramin/CommandCenter

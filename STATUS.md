@@ -7,15 +7,23 @@
 
 | Field | Value |
 |-------|--------|
-| **Phase** | 1 — UI Professionalization |
-| **Cycle** | Step 23 — Favorites |
-| **Stage** | `execute` |
-| **Active spec** | [docs/superpowers/specs/2026-07-27-favorites-design.md](docs/superpowers/specs/2026-07-27-favorites-design.md) |
-| **Active plan** | [docs/superpowers/plans/2026-07-27-favorites.md](docs/superpowers/plans/2026-07-27-favorites.md) |
+| **Phase** | 2 — Smart Launcher |
+| **Cycle** | Step 24 — Confirmation System |
+| **Stage** | `ready to brainstorm` |
+| **Active spec** | — |
+| **Active plan** | — |
+
+## Completed references
+
+| Cycle | Spec | Plan |
+|-------|------|------|
+| Step 23 — Favorites | [docs/superpowers/specs/2026-07-27-favorites-design.md](docs/superpowers/specs/2026-07-27-favorites-design.md) | [docs/superpowers/plans/2026-07-27-favorites.md](docs/superpowers/plans/2026-07-27-favorites.md) |
+
+**Manual QA pending (Favorites):** edit-mode toggle, persist to `~/.config/command-center/favorites.json`, Favorites strip visibility and dual-render behavior.
 
 ## Next action
 
-Execute Step 23 favorites via subagent-driven development (commit after each task).
+Brainstorm Step 24 Confirmation System (Phase 2).
 
 ## Stages (per cycle)
 
@@ -27,8 +35,8 @@ Then either start the next cycle or advance the phase.
 
 | Phase | Focus | Status |
 |-------|--------|--------|
-| 1 | UI Professionalization (Steps 20–23) | **In progress** — Step 22 done; on Step 23 |
-| 2 | Smart Launcher (Steps 24–26) | Pending |
+| 1 | UI Professionalization (Steps 20–23) | **Complete** |
+| 2 | Smart Launcher (Steps 24–26) | Pending — next: Step 24 Confirmation |
 | 3 | Desktop Integration (Steps 27–29) | Pending |
 | 4 | Framework Release (Steps 30–32) | Pending |
 
