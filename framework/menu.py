@@ -152,6 +152,7 @@ class CommandCenter(Gtk.Window):
         self.edit_favorites = False
         self.pending_favorites = None
         self.pending_confirm = None
+        self.confirm_popover = None
         self._initial_search_focus = False
 
         self.edit_fav_button = Gtk.Button()
@@ -211,38 +212,11 @@ class CommandCenter(Gtk.Window):
         self.favorites_box.pack_start(self.favorites_label, False, False, 0)
         self.favorites_box.pack_start(self.favorites_grid, False, False, 0)
 
-        self.confirm_banner = Gtk.Box(
-            orientation=Gtk.Orientation.VERTICAL,
-            spacing=8,
-        )
-        self.confirm_banner.get_style_context().add_class("cc-confirm-banner")
-        self.confirm_banner.set_no_show_all(True)
-        self.confirm_banner.hide()
-
-        self.confirm_label = Gtk.Label(xalign=0)
-        self.confirm_label.get_style_context().add_class("cc-confirm-label")
-        self.confirm_label.set_line_wrap(True)
-
-        confirm_btns = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8)
-        confirm_btns.set_halign(Gtk.Align.START)
-        self.confirm_cancel = Gtk.Button(label="Cancel")
-        self.confirm_cancel.get_style_context().add_class("cc-confirm-cancel")
-        self.confirm_cancel.connect("clicked", self.on_confirm_cancel)
-        self.confirm_run = Gtk.Button(label="Run")
-        self.confirm_run.get_style_context().add_class("cc-confirm-run")
-        self.confirm_run.connect("clicked", self.on_confirm_run)
-        confirm_btns.pack_start(self.confirm_cancel, False, False, 0)
-        confirm_btns.pack_start(self.confirm_run, False, False, 0)
-
-        self.confirm_banner.pack_start(self.confirm_label, False, False, 0)
-        self.confirm_banner.pack_start(confirm_btns, False, False, 0)
-
         self.content = Gtk.Box(
             orientation=Gtk.Orientation.VERTICAL,
             spacing=10,
         )
         self.content.pack_start(self.chip_box, False, False, 0)
-        self.content.pack_start(self.confirm_banner, False, False, 0)
         self.content.pack_start(self.favorites_box, False, False, 0)
         self.content.pack_start(self.grid, True, True, 0)
         self.add(self.content)
@@ -314,6 +288,7 @@ class CommandCenter(Gtk.Window):
                 edit_mode=self.edit_favorites,
             )
             card.set_can_focus(False)
+            card._cc_script_path = path
             if self.edit_favorites:
                 card.connect("clicked", self.on_favorite_card_clicked, path)
             else:
@@ -334,17 +309,58 @@ class CommandCenter(Gtk.Window):
         self.pending_favorites = pending
         self.render_commands()
 
-    def show_confirm(self, path, meta):
+    def _build_confirm_popover(self, relative_to):
+        pop = Gtk.Popover.new(relative_to)
+        pop.set_position(Gtk.PositionType.TOP)
+        pop.set_modal(True)
+
+        box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=8)
+        box.get_style_context().add_class("cc-confirm-popover")
+
+        label = Gtk.Label(xalign=0)
+        label.get_style_context().add_class("cc-confirm-label")
+        label.set_line_wrap(True)
+        self.confirm_label = label
+
+        btn_row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8)
+        cancel = Gtk.Button(label="Cancel")
+        cancel.get_style_context().add_class("cc-confirm-cancel")
+        cancel.connect("clicked", self.on_confirm_cancel)
+        run = Gtk.Button(label="Run")
+        run.get_style_context().add_class("cc-confirm-run")
+        run.connect("clicked", self.on_confirm_run)
+        btn_row.pack_start(cancel, False, False, 0)
+        btn_row.pack_start(run, False, False, 0)
+
+        box.pack_start(label, False, False, 0)
+        box.pack_start(btn_row, False, False, 0)
+        box.show_all()
+        pop.add(box)
+        pop.connect("closed", self.on_confirm_popover_closed)
+        return pop
+
+    def show_confirm(self, path, meta, relative_to=None):
+        self.hide_confirm()
+        if relative_to is None:
+            return
         self.pending_confirm = (path, meta)
+        self.confirm_popover = self._build_confirm_popover(relative_to)
         name = meta.get("name") or "command"
         self.confirm_label.set_text(f"Run {name}?")
-        self.confirm_banner.set_no_show_all(False)
-        self.confirm_banner.show_all()
+        self.confirm_popover.popup()
 
     def hide_confirm(self):
         self.pending_confirm = None
-        self.confirm_banner.set_no_show_all(True)
-        self.confirm_banner.hide()
+        pop = self.confirm_popover
+        self.confirm_popover = None
+        if pop is not None:
+            pop.popdown()
+            pop.destroy()
+
+    def on_confirm_popover_closed(self, pop):
+        if self.confirm_popover is pop:
+            self.pending_confirm = None
+            self.confirm_popover = None
 
     def on_confirm_cancel(self, *_args):
         self.hide_confirm()
@@ -356,11 +372,11 @@ class CommandCenter(Gtk.Window):
         self.hide_confirm()
         run_command(None, path, meta.get("terminal", False))
 
-    def on_command_clicked(self, _button, path, meta):
+    def on_command_clicked(self, button, path, meta):
         if self.pending_confirm is not None:
             return
         if meta.get("confirm"):
-            self.show_confirm(path, meta)
+            self.show_confirm(path, meta, relative_to=button)
             return
         run_command(None, path, meta.get("terminal", False))
 
@@ -376,6 +392,8 @@ class CommandCenter(Gtk.Window):
             self.commands.append((path, meta))
 
     def render_commands(self):
+        if self.pending_confirm is not None:
+            self.hide_confirm()
         # Preserve caret: rebuilding cards must not steal focus or select-all.
         had_search_focus = (
             self.search_entry is not None
@@ -488,14 +506,19 @@ class CommandCenter(Gtk.Window):
             self._initial_search_focus = True
             GLib.idle_add(self.focus_search)
             if os.environ.get("CC_QA_CONFIRM") == "1":
-                GLib.idle_add(self._qa_show_first_confirm)
+                # After layout/show_all settle so the target card exists.
+                GLib.timeout_add(400, self._qa_show_first_confirm)
         return False
 
     def _qa_show_first_confirm(self):
         for path, meta in self.commands:
-            if meta.get("confirm"):
-                self.show_confirm(path, meta)
-                break
+            if not meta.get("confirm"):
+                continue
+            for container in (self.grid, self.favorites_grid):
+                for child in container.get_children():
+                    if getattr(child, "_cc_script_path", None) == path:
+                        self.show_confirm(path, meta, relative_to=child)
+                        return False
         return False
 
     def _restore_search_focus(self, cursor=None):
