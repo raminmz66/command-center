@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Command Center — Authoring access options</title>
+  <style>
+    :root {
+      --bg: #f0f0f0;
+      --surface: #ffffff;
+      --fg: #2e3436;
+      --muted: #5e5c64;
+      --border: rgba(0, 0, 0, 0.12);
+      --accent: #f6c32a;
+      --accent-text: #1c1b1f;
+      --hover-blue: #3584e4;
+      --danger: #c01c28;
+      --cream: #fff8e7;
+      --window-chrome: #e8e8e8;
+      --rec: #26a269;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Cantarell", "Ubuntu", "Segoe UI", sans-serif;
+      background:
+        radial-gradient(ellipse at 20% 0%, #fff8e7 0%, transparent 50%),
+        radial-gradient(ellipse at 90% 10%, #e8f0ff 0%, transparent 40%),
+        var(--bg);
+      color: var(--fg);
+      padding: 28px 24px 48px;
+    }
+
+    header.page {
+      max-width: 1180px;
+      margin: 0 auto 28px;
+    }
+    header.page h1 {
+      font-size: 1.45rem;
+      font-weight: 700;
+      margin: 0 0 6px;
+    }
+    header.page p {
+      margin: 0;
+      color: var(--muted);
+      max-width: 62ch;
+      line-height: 1.45;
+    }
+    .rec-banner {
+      margin-top: 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: color-mix(in srgb, var(--rec) 14%, white);
+      border: 1px solid color-mix(in srgb, var(--rec) 40%, white);
+      color: #0e3d24;
+      padding: 8px 12px;
+      border-radius: 10px;
+      font-size: 0.92rem;
+    }
+    .rec-banner strong { font-weight: 700; }
+
+    .grid {
+      max-width: 1180px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    @media (max-width: 980px) {
+      .grid { grid-template-columns: 1fr; }
+    }
+
+    .option {
+      background: color-mix(in srgb, white 70%, transparent);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .option.recommended {
+      border-color: color-mix(in srgb, var(--rec) 55%, var(--border));
+      box-shadow: 0 0 0 2px color-mix(in srgb, var(--rec) 25%, transparent);
+    }
+    .option-meta h2 {
+      margin: 0;
+      font-size: 1.05rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .badge {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      background: var(--rec);
+      color: white;
+      padding: 2px 7px;
+      border-radius: 999px;
+    }
+    .option-meta p {
+      margin: 6px 0 0;
+      font-size: 0.86rem;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+    .trade {
+      font-size: 0.8rem;
+      color: var(--muted);
+      line-height: 1.35;
+      margin: 0;
+    }
+    .trade span { color: var(--fg); font-weight: 600; }
+
+    /* Fake GTK window */
+    .win {
+      background: var(--surface);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      box-shadow: 0 8px 28px rgba(0,0,0,0.08);
+      overflow: hidden;
+      min-height: 320px;
+      display: flex;
+      flex-direction: column;
+    }
+    .headerbar {
+      background: var(--window-chrome);
+      border-bottom: 1px solid var(--border);
+      padding: 8px 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 44px;
+    }
+    .title {
+      flex: 1;
+      text-align: center;
+      font-weight: 600;
+      font-size: 0.92rem;
+    }
+    .hb-btn {
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--fg);
+      display: grid;
+      place-items: center;
+      font-size: 1rem;
+      cursor: default;
+    }
+    .hb-btn.active {
+      background: var(--accent);
+      color: var(--accent-text);
+      font-weight: 700;
+      border-color: color-mix(in srgb, var(--accent) 70%, #b89000);
+    }
+    .hb-btn.plus {
+      background: color-mix(in srgb, var(--accent) 35%, white);
+      border-color: color-mix(in srgb, var(--accent) 55%, #ccc);
+      font-weight: 700;
+    }
+    .hb-label {
+      height: 30px;
+      padding: 0 10px;
+      border-radius: 8px;
+      border: 1px solid transparent;
+      display: grid;
+      place-items: center;
+      font-size: 0.78rem;
+      font-weight: 600;
+    }
+    .hb-label.active {
+      background: var(--accent);
+      color: var(--accent-text);
+    }
+
+    .body {
+      padding: 12px;
+      flex: 1;
+      background: #fafafa;
+      position: relative;
+    }
+    .cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px 10px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+      text-align: center;
+      position: relative;
+      min-height: 96px;
+    }
+    .card .icon {
+      width: 28px;
+      height: 28px;
+      margin: 0 auto 6px;
+      border-radius: 6px;
+      background: #ececec;
+      display: grid;
+      place-items: center;
+      font-size: 0.85rem;
+    }
+    .card .name {
+      font-weight: 600;
+      font-size: 0.85rem;
+    }
+    .card .desc {
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    /* A: context menu */
+    .card.menu-open {
+      border-color: var(--hover-blue);
+      border-width: 2px;
+      outline: none;
+    }
+    .ctx {
+      position: absolute;
+      top: 72px;
+      left: 18px;
+      z-index: 5;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.14);
+      min-width: 120px;
+      padding: 4px;
+      font-size: 0.8rem;
+    }
+    .ctx div {
+      padding: 7px 10px;
+      border-radius: 6px;
+    }
+    .ctx div:hover { background: #f2f2f2; }
+    .ctx .danger { color: var(--danger); }
+
+    /* B/C: card chrome */
+    .card-actions {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      display: flex;
+      gap: 4px;
+    }
+    .mini {
+      width: 24px;
+      height: 24px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: var(--cream);
+      display: grid;
+      place-items: center;
+      font-size: 0.7rem;
+    }
+    .mini.trash {
+      background: color-mix(in srgb, var(--danger) 10%, white);
+      border-color: color-mix(in srgb, var(--danger) 30%, white);
+      color: var(--danger);
+    }
+
+    .caption {
+      margin-top: 8px;
+      font-size: 0.75rem;
+      color: var(--muted);
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <header class="page">
+    <h1>How do you open Create / Edit / Delete?</h1>
+    <p>
+      Soft GNOME mockups for Command Center script authoring.
+      Pick the access pattern; the editor dialog itself comes next.
+    </p>
+    <div class="rec-banner">
+      <strong>Recommendation: B</strong>
+      — matches Favorites edit mode, keeps the normal grid clean, avoids right‑click discoverability issues on Linux desktops.
+    </div>
+  </header>
+
+  <div class="grid">
+    <!-- A -->
+    <section class="option">
+      <div class="option-meta">
+        <h2>A — Header + · context menu</h2>
+        <p>Plus creates. Right‑click (or secondary click) a card for Edit / Delete.</p>
+      </div>
+      <div class="win" aria-label="Option A mockup">
+        <div class="headerbar">
+          <div class="hb-btn" title="Folder">📁</div>
+          <div class="hb-btn" title="Refresh">⟳</div>
+          <div class="title">Command Center</div>
+          <div class="hb-btn plus" title="New command">+</div>
+        </div>
+        <div class="body">
+          <div class="cards">
+            <div class="card menu-open">
+              <div class="icon">🖥</div>
+              <div class="name">Conky</div>
+              <div class="desc">Desktop widgets</div>
+              <div class="ctx">
+                <div>Edit…</div>
+                <div class="danger">Delete</div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="icon">💾</div>
+              <div class="name">Backup</div>
+              <div class="desc">Home directory</div>
+            </div>
+            <div class="card">
+              <div class="icon">🔒</div>
+              <div class="name">Lockdown</div>
+              <div class="desc">Confirm first</div>
+            </div>
+            <div class="card">
+              <div class="icon">🌐</div>
+              <div class="name">VPN</div>
+              <div class="desc">Connect tunnel</div>
+            </div>
+          </div>
+          <p class="caption">Normal launch on primary click · menu on secondary</p>
+        </div>
+      </div>
+      <p class="trade"><span>Pros:</span> clean cards, few chrome buttons.<br>
+        <span>Cons:</span> right‑click is easy to miss; touchpads/tablets awkward.</p>
+    </section>
+
+    <!-- B -->
+    <section class="option recommended">
+      <div class="option-meta">
+        <h2>B — Edit commands mode <span class="badge">Recommended</span></h2>
+        <p>Header + for create. Toggle Edit (like Favorites) — pencil / trash appear on cards.</p>
+      </div>
+      <div class="win" aria-label="Option B mockup">
+        <div class="headerbar">
+          <div class="hb-btn" title="Folder">📁</div>
+          <div class="hb-btn" title="Refresh">⟳</div>
+          <div class="hb-label active">Edit</div>
+          <div class="title">Command Center</div>
+          <div class="hb-btn plus" title="New command">+</div>
+        </div>
+        <div class="body">
+          <div class="cards">
+            <div class="card">
+              <div class="card-actions">
+                <div class="mini" title="Edit">✎</div>
+                <div class="mini trash" title="Delete">🗑</div>
+              </div>
+              <div class="icon">🖥</div>
+              <div class="name">Conky</div>
+              <div class="desc">Desktop widgets</div>
+            </div>
+            <div class="card">
+              <div class="card-actions">
+                <div class="mini">✎</div>
+                <div class="mini trash">🗑</div>
+              </div>
+              <div class="icon">💾</div>
+              <div class="name">Backup</div>
+              <div class="desc">Home directory</div>
+            </div>
+            <div class="card">
+              <div class="card-actions">
+                <div class="mini">✎</div>
+                <div class="mini trash">🗑</div>
+              </div>
+              <div class="icon">🔒</div>
+              <div class="name">Lockdown</div>
+              <div class="desc">Confirm first</div>
+            </div>
+            <div class="card">
+              <div class="card-actions">
+                <div class="mini">✎</div>
+                <div class="mini trash">🗑</div>
+              </div>
+              <div class="icon">🌐</div>
+              <div class="name">VPN</div>
+              <div class="desc">Connect tunnel</div>
+            </div>
+          </div>
+          <p class="caption">Edit mode on · launch disabled until you exit</p>
+        </div>
+      </div>
+      <p class="trade"><span>Pros:</span> discoverable, same pattern as Favorites, safe from mis‑clicks.<br>
+        <span>Cons:</span> one extra mode toggle.</p>
+    </section>
+
+    <!-- C -->
+    <section class="option">
+      <div class="option-meta">
+        <h2>C — Always‑visible card buttons</h2>
+        <p>Header + only. Every card always shows Edit and Delete.</p>
+      </div>
+      <div class="win" aria-label="Option C mockup">
+        <div class="headerbar">
+          <div class="hb-btn" title="Folder">📁</div>
+          <div class="hb-btn" title="Refresh">⟳</div>
+          <div class="title">Command Center</div>
+          <div class="hb-btn plus" title="New command">+</div>
+        </div>
+        <div class="body">
+          <div class="cards">
+            <div class="card">
+              <div class="card-actions">
+                <div class="mini">✎</div>
+                <div class="mini trash">🗑</div>
+              </div>
+              <div class="icon">🖥</div>
+              <div class="name">Conky</div>
+              <div class="desc">Desktop widgets</div>
+            </div>
+            <div class="card">
+              <div class="card-actions">
+                <div class="mini">✎</div>
+                <div class="mini trash">🗑</div>
+              </div>
+              <div class="icon">💾</div>
+              <div class="name">Backup</div>
+              <div class="desc">Home directory</div>
+            </div>
+            <div class="card">
+              <div class="card-actions">
+                <div class="mini">✎</div>
+                <div class="mini trash">🗑</div>
+              </div>
+              <div class="icon">🔒</div>
+              <div class="name">Lockdown</div>
+              <div class="desc">Confirm first</div>
+            </div>
+            <div class="card">
+              <div class="card-actions">
+                <div class="mini">✎</div>
+                <div class="mini trash">🗑</div>
+              </div>
+              <div class="icon">🌐</div>
+              <div class="name">VPN</div>
+              <div class="desc">Connect tunnel</div>
+            </div>
+          </div>
+          <p class="caption">Always editing chrome · faster but noisier</p>
+        </div>
+      </div>
+      <p class="trade"><span>Pros:</span> zero mode, fastest to edit.<br>
+        <span>Cons:</span> clutter; easy to hit Delete while launching; fights Soft GNOME calm cards.</p>
+    </section>
+  </div>
+</body>
+</html>

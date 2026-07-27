@@ -7,11 +7,12 @@
 
 | Field | Value |
 |-------|--------|
-| **Phase** | 2 — Smart Launcher |
-| **Cycle** | Step 25 — Advanced Execution Engine |
-| **Stage** | `ready to brainstorm` |
-| **Active spec** | — |
+| **Phase** | 4 — Framework Release (reordered) |
+| **Cycle** | Script authoring UI (parked: 25–29; ahead of packaging) |
+| **Stage** | `plan` |
+| **Active spec** | [docs/superpowers/specs/2026-07-28-script-authoring-design.md](docs/superpowers/specs/2026-07-28-script-authoring-design.md) |
 | **Active plan** | — |
+| **Visual ref** | [docs/superpowers/visuals/2026-07-28-script-authoring.html](docs/superpowers/visuals/2026-07-28-script-authoring.html) |
 
 ## Completed references
 
@@ -25,7 +26,7 @@
 
 ## Next action
 
-Brainstorm Step 25 Advanced Execution Engine (Phase 2).
+Write implementation plan for script authoring, then execute (commit per task; screenshot QA vs visual ref).
 
 ## Stages (per cycle)
 
@@ -38,9 +39,9 @@ Then either start the next cycle or advance the phase.
 | Phase | Focus | Status |
 |-------|--------|--------|
 | 1 | UI Professionalization (Steps 20–23) | **Complete** (+ polish 23b/23c) |
-| 2 | Smart Launcher (Steps 24–26) | **In progress** — Step 24/24b done; on Step 25 |
-| 3 | Desktop Integration (Steps 27–29) | Pending |
-| 4 | Framework Release (Steps 30–32) | Pending |
+| 2 | Smart Launcher (Steps 24–26) | Step 24 done; **25–26 parked** |
+| 3 | Desktop Integration (Steps 27–29) | **Parked** |
+| 4 | Framework Release (Steps 30–32) | **In progress** — authoring UI first, then packaging |
 
 ## Session cues
 

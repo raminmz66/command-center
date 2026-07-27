@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Command Center — Editor placement options</title>
+  <style>
+    :root {
+      --bg: #f0f0f0;
+      --surface: #ffffff;
+      --fg: #2e3436;
+      --muted: #5e5c64;
+      --border: rgba(0, 0, 0, 0.12);
+      --accent: #f6c32a;
+      --accent-text: #1c1b1f;
+      --hover-blue: #3584e4;
+      --cream: #fff8e7;
+      --window-chrome: #e8e8e8;
+      --rec: #26a269;
+      --dim: rgba(30, 30, 30, 0.45);
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Cantarell", "Ubuntu", "Segoe UI", sans-serif;
+      background:
+        radial-gradient(ellipse at 15% 0%, #fff8e7 0%, transparent 45%),
+        radial-gradient(ellipse at 95% 5%, #e8f4ea 0%, transparent 40%),
+        var(--bg);
+      color: var(--fg);
+      padding: 28px 24px 48px;
+    }
+
+    header.page {
+      max-width: 1200px;
+      margin: 0 auto 24px;
+    }
+    header.page h1 {
+      font-size: 1.45rem;
+      font-weight: 700;
+      margin: 0 0 6px;
+    }
+    header.page p {
+      margin: 0;
+      color: var(--muted);
+      max-width: 68ch;
+      line-height: 1.45;
+    }
+    .rec-banner {
+      margin-top: 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: color-mix(in srgb, var(--rec) 14%, white);
+      border: 1px solid color-mix(in srgb, var(--rec) 40%, white);
+      color: #0e3d24;
+      padding: 8px 12px;
+      border-radius: 10px;
+      font-size: 0.92rem;
+    }
+
+    .grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+    @media (max-width: 1000px) {
+      .grid { grid-template-columns: 1fr; }
+    }
+
+    .option {
+      background: color-mix(in srgb, white 72%, transparent);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .option.recommended {
+      border-color: color-mix(in srgb, var(--rec) 55%, var(--border));
+      box-shadow: 0 0 0 2px color-mix(in srgb, var(--rec) 25%, transparent);
+    }
+    .option-meta h2 {
+      margin: 0;
+      font-size: 1.02rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .badge {
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      background: var(--rec);
+      color: white;
+      padding: 2px 7px;
+      border-radius: 999px;
+    }
+    .option-meta p {
+      margin: 6px 0 0;
+      font-size: 0.84rem;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+    .trade {
+      font-size: 0.78rem;
+      color: var(--muted);
+      line-height: 1.35;
+      margin: 0;
+    }
+    .trade span { color: var(--fg); font-weight: 600; }
+
+    .stage {
+      position: relative;
+      min-height: 360px;
+      background: #dcdcdc;
+      border-radius: 12px;
+      padding: 16px;
+      overflow: hidden;
+    }
+
+    .win {
+      background: var(--surface);
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      min-height: 328px;
+    }
+    .headerbar {
+      background: var(--window-chrome);
+      border-bottom: 1px solid var(--border);
+      padding: 7px 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 40px;
+    }
+    .title {
+      flex: 1;
+      text-align: center;
+      font-weight: 600;
+      font-size: 0.82rem;
+    }
+    .hb-btn {
+      width: 26px;
+      height: 26px;
+      border-radius: 7px;
+      background: transparent;
+      display: grid;
+      place-items: center;
+      font-size: 0.85rem;
+    }
+    .hb-btn.plus {
+      background: color-mix(in srgb, var(--accent) 40%, white);
+      font-weight: 700;
+    }
+    .hb-label {
+      height: 26px;
+      padding: 0 8px;
+      border-radius: 7px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      display: grid;
+      place-items: center;
+      background: var(--accent);
+      color: var(--accent-text);
+    }
+    .body {
+      padding: 10px;
+      flex: 1;
+      background: #fafafa;
+      position: relative;
+    }
+    .cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px 8px;
+      text-align: center;
+      min-height: 72px;
+    }
+    .card .name { font-weight: 600; font-size: 0.75rem; }
+    .card .desc { font-size: 0.65rem; color: var(--muted); }
+
+    /* Form shared */
+    .form {
+      background: var(--cream);
+      border: 1px solid color-mix(in srgb, var(--accent) 45%, #ccc);
+      border-radius: 12px;
+      padding: 10px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      font-size: 0.72rem;
+    }
+    .form h3 {
+      margin: 0 0 2px;
+      font-size: 0.85rem;
+    }
+    .field {
+      display: grid;
+      gap: 2px;
+    }
+    .field label {
+      color: var(--muted);
+      font-size: 0.65rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+    .field .box {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 5px 7px;
+      color: var(--fg);
+      min-height: 22px;
+    }
+    .field .box.tall {
+      min-height: 48px;
+      font-family: ui-monospace, monospace;
+      font-size: 0.68rem;
+      color: var(--muted);
+    }
+    .toggles {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .chip {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 3px 8px;
+      font-size: 0.65rem;
+    }
+    .chip.on {
+      background: var(--accent);
+      border-color: #d4a017;
+      font-weight: 600;
+    }
+    .actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 6px;
+      margin-top: 4px;
+    }
+    .btn {
+      border-radius: 8px;
+      padding: 5px 10px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      border: 1px solid var(--border);
+      background: white;
+    }
+    .btn.primary {
+      background: var(--accent);
+      border-color: #d4a017;
+      color: var(--accent-text);
+    }
+
+    /* A: modal overlay */
+    .overlay {
+      position: absolute;
+      inset: 0;
+      background: var(--dim);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px;
+      z-index: 3;
+    }
+    .overlay .form {
+      width: 100%;
+      max-width: 260px;
+      box-shadow: 0 12px 32px rgba(0,0,0,0.25);
+    }
+
+    /* B: second window */
+    .stage-b {
+      display: grid;
+      grid-template-columns: 1.1fr 0.95fr;
+      gap: 10px;
+      align-items: start;
+    }
+    .stage-b .win.main { min-height: 300px; }
+    .stage-b .win.editor {
+      min-height: 280px;
+      transform: translateY(8px);
+      box-shadow: 0 10px 28px rgba(0,0,0,0.16);
+    }
+    .stage-b .win.editor .body {
+      background: #f7f7f7;
+      padding: 8px;
+    }
+
+    /* C: full swap */
+    .win.c-form .body {
+      background: #f7f7f7;
+      padding: 10px;
+    }
+    .back {
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 0 8px;
+      height: 26px;
+      display: grid;
+      place-items: center;
+      border-radius: 7px;
+      background: color-mix(in srgb, var(--fg) 8%, white);
+    }
+
+    .caption {
+      margin: 6px 0 0;
+      font-size: 0.72rem;
+      color: var(--muted);
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <header class="page">
+    <h1>Where should the create/edit form live?</h1>
+    <p>
+      Same Soft GNOME form fields in three placements. Access pattern is already
+      <strong>B (Edit mode)</strong>; this chooses only how the form is shown.
+    </p>
+    <div class="rec-banner">
+      <strong>Recommendation: A</strong>
+      — focused Save/Cancel, matches confirm popover modality, no extra window to manage.
+    </div>
+  </header>
+
+  <div class="grid">
+    <!-- A -->
+    <section class="option recommended">
+      <div class="option-meta">
+        <h2>A — Modal dialog <span class="badge">Recommended</span></h2>
+        <p>Form floats over the dimmed main window. Save / Cancel.</p>
+      </div>
+      <div class="stage" aria-label="Option A">
+        <div class="win">
+          <div class="headerbar">
+            <div class="hb-btn">📁</div>
+            <div class="hb-label">Edit</div>
+            <div class="title">Command Center</div>
+            <div class="hb-btn plus">+</div>
+          </div>
+          <div class="body">
+            <div class="cards">
+              <div class="card"><div class="name">Conky</div><div class="desc">widgets</div></div>
+              <div class="card"><div class="name">Backup</div><div class="desc">home</div></div>
+              <div class="card"><div class="name">Lockdown</div><div class="desc">security</div></div>
+              <div class="card"><div class="name">VPN</div><div class="desc">network</div></div>
+            </div>
+            <div class="overlay">
+              <div class="form">
+                <h3>New command</h3>
+                <div class="field"><label>Name</label><div class="box">Backup</div></div>
+                <div class="field"><label>Icon</label><div class="box">document-save-symbolic ▾</div></div>
+                <div class="field"><label>Script</label><div class="box tall">rsync -a ~/ /backup/</div></div>
+                <div class="toggles">
+                  <span class="chip on">Terminal</span>
+                  <span class="chip">Confirm</span>
+                  <span class="chip on">Color · blue</span>
+                </div>
+                <div class="actions">
+                  <span class="btn">Cancel</span>
+                  <span class="btn primary">Save</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="caption">Grid stays underneath · focus on the form</p>
+      <p class="trade"><span>Pros:</span> clear task, hard to lose place.<br>
+        <span>Cons:</span> can’t poke cards while editing.</p>
+    </section>
+
+    <!-- B -->
+    <section class="option">
+      <div class="option-meta">
+        <h2>B — Separate window</h2>
+        <p>Editor opens as its own window beside the launcher.</p>
+      </div>
+      <div class="stage stage-b" aria-label="Option B">
+        <div class="win main">
+          <div class="headerbar">
+            <div class="hb-btn">📁</div>
+            <div class="hb-label">Edit</div>
+            <div class="title">Command Center</div>
+            <div class="hb-btn plus">+</div>
+          </div>
+          <div class="body">
+            <div class="cards">
+              <div class="card"><div class="name">Conky</div><div class="desc">widgets</div></div>
+              <div class="card"><div class="name">Backup</div><div class="desc">home</div></div>
+              <div class="card"><div class="name">Lockdown</div><div class="desc">security</div></div>
+              <div class="card"><div class="name">VPN</div><div class="desc">network</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="win editor">
+          <div class="headerbar">
+            <div class="title">Edit command</div>
+          </div>
+          <div class="body">
+            <div class="form" style="border:none;background:transparent;padding:0;box-shadow:none;">
+              <div class="field"><label>Name</label><div class="box">Backup</div></div>
+              <div class="field"><label>Icon</label><div class="box">document-save…</div></div>
+              <div class="field"><label>Script</label><div class="box tall">rsync -a ~/ /backup/</div></div>
+              <div class="toggles">
+                <span class="chip on">Terminal</span>
+                <span class="chip">Confirm</span>
+              </div>
+              <div class="actions">
+                <span class="btn">Cancel</span>
+                <span class="btn primary">Save</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="caption">Two windows · can glance at cards while editing</p>
+      <p class="trade"><span>Pros:</span> roomy; reference other cards.<br>
+        <span>Cons:</span> window juggling; odd on small screens.</p>
+    </section>
+
+    <!-- C -->
+    <section class="option">
+      <div class="option-meta">
+        <h2>C — Full-window swap</h2>
+        <p>Grid hides; form fills the same window. Back returns.</p>
+      </div>
+      <div class="stage" aria-label="Option C">
+        <div class="win c-form">
+          <div class="headerbar">
+            <div class="back">← Back</div>
+            <div class="title">New command</div>
+            <div class="hb-btn plus" style="visibility:hidden">+</div>
+          </div>
+          <div class="body">
+            <div class="form" style="height:100%;">
+              <div class="field"><label>Name</label><div class="box">Backup</div></div>
+              <div class="field"><label>Category</label><div class="box">System</div></div>
+              <div class="field"><label>Icon</label><div class="box">Grid of icons…</div></div>
+              <div class="field"><label>Script</label><div class="box tall" style="min-height:72px;">#!/bin/bash<br>rsync -a ~/ /backup/</div></div>
+              <div class="toggles">
+                <span class="chip on">Terminal</span>
+                <span class="chip">Confirm</span>
+                <span class="chip on">Color · blue</span>
+              </div>
+              <div class="actions">
+                <span class="btn">Cancel</span>
+                <span class="btn primary">Save</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="caption">One window · more vertical space for script body</p>
+      <p class="trade"><span>Pros:</span> best space for long scripts.<br>
+        <span>Cons:</span> lose sight of the grid; heavier navigation.</p>
+    </section>
+  </div>
+</body>
+</html>

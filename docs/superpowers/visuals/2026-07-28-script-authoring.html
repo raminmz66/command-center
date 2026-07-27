@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Command Center — Authoring visual design</title>
+  <style>
+    :root {
+      --bg: #ebebeb;
+      --surface: #ffffff;
+      --fg: #2e3436;
+      --muted: #5e5c64;
+      --border: rgba(0, 0, 0, 0.12);
+      --accent: #f6c32a;
+      --accent-hover: #e0b020;
+      --accent-text: #1a1a1a;
+      --blue: #3584e4;
+      --danger: #c01c28;
+      --danger-hover: #a51d2d;
+      --cream: #fff8e7;
+      --chrome: #e4e4e4;
+      --rec: #26a269;
+      --dim: rgba(24, 24, 24, 0.48);
+      --win-w: 520px;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Cantarell", "Ubuntu", system-ui, sans-serif;
+      color: var(--fg);
+      background:
+        radial-gradient(ellipse at 10% 0%, #fff8e7 0%, transparent 42%),
+        radial-gradient(ellipse at 90% 8%, #e7eef8 0%, transparent 38%),
+        var(--bg);
+      padding: 32px 24px 64px;
+    }
+
+    .page-head {
+      max-width: 1100px;
+      margin: 0 auto 28px;
+    }
+    .page-head h1 {
+      margin: 0 0 8px;
+      font-size: 1.55rem;
+    }
+    .page-head p {
+      margin: 0;
+      color: var(--muted);
+      max-width: 70ch;
+      line-height: 1.45;
+    }
+    .toc {
+      margin-top: 16px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .toc a {
+      text-decoration: none;
+      color: var(--accent-text);
+      background: color-mix(in srgb, var(--accent) 45%, white);
+      border: 1px solid color-mix(in srgb, var(--accent) 60%, #bbb);
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 600;
+    }
+
+    .screen {
+      max-width: 1100px;
+      margin: 0 auto 48px;
+    }
+    .screen-label {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    .screen-label h2 {
+      margin: 0;
+      font-size: 1.15rem;
+    }
+    .screen-label .tag {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--rec);
+      background: color-mix(in srgb, var(--rec) 14%, white);
+      border: 1px solid color-mix(in srgb, var(--rec) 35%, white);
+      padding: 2px 8px;
+      border-radius: 999px;
+    }
+    .screen-note {
+      margin: 0 0 14px;
+      font-size: 0.88rem;
+      color: var(--muted);
+      max-width: 72ch;
+      line-height: 1.4;
+    }
+
+    .stage {
+      display: flex;
+      justify-content: center;
+      padding: 28px 16px;
+      background: #d6d6d6;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+    }
+
+    /* —— Window chrome —— */
+    .win {
+      width: var(--win-w);
+      background: var(--surface);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      box-shadow: 0 14px 40px rgba(0,0,0,0.14);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      min-height: 440px;
+    }
+    .headerbar {
+      background: var(--chrome);
+      border-bottom: 1px solid var(--border);
+      min-height: 46px;
+      padding: 6px 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .hb-title {
+      flex: 1;
+      text-align: center;
+      font-weight: 700;
+      font-size: 0.92rem;
+    }
+    .icon-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      border: 1px solid transparent;
+      background: transparent;
+      display: grid;
+      place-items: center;
+      font-size: 0.95rem;
+      color: var(--fg);
+      cursor: default;
+    }
+    .icon-btn:hover { background: rgba(0,0,0,0.06); }
+    .icon-btn.plus {
+      background: color-mix(in srgb, var(--accent) 55%, white);
+      border-color: color-mix(in srgb, var(--accent) 70%, #aaa);
+      font-weight: 800;
+      font-size: 1.15rem;
+      line-height: 1;
+    }
+    .icon-btn.plus:hover { background: var(--accent); }
+    .mode-btn {
+      height: 32px;
+      padding: 0 11px;
+      border-radius: 8px;
+      border: 1px solid transparent;
+      background: transparent;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--fg);
+      display: grid;
+      place-items: center;
+    }
+    .mode-btn.active {
+      background: var(--accent);
+      color: var(--accent-text);
+      border-color: #d4a017;
+    }
+    .text-btn {
+      height: 32px;
+      padding: 0 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: white;
+      font-size: 0.8rem;
+      font-weight: 700;
+      display: grid;
+      place-items: center;
+    }
+    .text-btn.primary {
+      background: var(--accent);
+      border-color: #d4a017;
+      color: var(--accent-text);
+    }
+    .text-btn.ghost {
+      background: transparent;
+      border-color: transparent;
+    }
+
+    .content {
+      flex: 1;
+      background: #f6f6f6;
+      padding: 12px 14px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .search {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 8px 12px;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .chip {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 4px 11px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    .chip.active {
+      background: var(--accent);
+      border-color: #d4a017;
+      color: var(--accent-text);
+    }
+
+    .fav {
+      background: color-mix(in srgb, var(--fg) 9%, white);
+      border-radius: 12px;
+      padding: 8px 10px 10px;
+    }
+    .fav-label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .card {
+      position: relative;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px 12px 14px;
+      text-align: center;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+      min-height: 108px;
+    }
+    .card .ico {
+      width: 30px;
+      height: 30px;
+      margin: 0 auto 6px;
+      border-radius: 7px;
+      background: #ececec;
+      display: grid;
+      place-items: center;
+      font-size: 0.95rem;
+      color: var(--blue);
+    }
+    .card .ico.red { color: #e01b24; }
+    .card .name { font-weight: 700; font-size: 0.88rem; }
+    .card .desc { font-size: 0.72rem; color: var(--muted); margin-top: 2px; }
+
+    .card-actions {
+      position: absolute;
+      top: 7px;
+      right: 7px;
+      display: flex;
+      gap: 4px;
+    }
+    .mini {
+      width: 26px;
+      height: 26px;
+      border-radius: 7px;
+      border: 1px solid var(--border);
+      background: var(--cream);
+      display: grid;
+      place-items: center;
+      font-size: 0.78rem;
+      color: var(--fg);
+      box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+    }
+    .mini.edit:hover {
+      border-color: var(--blue);
+      color: var(--blue);
+    }
+    .mini.del {
+      background: color-mix(in srgb, var(--danger) 10%, white);
+      border-color: color-mix(in srgb, var(--danger) 28%, #ccc);
+      color: var(--danger);
+    }
+    .mini.del:hover {
+      background: var(--danger);
+      color: white;
+      border-color: var(--danger);
+    }
+
+    .banner {
+      background: color-mix(in srgb, var(--accent) 28%, white);
+      border: 1px solid color-mix(in srgb, var(--accent) 55%, #ccc);
+      border-radius: 10px;
+      padding: 7px 10px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-align: center;
+      color: var(--accent-text);
+    }
+
+    /* —— Form —— */
+    .form-shell {
+      background: var(--cream);
+      border: 1px solid color-mix(in srgb, var(--accent) 40%, #cfcfcf);
+      border-radius: 14px;
+      padding: 14px 14px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 11px;
+      flex: 1;
+    }
+    .field { display: flex; flex-direction: column; gap: 4px; }
+    .field label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--muted);
+    }
+    .input {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 10px;
+      font-size: 0.88rem;
+      min-height: 34px;
+    }
+    .input.mono {
+      font-family: ui-monospace, "Ubuntu Mono", monospace;
+      font-size: 0.8rem;
+      min-height: 96px;
+      color: #3d3846;
+      line-height: 1.35;
+      white-space: pre-wrap;
+    }
+    .row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .icon-row {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+    .icon-preview {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: white;
+      border: 1px solid var(--border);
+      display: grid;
+      place-items: center;
+      font-size: 1.35rem;
+      color: var(--blue);
+      flex-shrink: 0;
+    }
+    .icon-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 5px;
+      flex: 1;
+    }
+    .icon-cell {
+      aspect-ratio: 1;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: white;
+      display: grid;
+      place-items: center;
+      font-size: 0.85rem;
+    }
+    .icon-cell.selected {
+      border-color: var(--accent);
+      border-width: 2px;
+      background: color-mix(in srgb, var(--accent) 22%, white);
+    }
+    .custom-link {
+      font-size: 0.75rem;
+      color: var(--blue);
+      font-weight: 600;
+      margin-top: 2px;
+    }
+    .swatches {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .swatch {
+      width: 24px;
+      height: 24px;
+      border-radius: 999px;
+      border: 2px solid white;
+      box-shadow: 0 0 0 1px var(--border);
+    }
+    .swatch.selected { box-shadow: 0 0 0 2px var(--accent-text); }
+    .swatch.none { background: white; position: relative; }
+    .swatch.none::after {
+      content: "";
+      position: absolute;
+      inset: 4px;
+      border-top: 2px solid #c01c28;
+      transform: rotate(-45deg);
+      top: 10px;
+    }
+    .swatch.r { background: #e01b24; }
+    .swatch.g { background: #2ec27e; }
+    .swatch.b { background: #3584e4; }
+    .swatch.o { background: #ff7800; }
+    .swatch.p { background: #9141ac; }
+    .swatch.y { background: #f5c211; }
+
+    .switches {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .switch {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+    .toggle {
+      width: 38px;
+      height: 22px;
+      border-radius: 999px;
+      background: #c0bfbc;
+      position: relative;
+    }
+    .toggle.on { background: var(--accent); }
+    .toggle::after {
+      content: "";
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: white;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    }
+    .toggle.on::after { left: 18px; }
+
+    .form-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      margin-top: 4px;
+    }
+    .btn {
+      height: 34px;
+      padding: 0 14px;
+      border-radius: 9px;
+      border: 1px solid var(--border);
+      background: white;
+      font-size: 0.85rem;
+      font-weight: 700;
+      display: grid;
+      place-items: center;
+    }
+    .btn.primary {
+      background: var(--accent);
+      border-color: #d4a017;
+      color: var(--accent-text);
+    }
+    .btn.danger {
+      background: var(--danger);
+      border-color: var(--danger-hover);
+      color: white;
+    }
+
+    /* —— Delete modal —— */
+    .win.rel { position: relative; }
+    .overlay {
+      position: absolute;
+      inset: 0;
+      background: var(--dim);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      z-index: 5;
+    }
+    .modal {
+      width: 100%;
+      max-width: 320px;
+      background: var(--cream);
+      border: 1px solid color-mix(in srgb, var(--accent) 50%, #bbb);
+      border-radius: 14px;
+      padding: 16px 16px 14px;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.28);
+    }
+    .modal h3 {
+      margin: 0 0 8px;
+      font-size: 1rem;
+    }
+    .modal p {
+      margin: 0 0 14px;
+      font-size: 0.86rem;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+    .modal .name-em {
+      color: var(--fg);
+      font-weight: 700;
+    }
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+
+    .callout {
+      max-width: 1100px;
+      margin: 0 auto;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 16px;
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+    .callout strong { color: var(--fg); }
+  </style>
+</head>
+<body>
+  <header class="page-head">
+    <h1>Authoring — visual design reference</h1>
+    <p>
+      Soft GNOME expected look for create / edit / delete. These screens are the
+      visual contract for implementation (gold accent <code>#f6c32a</code>, cream panels
+      <code>#fff8e7</code>, danger red <code>#c01c28</code>).
+    </p>
+    <nav class="toc">
+      <a href="#edit-mode">1 · Edit mode + actions</a>
+      <a href="#form-new">2 · New command form</a>
+      <a href="#form-edit">3 · Edit command form</a>
+      <a href="#delete">4 · Delete confirm</a>
+    </nav>
+  </header>
+
+  <!-- 1 EDIT MODE -->
+  <section class="screen" id="edit-mode">
+    <div class="screen-label">
+      <h2>1 · Edit commands mode</h2>
+      <span class="tag">Access pattern B</span>
+    </div>
+    <p class="screen-note">
+      Header <strong>+</strong> always creates. Toggle <strong>Edit</strong> (gold when active).
+      Each card shows pencil (edit) and trash (delete). Launch is disabled; banner explains state.
+      Mutually exclusive with Favorites edit.
+    </p>
+    <div class="stage">
+      <div class="win" aria-label="Edit mode mockup">
+        <div class="headerbar">
+          <div class="icon-btn" title="Scripts folder">📁</div>
+          <div class="icon-btn" title="Refresh">⟳</div>
+          <div class="mode-btn" title="Edit favorites">★</div>
+          <div class="mode-btn active" title="Edit commands">Edit</div>
+          <div class="hb-title">Command Center</div>
+          <div class="icon-btn plus" title="New command">+</div>
+        </div>
+        <div class="content">
+          <div class="search">Search commands…</div>
+          <div class="chips">
+            <span class="chip active">All</span>
+            <span class="chip">Desktop</span>
+            <span class="chip">System</span>
+            <span class="chip">Security</span>
+          </div>
+          <div class="banner">Editing commands — tap ✎ to edit or 🗑 to delete. Launch paused.</div>
+          <div class="cards">
+            <div class="card">
+              <div class="card-actions">
+                <div class="mini edit" title="Edit">✎</div>
+                <div class="mini del" title="Delete">🗑</div>
+              </div>
+              <div class="ico">🖥</div>
+              <div class="name">Conky</div>
+              <div class="desc">Start desktop widgets</div>
+            </div>
+            <div class="card">
+              <div class="card-actions">
+                <div class="mini edit">✎</div>
+                <div class="mini del">🗑</div>
+              </div>
+              <div class="ico">💾</div>
+              <div class="name">Backup</div>
+              <div class="desc">Backup home directory</div>
+            </div>
+            <div class="card">
+              <div class="card-actions">
+                <div class="mini edit">✎</div>
+                <div class="mini del">🗑</div>
+              </div>
+              <div class="ico red">🔒</div>
+              <div class="name">Lockdown</div>
+              <div class="desc">Update lockdown status</div>
+            </div>
+            <div class="card">
+              <div class="card-actions">
+                <div class="mini edit">✎</div>
+                <div class="mini del">🗑</div>
+              </div>
+              <div class="ico">🌐</div>
+              <div class="name">VPN</div>
+              <div class="desc">Connect tunnel</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 NEW FORM -->
+  <section class="screen" id="form-new">
+    <div class="screen-label">
+      <h2>2 · New command (full-window form)</h2>
+      <span class="tag">Placement C</span>
+    </div>
+    <p class="screen-note">
+      Grid is replaced by the form. Header: Back · title · Save. Cream shell holds
+      fields, icon grid + custom, color swatches, Terminal/Confirm toggles, monospace script body.
+    </p>
+    <div class="stage">
+      <div class="win" aria-label="New command form">
+        <div class="headerbar">
+          <div class="text-btn ghost">← Back</div>
+          <div class="hb-title">New command</div>
+          <div class="text-btn primary">Save</div>
+        </div>
+        <div class="content">
+          <div class="form-shell">
+            <div class="row-2">
+              <div class="field">
+                <label>Name</label>
+                <div class="input">Backup</div>
+              </div>
+              <div class="field">
+                <label>Category</label>
+                <div class="input">System</div>
+              </div>
+            </div>
+            <div class="field">
+              <label>Description</label>
+              <div class="input">Backup home directory</div>
+            </div>
+            <div class="field">
+              <label>Icon</label>
+              <div class="icon-row">
+                <div class="icon-preview">💾</div>
+                <div>
+                  <div class="icon-grid">
+                    <div class="icon-cell">🖥</div>
+                    <div class="icon-cell selected">💾</div>
+                    <div class="icon-cell">🔒</div>
+                    <div class="icon-cell">🌐</div>
+                    <div class="icon-cell">⚙</div>
+                    <div class="icon-cell">🗂</div>
+                    <div class="icon-cell">🛡</div>
+                    <div class="icon-cell">📡</div>
+                    <div class="icon-cell">🧹</div>
+                    <div class="icon-cell">⏱</div>
+                    <div class="icon-cell">📦</div>
+                    <div class="icon-cell">🔧</div>
+                  </div>
+                  <div class="custom-link">Custom icon name…</div>
+                </div>
+              </div>
+            </div>
+            <div class="field">
+              <label>Color</label>
+              <div class="swatches">
+                <div class="swatch none" title="None"></div>
+                <div class="swatch r"></div>
+                <div class="swatch g"></div>
+                <div class="swatch b selected"></div>
+                <div class="swatch o"></div>
+                <div class="swatch p"></div>
+                <div class="swatch y"></div>
+              </div>
+            </div>
+            <div class="switches">
+              <div class="switch"><div class="toggle on"></div> Terminal</div>
+              <div class="switch"><div class="toggle"></div> Confirm before run</div>
+            </div>
+            <div class="field">
+              <label>Script</label>
+              <div class="input mono">rsync -a --delete ~/ /media/backup/home/</div>
+            </div>
+            <div class="form-actions">
+              <div class="btn">Cancel</div>
+              <div class="btn primary">Save</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 EDIT FORM -->
+  <section class="screen" id="form-edit">
+    <div class="screen-label">
+      <h2>3 · Edit command</h2>
+      <span class="tag">Same form · filled</span>
+    </div>
+    <p class="screen-note">
+      Same layout as New. Title becomes <strong>Edit command</strong>. Filename stays
+      unchanged (no rename in v1). Existing metadata and body prefilled.
+    </p>
+    <div class="stage">
+      <div class="win" aria-label="Edit command form">
+        <div class="headerbar">
+          <div class="text-btn ghost">← Back</div>
+          <div class="hb-title">Edit command</div>
+          <div class="text-btn primary">Save</div>
+        </div>
+        <div class="content">
+          <div class="form-shell">
+            <div class="row-2">
+              <div class="field">
+                <label>Name</label>
+                <div class="input">Conky</div>
+              </div>
+              <div class="field">
+                <label>Category</label>
+                <div class="input">Desktop</div>
+              </div>
+            </div>
+            <div class="field">
+              <label>Description</label>
+              <div class="input">Start desktop widgets</div>
+            </div>
+            <div class="field">
+              <label>Icon</label>
+              <div class="icon-row">
+                <div class="icon-preview">🖥</div>
+                <div>
+                  <div class="icon-grid">
+                    <div class="icon-cell selected">🖥</div>
+                    <div class="icon-cell">💾</div>
+                    <div class="icon-cell">🔒</div>
+                    <div class="icon-cell">🌐</div>
+                    <div class="icon-cell">⚙</div>
+                    <div class="icon-cell">🗂</div>
+                  </div>
+                  <div class="custom-link">Custom: system-monitor-app-symbolic</div>
+                </div>
+              </div>
+            </div>
+            <div class="field">
+              <label>Color</label>
+              <div class="swatches">
+                <div class="swatch none"></div>
+                <div class="swatch r"></div>
+                <div class="swatch g"></div>
+                <div class="swatch b selected"></div>
+                <div class="swatch o"></div>
+                <div class="swatch p"></div>
+                <div class="swatch y"></div>
+              </div>
+            </div>
+            <div class="switches">
+              <div class="switch"><div class="toggle"></div> Terminal</div>
+              <div class="switch"><div class="toggle"></div> Confirm before run</div>
+            </div>
+            <div class="field">
+              <label>Script</label>
+              <div class="input mono">conky &amp;</div>
+            </div>
+            <div class="form-actions">
+              <div class="btn">Cancel</div>
+              <div class="btn primary">Save</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 DELETE -->
+  <section class="screen" id="delete">
+    <div class="screen-label">
+      <h2>4 · Delete confirmation</h2>
+      <span class="tag">Confirm A</span>
+    </div>
+    <p class="screen-note">
+      Triggered from trash on a card while in Edit mode. Dim overlay; cream dialog
+      (same family as confirm-run). Cancel keeps the file; Delete (red) removes
+      <code>scripts/….sh</code> and cleans favorites.
+    </p>
+    <div class="stage">
+      <div class="win rel" aria-label="Delete confirm mockup">
+        <div class="headerbar">
+          <div class="icon-btn">📁</div>
+          <div class="mode-btn active">Edit</div>
+          <div class="hb-title">Command Center</div>
+          <div class="icon-btn plus">+</div>
+        </div>
+        <div class="content">
+          <div class="banner">Editing commands — tap ✎ to edit or 🗑 to delete. Launch paused.</div>
+          <div class="cards">
+            <div class="card">
+              <div class="card-actions">
+                <div class="mini edit">✎</div>
+                <div class="mini del">🗑</div>
+              </div>
+              <div class="ico">🖥</div>
+              <div class="name">Conky</div>
+              <div class="desc">Start desktop widgets</div>
+            </div>
+            <div class="card" style="outline: 2px solid var(--danger); outline-offset: 0;">
+              <div class="card-actions">
+                <div class="mini edit">✎</div>
+                <div class="mini del">🗑</div>
+              </div>
+              <div class="ico">💾</div>
+              <div class="name">Backup</div>
+              <div class="desc">Backup home directory</div>
+            </div>
+            <div class="card">
+              <div class="card-actions">
+                <div class="mini edit">✎</div>
+                <div class="mini del">🗑</div>
+              </div>
+              <div class="ico red">🔒</div>
+              <div class="name">Lockdown</div>
+              <div class="desc">Update lockdown status</div>
+            </div>
+            <div class="card">
+              <div class="card-actions">
+                <div class="mini edit">✎</div>
+                <div class="mini del">🗑</div>
+              </div>
+              <div class="ico">🌐</div>
+              <div class="name">VPN</div>
+              <div class="desc">Connect tunnel</div>
+            </div>
+          </div>
+        </div>
+        <div class="overlay">
+          <div class="modal">
+            <h3>Delete command?</h3>
+            <p>
+              Remove <span class="name-em">Backup</span>? This deletes the script file
+              <span class="name-em">backup.sh</span> and cannot be undone from the app.
+            </p>
+            <div class="modal-actions">
+              <div class="btn">Cancel</div>
+              <div class="btn danger">Delete</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="callout">
+    <strong>Next:</strong> If these four screens look right, say so and the written
+    design spec will include this file as the visual reference
+    (<code>.superpowers/qa/authoring-visual-design.html</code>).
+    Tell me what to change if anything feels off (button labels, density, colors, copy).
+  </div>
+</body>
+</html>
