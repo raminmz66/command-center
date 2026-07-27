@@ -1,6 +1,6 @@
 # Confirm Popover Placement Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [x]`) syntax for tracking.
 
 **Goal:** Replace the top confirm banner with a Soft GNOME `Gtk.Popover` anchored to the clicked card, preserving accepted cream/gold chrome.
 
@@ -30,9 +30,9 @@
 
 **Files:** Modify `framework/menu.py`
 
-- [ ] **Step 1: Remove banner widget construction and content packing** of `confirm_banner` / label / buttons from `__init__`. Keep `self.pending_confirm = None`. Add `self.confirm_popover = None`.
+- [x] **Step 1: Remove banner widget construction and content packing** of `confirm_banner` / label / buttons from `__init__`. Keep `self.pending_confirm = None`. Add `self.confirm_popover = None`.
 
-- [ ] **Step 2: Replace show/hide/handlers**
+- [x] **Step 2: Replace show/hide/handlers**
 
 ```python
     def _build_confirm_popover(self, relative_to):
@@ -106,11 +106,11 @@
         run_command(None, path, meta.get("terminal", False))
 ```
 
-- [ ] **Step 3:** At start of `render_commands`, if `pending_confirm`: `hide_confirm()` (avoid orphan popover).
+- [x] **Step 3:** At start of `render_commands`, if `pending_confirm`: `hide_confirm()` (avoid orphan popover).
 
-- [ ] **Step 4:** Update `_qa_show_first_confirm` to find a confirm card widget in `self.grid` (or favorites) and call `show_confirm(..., relative_to=card)`.
+- [x] **Step 4:** Update `_qa_show_first_confirm` to find a confirm card widget in `self.grid` (or favorites) and call `show_confirm(..., relative_to=card)`.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add framework/menu.py
@@ -123,7 +123,7 @@ git commit -m "feat: anchor confirm UI to clicked card via Gtk.Popover."
 
 **Files:** `framework/style.css`, `STATUS.md`, this plan
 
-- [ ] **Step 1:** Replace `.cc-confirm-banner` with:
+- [x] **Step 1:** Replace `.cc-confirm-banner` with:
 
 ```css
 .cc-confirm-popover {
@@ -137,9 +137,9 @@ git commit -m "feat: anchor confirm UI to clicked card via Gtk.Popover."
 
 Keep `.cc-confirm-label` and Cancel/Run button rules.
 
-- [ ] **Step 2:** STATUS → Step 24b done; Step 25 ready to brainstorm; mark plan `[x]`
+- [x] **Step 2:** STATUS → Step 24b done; Step 25 ready to brainstorm; mark plan `[x]`
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git commit -m "style: Soft GNOME confirm popover chrome; mark Step 24b done."

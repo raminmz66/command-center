@@ -166,12 +166,26 @@ button.cc-category-chip.active:hover {
   font-size: 22px;
 }
 
+popover.cc-confirm-popover-shell {
+  background-color: #fff8e7;
+  border: 2px solid #f6c32a;
+  border-radius: 10px;
+  padding: 0;
+  box-shadow: none;
+}
+
+popover.cc-confirm-popover-shell > contents {
+  background-color: #fff8e7;
+  padding: 0;
+  border-radius: 10px;
+}
+
 .cc-confirm-popover {
   margin: 0;
   padding: 14px 16px;
   border-radius: 10px;
   background-color: #fff8e7;
-  border: 2px solid #f6c32a;
+  border: none;
 }
 
 .cc-confirm-label {

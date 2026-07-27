@@ -8,15 +8,16 @@
 | Field | Value |
 |-------|--------|
 | **Phase** | 2 — Smart Launcher |
-| **Cycle** | Step 24b — Confirm placement UX |
-| **Stage** | `spec` |
-| **Active spec** | [docs/superpowers/specs/2026-07-27-confirm-popover-design.md](docs/superpowers/specs/2026-07-27-confirm-popover-design.md) |
+| **Cycle** | Step 25 — Advanced Execution Engine |
+| **Stage** | `ready to brainstorm` |
+| **Active spec** | — |
 | **Active plan** | — |
 
 ## Completed references
 
 | Cycle | Spec | Plan |
 |-------|------|------|
+| Step 24b — Confirm popover | [docs/superpowers/specs/2026-07-27-confirm-popover-design.md](docs/superpowers/specs/2026-07-27-confirm-popover-design.md) | [docs/superpowers/plans/2026-07-27-confirm-popover.md](docs/superpowers/plans/2026-07-27-confirm-popover.md) |
 | Step 24 — Confirmation | [docs/superpowers/specs/2026-07-27-confirmation-design.md](docs/superpowers/specs/2026-07-27-confirmation-design.md) | [docs/superpowers/plans/2026-07-27-confirmation.md](docs/superpowers/plans/2026-07-27-confirmation.md) |
 | Step 23c — Favorites separation | [docs/superpowers/specs/2026-07-27-favorites-separation-design.md](docs/superpowers/specs/2026-07-27-favorites-separation-design.md) | [docs/superpowers/plans/2026-07-27-favorites-separation.md](docs/superpowers/plans/2026-07-27-favorites-separation.md) |
 | Step 23b — Favorites Apply polish | [docs/superpowers/specs/2026-07-27-favorites-apply-design.md](docs/superpowers/specs/2026-07-27-favorites-apply-design.md) | [docs/superpowers/plans/2026-07-27-favorites-apply.md](docs/superpowers/plans/2026-07-27-favorites-apply.md) |
@@ -24,7 +25,7 @@
 
 ## Next action
 
-User reviews confirm-popover design spec; on approval → writing-plans.
+Brainstorm Step 25 Advanced Execution Engine (Phase 2).
 
 ## Stages (per cycle)
 
@@ -37,7 +38,7 @@ Then either start the next cycle or advance the phase.
 | Phase | Focus | Status |
 |-------|--------|--------|
 | 1 | UI Professionalization (Steps 20–23) | **Complete** (+ polish 23b/23c) |
-| 2 | Smart Launcher (Steps 24–26) | **In progress** — Step 24 done; on Step 25 |
+| 2 | Smart Launcher (Steps 24–26) | **In progress** — Step 24/24b done; on Step 25 |
 | 3 | Desktop Integration (Steps 27–29) | Pending |
 | 4 | Framework Release (Steps 30–32) | Pending |
 

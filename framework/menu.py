@@ -313,6 +313,7 @@ class CommandCenter(Gtk.Window):
         pop = Gtk.Popover.new(relative_to)
         pop.set_position(Gtk.PositionType.TOP)
         pop.set_modal(True)
+        pop.get_style_context().add_class("cc-confirm-popover-shell")
 
         box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=8)
         box.get_style_context().add_class("cc-confirm-popover")
