@@ -47,7 +47,7 @@
   - `write_script(path: str, meta: dict, body: str) -> None`
   - `delete_script(path: str) -> None`
 
-- [ ] **Step 1: Write failing tests** in `framework/test_scriptio.py`
+- [x] **Step 1: Write failing tests** in `framework/test_scriptio.py`
 
 ```python
 #!/usr/bin/env python3
@@ -106,11 +106,11 @@ if __name__ == "__main__":
     unittest.main()
 ```
 
-- [ ] **Step 2: Run tests — expect FAIL** (`ModuleNotFoundError` or missing attrs)
+- [x] **Step 2: Run tests — expect FAIL** (`ModuleNotFoundError` or missing attrs)
 
 Run: `cd /home/ramin/CommandCenter/framework && python3 -m unittest test_scriptio -v`
 
-- [ ] **Step 3: Implement `scriptio.py`**
+- [x] **Step 3: Implement `scriptio.py`**
 
 ```python
 #!/usr/bin/env python3
@@ -188,9 +188,9 @@ def delete_script(path):
     os.remove(path)
 ```
 
-- [ ] **Step 4: Run tests — expect PASS**
+- [x] **Step 4: Run tests — expect PASS**
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add framework/scriptio.py framework/test_scriptio.py
@@ -212,13 +212,13 @@ git commit -m "feat: add scriptio read/write helpers for authoring."
   - Header row: Back, title label, Save — matching visual screen 2/3
   - Cream `.cc-authoring-shell` with fields
 
-- [ ] **Step 1: Implement form UI** (Name, Desc, Category, icon grid + custom entry, color swatches, Terminal/Confirm switches, multiline Script, Cancel/Save footer). Track baseline for dirty.
+- [x] **Step 1: Implement form UI** (Name, Desc, Category, icon grid + custom entry, color swatches, Terminal/Confirm switches, multiline Script, Cancel/Save footer). Track baseline for dirty.
 
-- [ ] **Step 2: Smoke import**
+- [x] **Step 2: Smoke import**
 
 Run: `cd /home/ramin/CommandCenter/framework && python3 -c "from authoring import AuthoringForm; print('ok')"`
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add framework/authoring.py
@@ -238,9 +238,9 @@ git commit -m "feat: add Soft GNOME script authoring form widget."
 - When `commands_edit`: wrap content in `Gtk.Overlay`; top-right ✎ and 🗑 buttons (classes `cc-card-edit`, `cc-card-delete`); card itself not used for launch
 - CSS: match visual — cream edit btn, red-tint delete, gold Edit header `.cc-edit-commands.active`, banner `.cc-edit-banner`, authoring shell, delete dialog
 
-- [ ] **Step 1: Extend CommandCard + CSS classes from visual reference**
+- [x] **Step 1: Extend CommandCard + CSS classes from visual reference**
 
-- [ ] **Step 2: Commit**
+- [x] **Step 2: Commit**
 
 ```bash
 git add framework/widgets.py framework/style.css
@@ -262,13 +262,13 @@ git commit -m "feat: card edit/delete controls and authoring CSS."
 - Dirty Back/Cancel → discard confirm
 - Mutual exclusion with favorites edit
 
-- [ ] **Step 1: Implement stack + mode + dialogs in `menu.py`**
+- [x] **Step 1: Implement stack + mode + dialogs in `menu.py`**
 
-- [ ] **Step 2: Manual smoke** — launch app, open Edit, open +, Esc/Back
+- [x] **Step 2: Manual smoke** — launch app, open Edit, open +, Esc/Back
 
 Run: `cd /home/ramin/CommandCenter/framework && timeout 2 python3 menu.py || true`
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add framework/menu.py
