@@ -7,11 +7,11 @@
 
 | Field | Value |
 |-------|--------|
-| **Phase** | 2 — Smart Launcher |
-| **Cycle** | Step 24 — Confirmation System |
-| **Stage** | `ready to brainstorm` |
-| **Active spec** | — |
-| **Active plan** | — |
+| **Phase** | 1 — UI Professionalization (polish) |
+| **Cycle** | Step 23b — Favorites Apply polish |
+| **Stage** | `plan` |
+| **Active spec** | [docs/superpowers/specs/2026-07-27-favorites-apply-design.md](docs/superpowers/specs/2026-07-27-favorites-apply-design.md) |
+| **Active plan** | [docs/superpowers/plans/2026-07-27-favorites-apply.md](docs/superpowers/plans/2026-07-27-favorites-apply.md) |
 
 ## Completed references
 
@@ -19,11 +19,11 @@
 |-------|------|------|
 | Step 23 — Favorites | [docs/superpowers/specs/2026-07-27-favorites-design.md](docs/superpowers/specs/2026-07-27-favorites-design.md) | [docs/superpowers/plans/2026-07-27-favorites.md](docs/superpowers/plans/2026-07-27-favorites.md) |
 
-**Manual QA pending (Favorites):** edit-mode toggle, persist to `~/.config/command-center/favorites.json`, Favorites strip visibility and dual-render behavior.
-
 ## Next action
 
-Brainstorm Step 24 Confirmation System (Phase 2).
+Review/approve Favorites Apply polish plan, then execute (subagent-driven).
+
+After 23b: return to Phase 2 Step 24 Confirmation brainstorm.
 
 ## Stages (per cycle)
 
