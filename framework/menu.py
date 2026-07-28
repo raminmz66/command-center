@@ -382,7 +382,7 @@ class CommandCenter(Gtk.Window):
                 "name": "",
                 "desc": "",
                 "category": "General",
-                "icon": "applications-utilities-symbolic",
+                "icon": "🔧",
                 "color": None,
                 "terminal": False,
                 "confirm": False,

@@ -9,24 +9,16 @@ from gi.repository import Gtk
 from textutil import normalize_icon_color
 
 
-CURATED_ICONS = [
-    # (GNOME icon name stored in metadata, glyph shown in Soft GNOME picker)
-    ("system-monitor-app-symbolic", "🖥"),
-    ("document-save-symbolic", "💾"),
-    ("security-high-symbolic", "🔒"),
-    ("network-vpn-symbolic", "🌐"),
-    ("preferences-system-symbolic", "⚙"),
-    ("folder-symbolic", "🗂"),
-    ("channel-secure-symbolic", "🛡"),
-    ("network-wireless-symbolic", "📡"),
-    ("user-trash-symbolic", "🧹"),
-    ("alarm-symbolic", "⏱"),
-    ("package-x-generic-symbolic", "📦"),
-    ("applications-utilities-symbolic", "🔧"),
+ICON_CATALOG = [
+    "🖥", "💾", "🔒", "🌐", "⚙", "🗂",
+    "🛡", "📡", "🧹", "⏱", "📦", "🔧",
+    "🗒", "🚀", "🔑", "☁", "🔊", "🔋",
+    "🏠", "⭐", "🔥", "💡", "🗑", "📁",
+    "🔄", "🛠", "📊", "🖧", "🧩", "🎮",
+    "📝", "🛰", "🔐", "💻", "🧭", "⚡",
 ]
 
-_CURATED_BY_NAME = {name: glyph for name, glyph in CURATED_ICONS}
-_DEFAULT_ICON = CURATED_ICONS[0][0]
+_DEFAULT_ICON = "🔧"
 
 COLOR_KEYS = [
     (None, "None"),
@@ -98,19 +90,14 @@ class AuthoringForm(Gtk.Box):
         preview_frame = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
         preview_frame.set_valign(Gtk.Align.CENTER)
         preview_frame.set_halign(Gtk.Align.CENTER)
-        preview_frame.set_size_request(52, 52)
+        preview_frame.set_size_request(44, 44)
         preview_frame.get_style_context().add_class("cc-authoring-icon-preview-frame")
-        self.preview_emoji = Gtk.Label(label="🔧")
+        self.preview_emoji = Gtk.Label(label=_DEFAULT_ICON)
         self.preview_emoji.get_style_context().add_class("cc-authoring-icon-preview-emoji")
-        self.preview_image = Gtk.Image()
-        self.preview_image.get_style_context().add_class("cc-authoring-icon-preview")
-        self.preview_image.set_no_show_all(True)
-        self.preview_image.hide()
         preview_frame.pack_start(self.preview_emoji, True, True, 0)
-        preview_frame.pack_start(self.preview_image, True, True, 0)
         icon_row.pack_start(preview_frame, False, False, 0)
 
-        grid_wrap = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
+        grid_wrap = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=4)
         grid_wrap.set_hexpand(True)
         self.icon_grid = Gtk.Grid()
         self.icon_grid.set_column_spacing(4)
@@ -118,7 +105,7 @@ class AuthoringForm(Gtk.Box):
         self.icon_grid.set_column_homogeneous(False)
         self.icon_grid.set_row_homogeneous(False)
         self._icon_buttons = {}
-        for idx, (name, glyph) in enumerate(CURATED_ICONS):
+        for idx, glyph in enumerate(ICON_CATALOG):
             cell = Gtk.EventBox()
             cell.set_visible_window(True)
             cell.set_can_focus(False)
@@ -126,7 +113,6 @@ class AuthoringForm(Gtk.Box):
             cell.set_valign(Gtk.Align.CENTER)
             cell.set_hexpand(False)
             cell.set_vexpand(False)
-            cell.set_tooltip_text(name)
             cell.get_style_context().add_class("cc-authoring-icon-cell")
             label = Gtk.Label(label=glyph)
             label.set_halign(Gtk.Align.CENTER)
@@ -136,17 +122,11 @@ class AuthoringForm(Gtk.Box):
             cell.connect(
                 "button-press-event",
                 self._on_icon_cell_pressed,
-                name,
+                glyph,
             )
-            self._icon_buttons[name] = cell
+            self._icon_buttons[glyph] = cell
             self.icon_grid.attach(cell, idx % 6, idx // 6, 1, 1)
         grid_wrap.pack_start(self.icon_grid, False, False, 0)
-
-        self.custom_icon_entry = Gtk.Entry()
-        self.custom_icon_entry.set_placeholder_text("Custom icon name…")
-        self.custom_icon_entry.get_style_context().add_class("cc-authoring-custom-icon")
-        self.custom_icon_entry.connect("changed", self._on_custom_icon)
-        grid_wrap.pack_start(self.custom_icon_entry, False, False, 0)
 
         icon_row.pack_start(grid_wrap, True, True, 0)
         icon_block.pack_start(icon_row, False, False, 0)
@@ -248,37 +228,20 @@ class AuthoringForm(Gtk.Box):
         box.pack_start(Gtk.Label(label=label, xalign=0), False, False, 0)
         return box
 
-    def _on_icon_cell_pressed(self, _widget, event, name):
+    def _on_icon_cell_pressed(self, _widget, event, glyph):
         if event.button != 1:
             return False
-        self._on_icon_picked(None, name)
+        self._select_icon(glyph)
         return True
 
-    def _on_icon_picked(self, _btn, name):
-        self.custom_icon_entry.set_text("")
-        self._select_icon(name)
-
-    def _on_custom_icon(self, entry):
-        text = entry.get_text().strip()
-        if text:
-            self._select_icon(text, from_custom=True)
-
-    def _select_icon(self, name, from_custom=False):
-        self._icon_name = name
-        glyph = _CURATED_BY_NAME.get(name)
-        if glyph and not from_custom:
-            self.preview_emoji.set_text(glyph)
-            self.preview_emoji.show()
-            self.preview_image.hide()
-        else:
-            theme = Gtk.IconTheme.get_default()
-            use = name if theme.has_icon(name) else "application-x-executable"
-            self.preview_image.set_from_icon_name(use, Gtk.IconSize.DIALOG)
-            self.preview_image.show()
-            self.preview_emoji.hide()
-        for key, btn in self._icon_buttons.items():
-            ctx = btn.get_style_context()
-            if key == name and not from_custom:
+    def _select_icon(self, glyph):
+        if glyph not in self._icon_buttons:
+            glyph = _DEFAULT_ICON
+        self._icon_name = glyph
+        self.preview_emoji.set_text(glyph)
+        for key, cell in self._icon_buttons.items():
+            ctx = cell.get_style_context()
+            if key == glyph:
                 ctx.add_class("selected")
             else:
                 ctx.remove_class("selected")
@@ -320,12 +283,7 @@ class AuthoringForm(Gtk.Box):
         self.desc_entry.set_text(meta.get("desc") or "")
         self.category_entry.set_text(meta.get("category") or "General")
         icon = meta.get("icon") or _DEFAULT_ICON
-        if icon in self._icon_buttons:
-            self.custom_icon_entry.set_text("")
-            self._select_icon(icon)
-        else:
-            self.custom_icon_entry.set_text(icon)
-            self._select_icon(icon, from_custom=True)
+        self._select_icon(icon)
         color = normalize_icon_color(meta.get("color"))
         self._select_color(color)
         self.terminal_switch.set_active(bool(meta.get("terminal")))
