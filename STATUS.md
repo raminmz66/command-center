@@ -8,10 +8,10 @@
 | Field | Value |
 |-------|--------|
 | **Phase** | 4 — Framework Release (reordered) |
-| **Cycle** | Script authoring UI (parked: 25–29; ahead of packaging) |
-| **Stage** | `done` |
-| **Active spec** | [docs/superpowers/specs/2026-07-28-script-authoring-design.md](docs/superpowers/specs/2026-07-28-script-authoring-design.md) |
-| **Active plan** | [docs/superpowers/plans/2026-07-28-script-authoring.md](docs/superpowers/plans/2026-07-28-script-authoring.md) |
+| **Cycle** | Authoring icon catalog (more icons + card display) |
+| **Stage** | `spec` |
+| **Active spec** | [docs/superpowers/specs/2026-07-29-authoring-icon-catalog-design.md](docs/superpowers/specs/2026-07-29-authoring-icon-catalog-design.md) |
+| **Active plan** | — |
 | **Visual ref** | [docs/superpowers/visuals/2026-07-28-script-authoring.html](docs/superpowers/visuals/2026-07-28-script-authoring.html) |
 
 ## Completed references
@@ -27,8 +27,7 @@
 
 ## Next action
 
-Ready for packaging brainstorm (**Step 32**) or next parked feature. Say **continue** / **start packaging**.
-
+User reviews [authoring icon catalog spec](docs/superpowers/specs/2026-07-29-authoring-icon-catalog-design.md); then implementation plan.
 ## Stages (per cycle)
 
 `ready to brainstorm` → `brainstorm` → `spec` → `plan` → `execute` → `done`
