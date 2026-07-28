@@ -56,31 +56,9 @@ class CommandCard(Gtk.Button):
             star.set_valign(Gtk.Align.START)
             box.pack_start(star, False, False, 0)
 
-        icon = Gtk.Image()
-
-        theme = Gtk.IconTheme.get_default()
-
-        icon_name = meta.get("icon") or "application-x-executable"
-
-        if not theme.has_icon(icon_name):
-            symbolic = (
-                icon_name
-                if icon_name.endswith("-symbolic")
-                else f"{icon_name}-symbolic"
-            )
-            if theme.has_icon(symbolic):
-                icon_name = symbolic
-            else:
-                icon_name = "application-x-executable"
-
-        icon.set_from_icon_name(
-            icon_name,
-            Gtk.IconSize.DIALOG
-        )
-
-        icon.get_style_context().add_class(
-            "command-icon"
-        )
+        icon = Gtk.Label(label=meta.get("icon") or "🔧")
+        icon.set_halign(Gtk.Align.CENTER)
+        icon.get_style_context().add_class("command-icon")
 
         color_key = normalize_icon_color(
             meta.get("color")

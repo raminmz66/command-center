@@ -43,9 +43,9 @@
 }
 
 /* Symbolic icons follow theme; tint blue on card hover */
-.command-card image.command-icon {
+.command-icon {
+  font-size: 30px;
   color: @theme_fg_color;
-  -gtk-icon-style: symbolic;
 }
 
 .command-card:hover image.command-icon {
@@ -53,23 +53,23 @@
 }
 
 /* Optional # COLOR= metadata (always-on tint; brighter on hover) */
-.command-card image.command-icon-r { color: #e01b24; }
-.command-card:hover image.command-icon-r { color: #c01c28; }
+.command-card .command-icon-r { color: #e01b24; }
+.command-card:hover .command-icon-r { color: #c01c28; }
 
-.command-card image.command-icon-g { color: #2ec27e; }
-.command-card:hover image.command-icon-g { color: #26a269; }
+.command-card .command-icon-g { color: #2ec27e; }
+.command-card:hover .command-icon-g { color: #26a269; }
 
-.command-card image.command-icon-b { color: #3584e4; }
-.command-card:hover image.command-icon-b { color: #1c71d8; }
+.command-card .command-icon-b { color: #3584e4; }
+.command-card:hover .command-icon-b { color: #1c71d8; }
 
-.command-card image.command-icon-o { color: #ff7800; }
-.command-card:hover image.command-icon-o { color: #e66100; }
+.command-card .command-icon-o { color: #ff7800; }
+.command-card:hover .command-icon-o { color: #e66100; }
 
-.command-card image.command-icon-p { color: #9141ac; }
-.command-card:hover image.command-icon-p { color: #813d9c; }
+.command-card .command-icon-p { color: #9141ac; }
+.command-card:hover .command-icon-p { color: #813d9c; }
 
-.command-card image.command-icon-y { color: #f5c211; }
-.command-card:hover image.command-icon-y { color: #e5a50a; }
+.command-card .command-icon-y { color: #f5c211; }
+.command-card:hover .command-icon-y { color: #e5a50a; }
 
 .command-title {
   font-weight: bold;
