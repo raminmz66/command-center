@@ -27,7 +27,7 @@ class ScriptioTests(unittest.TestCase):
         path = os.path.join(self.dir, "demo.sh")
         meta = {
             "name": "Demo",
-            "icon": "folder-symbolic",
+            "icon": "💾",
             "desc": "Hello",
             "category": "System",
             "terminal": True,
@@ -37,11 +37,16 @@ class ScriptioTests(unittest.TestCase):
         scriptio.write_script(path, meta, "echo hi\n")
         data = scriptio.read_script(path)
         self.assertEqual(data["meta"]["name"], "Demo")
+        self.assertEqual(data["meta"]["icon"], "💾")
         self.assertEqual(data["meta"]["terminal"], True)
         self.assertEqual(data["meta"]["color"], "b")
         self.assertEqual(data["body"].strip(), "echo hi")
         mode = os.stat(path).st_mode
         self.assertTrue(mode & stat.S_IXUSR)
+
+    def test_emoji_icon_catalog_size(self):
+        from authoring import ICON_CATALOG
+        self.assertEqual(len(ICON_CATALOG), 36)
 
     def test_delete(self):
         path = os.path.join(self.dir, "x.sh")

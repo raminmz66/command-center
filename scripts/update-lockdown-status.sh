@@ -1,6 +1,6 @@
 #!/bin/bash
 # NAME=Lockdown Status
-# ICON=system-lock-screen-symbolic
+# ICON=🔒
 # DESC=Show automatic update lockdown status
 # COLOR=r
 # TERMINAL=true

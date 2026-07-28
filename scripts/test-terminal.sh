@@ -1,6 +1,6 @@
 #!/bin/bash
 # NAME=Test Terminal
-# ICON=utilities-terminal-symbolic
+# ICON=💻
 # DESC=Test terminal execution
 # COLOR=g
 # TERMINAL=true
