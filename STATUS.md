@@ -9,9 +9,9 @@
 |-------|--------|
 | **Phase** | 4 — Framework Release (reordered) |
 | **Cycle** | Authoring icon catalog (more icons + card display) |
-| **Stage** | `spec` |
+| **Stage** | `execute` |
 | **Active spec** | [docs/superpowers/specs/2026-07-29-authoring-icon-catalog-design.md](docs/superpowers/specs/2026-07-29-authoring-icon-catalog-design.md) |
-| **Active plan** | — |
+| **Active plan** | [docs/superpowers/plans/2026-07-29-authoring-icon-catalog.md](docs/superpowers/plans/2026-07-29-authoring-icon-catalog.md) |
 | **Visual ref** | [docs/superpowers/visuals/2026-07-28-script-authoring.html](docs/superpowers/visuals/2026-07-28-script-authoring.html) |
 
 ## Completed references
