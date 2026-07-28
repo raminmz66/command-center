@@ -9,7 +9,7 @@
 |-------|--------|
 | **Phase** | 4 — Framework Release (reordered) |
 | **Cycle** | Authoring icon catalog (more icons + card display) |
-| **Stage** | `execute` |
+| **Stage** | `done` |
 | **Active spec** | [docs/superpowers/specs/2026-07-29-authoring-icon-catalog-design.md](docs/superpowers/specs/2026-07-29-authoring-icon-catalog-design.md) |
 | **Active plan** | [docs/superpowers/plans/2026-07-29-authoring-icon-catalog.md](docs/superpowers/plans/2026-07-29-authoring-icon-catalog.md) |
 | **Visual ref** | [docs/superpowers/visuals/2026-07-28-script-authoring.html](docs/superpowers/visuals/2026-07-28-script-authoring.html) |
@@ -19,6 +19,7 @@
 | Cycle | Spec | Plan |
 |-------|------|------|
 | Script authoring | [docs/superpowers/specs/2026-07-28-script-authoring-design.md](docs/superpowers/specs/2026-07-28-script-authoring-design.md) | [docs/superpowers/plans/2026-07-28-script-authoring.md](docs/superpowers/plans/2026-07-28-script-authoring.md) |
+| Authoring icon catalog | [docs/superpowers/specs/2026-07-29-authoring-icon-catalog-design.md](docs/superpowers/specs/2026-07-29-authoring-icon-catalog-design.md) | [docs/superpowers/plans/2026-07-29-authoring-icon-catalog.md](docs/superpowers/plans/2026-07-29-authoring-icon-catalog.md) |
 | Step 24b — Confirm popover | [docs/superpowers/specs/2026-07-27-confirm-popover-design.md](docs/superpowers/specs/2026-07-27-confirm-popover-design.md) | [docs/superpowers/plans/2026-07-27-confirm-popover.md](docs/superpowers/plans/2026-07-27-confirm-popover.md) |
 | Step 24 — Confirmation | [docs/superpowers/specs/2026-07-27-confirmation-design.md](docs/superpowers/specs/2026-07-27-confirmation-design.md) | [docs/superpowers/plans/2026-07-27-confirmation.md](docs/superpowers/plans/2026-07-27-confirmation.md) |
 | Step 23c — Favorites separation | [docs/superpowers/specs/2026-07-27-favorites-separation-design.md](docs/superpowers/specs/2026-07-27-favorites-separation-design.md) | [docs/superpowers/plans/2026-07-27-favorites-separation.md](docs/superpowers/plans/2026-07-27-favorites-separation.md) |
@@ -27,7 +28,8 @@
 
 ## Next action
 
-User reviews [authoring icon catalog spec](docs/superpowers/specs/2026-07-29-authoring-icon-catalog-design.md); then implementation plan.
+Ready for packaging (**Step 32**) or next feature. Say **continue** / **push**.
+
 ## Stages (per cycle)
 
 `ready to brainstorm` → `brainstorm` → `spec` → `plan` → `execute` → `done`

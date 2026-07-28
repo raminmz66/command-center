@@ -37,9 +37,9 @@
 **Files:**
 - Modify: `framework/authoring.py`
 
-- [ ] **Step 1:** Replace `CURATED_ICONS` with `ICON_CATALOG` (36 emoji from spec). Remove symbolic pairs / `_CURATED_BY_NAME` mapping to names.
-- [ ] **Step 2:** Remove `custom_icon_entry` UI and handlers; load/select by emoji only; default `🔧`.
-- [ ] **Step 3:** Smoke import; commit
+- [x] **Step 1:** Replace `CURATED_ICONS` with `ICON_CATALOG` (36 emoji from spec). Remove symbolic pairs / `_CURATED_BY_NAME` mapping to names.
+- [x] **Step 2:** Remove `custom_icon_entry` UI and handlers; load/select by emoji only; default `🔧`.
+- [x] **Step 3:** Smoke import; commit
 
 ```bash
 git add framework/authoring.py
@@ -54,9 +54,9 @@ git commit -m "feat: 36-emoji authoring catalog; drop custom icon name."
 - Modify: `framework/widgets.py`
 - Modify: `framework/style.css`
 
-- [ ] **Step 1:** Replace `Gtk.Image` theme lookup with `Gtk.Label(meta["icon"] or "🔧")` + `command-icon` (+ color class).
-- [ ] **Step 2:** CSS `.command-icon` font-size ~28–32px for card glyphs.
-- [ ] **Step 3:** Commit
+- [x] **Step 1:** Replace `Gtk.Image` theme lookup with `Gtk.Label(meta["icon"] or "🔧")` + `command-icon` (+ color class).
+- [x] **Step 2:** CSS `.command-icon` font-size ~28–32px for card glyphs.
+- [x] **Step 3:** Commit
 
 ```bash
 git add framework/widgets.py framework/style.css
