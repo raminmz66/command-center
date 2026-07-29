@@ -26,7 +26,7 @@
 | `framework/menu.py` | Window UI; `present_and_focus_search`; Esc; shortcut popover; entrypoint calls app |
 | `framework/style.css` | Header gear + popover Soft GNOME |
 | `packaging/command-center.desktop` | Desktop entry template |
-| `scripts/install-desktop-entry.sh` | Install into `~/.local/share/applications/` |
+| `packaging/install-desktop-entry.sh` | Install into `~/.local/share/applications/` (not under `scripts/` — that folder is user commands) |
 
 ---
 
@@ -67,7 +67,7 @@
 
 **Files:**
 - Create: `packaging/command-center.desktop`
-- Create: `scripts/install-desktop-entry.sh`
+- Create: `packaging/install-desktop-entry.sh`
 
 **Interfaces:**
 - Produces: Exec path to `framework/menu.py` (python3), `StartupWMClass=command-center` / match app id as feasible
