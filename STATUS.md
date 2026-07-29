@@ -8,10 +8,10 @@
 | Field | Value |
 |-------|--------|
 | **Phase** | 4 — Framework Release (reordered) |
-| **Cycle** | Authoring color removal |
-| **Stage** | `done` |
-| **Active spec** | [docs/superpowers/specs/2026-07-29-authoring-color-removal-design.md](docs/superpowers/specs/2026-07-29-authoring-color-removal-design.md) |
-| **Active plan** | [docs/superpowers/plans/2026-07-29-authoring-color-removal.md](docs/superpowers/plans/2026-07-29-authoring-color-removal.md) |
+| **Cycle** | Launcher UX polish |
+| **Stage** | `execute` |
+| **Active spec** | [docs/superpowers/specs/2026-07-29-launcher-ux-polish-design.md](docs/superpowers/specs/2026-07-29-launcher-ux-polish-design.md) |
+| **Active plan** | [docs/superpowers/plans/2026-07-29-launcher-ux-polish.md](docs/superpowers/plans/2026-07-29-launcher-ux-polish.md) |
 | **Visual ref** | n/a |
 
 ## Completed references
@@ -30,7 +30,7 @@
 
 ## Next action
 
-Ready to brainstorm next cycle (packaging / Step 32, or other Phase 4 work). Say **Start next cycle** when ready.
+Execute launcher UX polish (hide favorites from main, header split, All commands label).
 ## Stages (per cycle)
 
 `ready to brainstorm` → `brainstorm` → `spec` → `plan` → `execute` → `done`
@@ -44,7 +44,7 @@ Then either start the next cycle or advance the phase.
 | 1 | UI Professionalization (Steps 20–23) | **Complete** (+ polish 23b/23c) |
 | 2 | Smart Launcher (Steps 24–26) | Step 24 done; **25–26 parked** |
 | 3 | Desktop Integration (Steps 27–29) | **Parked** |
-| 4 | Framework Release (Steps 30–32) | Authoring + form redesign + color cleanup **done**; packaging (32) next |
+| 4 | Framework Release (Steps 30–32) | Launcher UX polish in progress; packaging (32) next |
 
 ## Session cues
 
