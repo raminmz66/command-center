@@ -8,16 +8,17 @@
 | Field | Value |
 |-------|--------|
 | **Phase** | 4 — Framework Release |
-| **Cycle** | Step 32 — Packaging (`.deb`) |
+| **Cycle** | App icon (launcher grid) |
 | **Stage** | `done` |
-| **Active spec** | [docs/superpowers/specs/2026-07-30-deb-packaging-design.md](docs/superpowers/specs/2026-07-30-deb-packaging-design.md) |
-| **Active plan** | [docs/superpowers/plans/2026-07-30-deb-packaging.md](docs/superpowers/plans/2026-07-30-deb-packaging.md) |
-| **Artifact** | `dist/command-center_0.1.0_all.deb` (local build; `dist/` gitignored) |
+| **Active spec** | [docs/superpowers/specs/2026-07-30-app-icon-design.md](docs/superpowers/specs/2026-07-30-app-icon-design.md) |
+| **Active plan** | — (executed from approved design) |
+| **Artifact** | `icons/hicolor/…`; `.deb` `command-center_0.1.1_all.deb` |
 
 ## Completed references
 
 | Cycle | Spec | Plan |
 |-------|------|------|
+| App icon (B) | [docs/superpowers/specs/2026-07-30-app-icon-design.md](docs/superpowers/specs/2026-07-30-app-icon-design.md) | — |
 | Step 32 — `.deb` packaging | [docs/superpowers/specs/2026-07-30-deb-packaging-design.md](docs/superpowers/specs/2026-07-30-deb-packaging-design.md) | [docs/superpowers/plans/2026-07-30-deb-packaging.md](docs/superpowers/plans/2026-07-30-deb-packaging.md) |
 | Edit mode UX polish | [docs/superpowers/specs/2026-07-29-edit-mode-ux-design.md](docs/superpowers/specs/2026-07-29-edit-mode-ux-design.md) | [docs/superpowers/plans/2026-07-29-edit-mode-ux.md](docs/superpowers/plans/2026-07-29-edit-mode-ux.md) |
 | Packaging prep | [docs/superpowers/specs/2026-07-29-packaging-prep-design.md](docs/superpowers/specs/2026-07-29-packaging-prep-design.md) | [docs/superpowers/plans/2026-07-29-packaging-prep.md](docs/superpowers/plans/2026-07-29-packaging-prep.md) |
@@ -35,7 +36,7 @@
 
 ## Next action
 
-Step 32 (`.deb`) **done**. Ready to brainstorm next (Step 30 generator, Step 31 templates, or polish). Say **Start next cycle** when ready.
+App icon **done** (option B). Rebuild/reinstall `.deb` to see it in the app grid. Ready to brainstorm next.
 
 ## Stages (per cycle)
 

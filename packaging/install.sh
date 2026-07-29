@@ -15,13 +15,15 @@ SCRIPTS_DST="${APP_DATA}/scripts"
 DESKTOP_DIR="${DATA_HOME}/applications"
 DESKTOP_DST="${DESKTOP_DIR}/command-center.desktop"
 WRAPPER="${BIN_DIR}/command-center"
+ICONS_SRC="${ROOT}/icons/hicolor"
+ICONS_DST="${DATA_HOME}/icons/hicolor"
 
 if [[ ! -d "${FRAMEWORK_SRC}" ]]; then
   echo "error: missing ${FRAMEWORK_SRC}" >&2
   exit 1
 fi
 
-mkdir -p "${FRAMEWORK_DST}" "${SCRIPTS_DST}" "${BIN_DIR}" "${DESKTOP_DIR}"
+mkdir -p "${FRAMEWORK_DST}" "${SCRIPTS_DST}" "${BIN_DIR}" "${DESKTOP_DIR}" "${ICONS_DST}"
 
 # Refresh app code; never touch user scripts except seeding missing samples.
 rsync -a --delete \
@@ -29,6 +31,10 @@ rsync -a --delete \
   --exclude '*.pyc' \
   --exclude 'test_*.py' \
   "${FRAMEWORK_SRC}/" "${FRAMEWORK_DST}/"
+
+if [[ -d "${ICONS_SRC}" ]]; then
+  rsync -a "${ICONS_SRC}/" "${ICONS_DST}/"
+fi
 
 cat > "${WRAPPER}" <<EOF
 #!/usr/bin/env bash
@@ -56,12 +62,16 @@ fi
 if command -v update-desktop-database >/dev/null 2>&1; then
   update-desktop-database "${DESKTOP_DIR}" >/dev/null 2>&1 || true
 fi
+if command -v gtk-update-icon-cache >/dev/null 2>&1; then
+  gtk-update-icon-cache -f -t "${DATA_HOME}/icons/hicolor" >/dev/null 2>&1 || true
+fi
 
 echo
 echo "Installed Command Center"
 echo "  App:     ${FRAMEWORK_DST}"
 echo "  Bin:     ${WRAPPER}"
 echo "  Desktop: ${DESKTOP_DST}"
+echo "  Icons:   ${ICONS_DST}"
 echo "  Scripts: ${SCRIPTS_DST}"
 echo
 echo "Copy any personal scripts into:"

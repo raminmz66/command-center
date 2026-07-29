@@ -40,6 +40,7 @@ This installs:
 | `/usr/share/command-center/framework/` | App code + CSS |
 | `/usr/share/command-center/samples/` | Demo templates (seeded into XDG on first run) |
 | `/usr/share/applications/command-center.desktop` | App menu / shortcuts |
+| `/usr/share/icons/hicolor/…/apps/command-center.*` | App icon (launcher grid) |
 
 User scripts still live under:
 

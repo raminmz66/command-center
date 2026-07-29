@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Command Center — App icon options</title>
+  <style>
+    :root {
+      --bg: #ebebeb;
+      --surface: #ffffff;
+      --fg: #2e3436;
+      --muted: #5e5c64;
+      --border: rgba(0, 0, 0, 0.14);
+      --accent: #f6c32a;
+      --accent-border: #d4a017;
+      --rec: #26a269;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Cantarell", "Ubuntu", system-ui, sans-serif;
+      color: var(--fg);
+      background:
+        radial-gradient(ellipse at 12% 0%, #fff8e7 0%, transparent 40%),
+        radial-gradient(ellipse at 90% 10%, #e7eef8 0%, transparent 36%),
+        var(--bg);
+      padding: 32px 24px 72px;
+    }
+    .wrap { max-width: 1080px; margin: 0 auto; }
+    h1 { font-size: 1.5rem; margin: 0 0 6px; }
+    .sub { color: var(--muted); margin: 0 0 28px; line-height: 1.45; max-width: 52rem; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 18px;
+    }
+    .card {
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-radius: 16px;
+      padding: 18px 16px 14px;
+      cursor: pointer;
+      text-align: center;
+      transition: border-color 120ms ease, box-shadow 120ms ease, transform 120ms ease;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    }
+    .card:hover {
+      border-color: rgba(214, 160, 23, 0.55);
+      transform: translateY(-1px);
+    }
+    .card.selected {
+      border-color: var(--accent-border);
+      box-shadow: 0 0 0 3px rgba(246, 195, 42, 0.28);
+    }
+    .letter {
+      display: inline-block;
+      font-weight: 800;
+      font-size: 0.75rem;
+      letter-spacing: 0.04em;
+      background: var(--accent);
+      color: #1a1a1a;
+      border-radius: 999px;
+      padding: 2px 10px;
+      margin-bottom: 12px;
+    }
+    .preview {
+      width: 128px;
+      height: 128px;
+      margin: 0 auto 14px;
+      filter: drop-shadow(0 6px 14px rgba(0,0,0,0.12));
+    }
+    .preview svg { width: 100%; height: 100%; display: block; }
+    .sizes {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      align-items: flex-end;
+      margin: 8px 0 12px;
+      min-height: 56px;
+    }
+    .sizes .s { width: 48px; height: 48px; }
+    .sizes .t { width: 32px; height: 32px; }
+    .sizes .u { width: 24px; height: 24px; }
+    .sizes svg { width: 100%; height: 100%; display: block; }
+    h3 { margin: 0 0 4px; font-size: 1rem; }
+    p.desc { margin: 0; color: var(--muted); font-size: 0.85rem; line-height: 1.35; }
+    .pick-bar {
+      position: sticky;
+      bottom: 16px;
+      margin-top: 28px;
+      background: rgba(255,255,255,0.94);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px 18px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      box-shadow: 0 8px 28px rgba(0,0,0,0.1);
+      backdrop-filter: blur(8px);
+    }
+    .pick-bar strong { color: var(--fg); }
+    .pick-bar span { color: var(--muted); }
+    .hint { margin-top: 18px; color: var(--muted); font-size: 0.9rem; }
+    code { background: rgba(0,0,0,0.06); padding: 1px 6px; border-radius: 6px; font-size: 0.85em; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Command Center — app icon options</h1>
+    <p class="sub">
+      Soft GNOME flat icons using the app mustard <code>#f6c32a</code>.
+      Click one to select. Small sizes below each preview show how it holds up in the dock / app grid.
+      Tell me the letter you want (A–E) when ready — nothing is wired into the <code>.deb</code> yet.
+    </p>
+
+    <div class="grid" id="grid">
+
+      <!-- A Soft prompt -->
+      <button type="button" class="card" data-choice="A" aria-pressed="false">
+        <div class="letter">A</div>
+        <div class="preview" data-icon="a"></div>
+        <div class="sizes">
+          <div class="s" data-icon="a"></div>
+          <div class="t" data-icon="a"></div>
+          <div class="u" data-icon="a"></div>
+        </div>
+        <h3>Soft prompt</h3>
+        <p class="desc">Mustard tile + charcoal ❯. Quiet “run a command.”</p>
+      </button>
+
+      <!-- B Launcher grid -->
+      <button type="button" class="card" data-choice="B" aria-pressed="false">
+        <div class="letter">B</div>
+        <div class="preview" data-icon="b"></div>
+        <div class="sizes">
+          <div class="s" data-icon="b"></div>
+          <div class="t" data-icon="b"></div>
+          <div class="u" data-icon="b"></div>
+        </div>
+        <h3>Launcher grid</h3>
+        <p class="desc">2×2 command cards; one highlighted. Closest to the UI.</p>
+      </button>
+
+      <!-- C Terminal -->
+      <button type="button" class="card" data-choice="C" aria-pressed="false">
+        <div class="letter">C</div>
+        <div class="preview" data-icon="c"></div>
+        <div class="sizes">
+          <div class="s" data-icon="c"></div>
+          <div class="t" data-icon="c"></div>
+          <div class="u" data-icon="c"></div>
+        </div>
+        <h3>Terminal window</h3>
+        <p class="desc">Simple window + prompt line. Familiar script cue.</p>
+      </button>
+
+      <!-- D CC monogram -->
+      <button type="button" class="card" data-choice="D" aria-pressed="false">
+        <div class="letter">D</div>
+        <div class="preview" data-icon="d"></div>
+        <div class="sizes">
+          <div class="s" data-icon="d"></div>
+          <div class="t" data-icon="d"></div>
+          <div class="u" data-icon="d"></div>
+        </div>
+        <h3>CC monogram</h3>
+        <p class="desc">Circular brand mark. More logo, less literal tool.</p>
+      </button>
+
+      <!-- E Play on card -->
+      <button type="button" class="card" data-choice="E" aria-pressed="false">
+        <div class="letter">E</div>
+        <div class="preview" data-icon="e"></div>
+        <div class="sizes">
+          <div class="s" data-icon="e"></div>
+          <div class="t" data-icon="e"></div>
+          <div class="u" data-icon="e"></div>
+        </div>
+        <h3>Run card</h3>
+        <p class="desc">Single command card with play triangle. Launch-forward.</p>
+      </button>
+
+    </div>
+
+    <div class="pick-bar">
+      <div>
+        <strong id="pick-label">No selection yet</strong>
+        <span id="pick-hint"> — click a card</span>
+      </div>
+      <div style="color:var(--muted);font-size:0.9rem">Reply in chat with the letter (e.g. <strong>B</strong>)</div>
+    </div>
+
+    <p class="hint">File: <code>docs/superpowers/visuals/2026-07-30-app-icon-options.html</code></p>
+  </div>
+
+  <script>
+    const ICONS = {
+      a: `
+<svg viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Soft prompt">
+  <rect x="8" y="8" width="112" height="112" rx="28" fill="#f6c32a"/>
+  <path d="M52 36 L84 64 L52 92" fill="none" stroke="#1a1a1a" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>`,
+      b: `
+<svg viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Launcher grid">
+  <rect x="8" y="8" width="112" height="112" rx="28" fill="#f4f4f4"/>
+  <rect x="22" y="22" width="38" height="38" rx="10" fill="#ffffff" stroke="#cfcfcf" stroke-width="3"/>
+  <rect x="68" y="22" width="38" height="38" rx="10" fill="#f6c32a"/>
+  <rect x="22" y="68" width="38" height="38" rx="10" fill="#ffffff" stroke="#cfcfcf" stroke-width="3"/>
+  <rect x="68" y="68" width="38" height="38" rx="10" fill="#ffffff" stroke="#cfcfcf" stroke-width="3"/>
+  <circle cx="41" cy="37" r="4" fill="#9a9a9a"/>
+  <circle cx="87" cy="37" r="4" fill="#1a1a1a"/>
+  <circle cx="41" cy="83" r="4" fill="#9a9a9a"/>
+  <circle cx="87" cy="83" r="4" fill="#9a9a9a"/>
+</svg>`,
+      c: `
+<svg viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Terminal window">
+  <rect x="8" y="8" width="112" height="112" rx="28" fill="#ececec"/>
+  <rect x="20" y="28" width="88" height="72" rx="12" fill="#ffffff" stroke="#c8c8c8" stroke-width="3"/>
+  <circle cx="36" cy="44" r="4" fill="#c01c28"/>
+  <circle cx="50" cy="44" r="4" fill="#f6c32a"/>
+  <circle cx="64" cy="44" r="4" fill="#26a269"/>
+  <path d="M34 68 L46 76 L34 84" fill="none" stroke="#1a1a1a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="54" y="72" width="36" height="6" rx="3" fill="#f6c32a"/>
+</svg>`,
+      d: `
+<svg viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="CC monogram">
+  <rect x="8" y="8" width="112" height="112" rx="28" fill="#f7f7f7"/>
+  <circle cx="64" cy="64" r="42" fill="#f6c32a"/>
+  <circle cx="64" cy="64" r="34" fill="none" stroke="#1a1a1a" stroke-width="3" opacity="0.2"/>
+  <text x="64" y="74" text-anchor="middle" font-family="Cantarell, Ubuntu, system-ui, sans-serif"
+        font-size="36" font-weight="800" fill="#1a1a1a">CC</text>
+</svg>`,
+      e: `
+<svg viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Run card">
+  <rect x="8" y="8" width="112" height="112" rx="28" fill="#f0f0f0"/>
+  <rect x="28" y="24" width="72" height="80" rx="14" fill="#ffffff" stroke="#cfcfcf" stroke-width="3"/>
+  <circle cx="64" cy="52" r="16" fill="#f6c32a"/>
+  <path d="M60 44 L74 52 L60 60 Z" fill="#1a1a1a"/>
+  <rect x="42" y="78" width="44" height="7" rx="3.5" fill="#d0d0d0"/>
+  <rect x="50" y="90" width="28" height="5" rx="2.5" fill="#e0e0e0"/>
+</svg>`
+    };
+
+    function mountIcons() {
+      document.querySelectorAll("[data-icon]").forEach((el) => {
+        el.innerHTML = ICONS[el.dataset.icon];
+      });
+    }
+
+    let selected = null;
+    function select(letter) {
+      selected = letter;
+      document.querySelectorAll(".card").forEach((c) => {
+        const on = c.dataset.choice === letter;
+        c.classList.toggle("selected", on);
+        c.setAttribute("aria-pressed", on ? "true" : "false");
+      });
+      const names = {
+        A: "Soft prompt",
+        B: "Launcher grid",
+        C: "Terminal window",
+        D: "CC monogram",
+        E: "Run card",
+      };
+      document.getElementById("pick-label").textContent = `Selected: ${letter} — ${names[letter]}`;
+      document.getElementById("pick-hint").textContent = " — reply with this letter in chat";
+    }
+
+    mountIcons();
+    document.getElementById("grid").addEventListener("click", (e) => {
+      const card = e.target.closest(".card");
+      if (!card) return;
+      select(card.dataset.choice);
+    });
+  </script>
+</body>
+</html>

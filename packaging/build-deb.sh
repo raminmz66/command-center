@@ -25,6 +25,7 @@ mkdir -p \
   "${STAGE}/usr/share/command-center/framework" \
   "${STAGE}/usr/share/command-center/samples" \
   "${STAGE}/usr/share/applications" \
+  "${STAGE}/usr/share/icons/hicolor" \
   "${STAGE}/DEBIAN"
 
 rsync -a --delete \
@@ -35,6 +36,12 @@ rsync -a --delete \
 
 cp -a "${ROOT}/packaging/samples/"*.sh "${STAGE}/usr/share/command-center/samples/"
 chmod 755 "${STAGE}/usr/share/command-center/samples/"*.sh
+
+if [[ ! -d "${ROOT}/icons/hicolor" ]]; then
+  echo "error: missing ${ROOT}/icons/hicolor" >&2
+  exit 1
+fi
+rsync -a "${ROOT}/icons/hicolor/" "${STAGE}/usr/share/icons/hicolor/"
 
 cat > "${STAGE}/usr/bin/command-center" <<'EOF'
 #!/usr/bin/env bash
