@@ -65,7 +65,7 @@ class CommandCenter(Gtk.Window):
 
         self.set_default_size(
             640,
-            760
+            820
         )
 
         self.set_resizable(
@@ -785,12 +785,22 @@ class CommandCenter(Gtk.Window):
                 # After layout/show_all settle so the target card exists.
                 GLib.timeout_add(400, self._qa_show_first_confirm)
             qa = os.environ.get("CC_QA_AUTHORING", "").strip().lower()
-            if qa in ("edit", "new", "delete", "form"):
+            if qa in ("edit", "new", "delete", "form", "form-popover"):
                 GLib.timeout_add(450, self._qa_authoring, qa)
             shot = os.environ.get("CC_QA_SHOT", "").strip()
             if shot:
-                delay = 1200 if qa == "delete" else 900
+                if qa == "delete":
+                    delay = 1200
+                elif qa == "form-popover":
+                    delay = 1100
+                else:
+                    delay = 900
                 GLib.timeout_add(delay, self._qa_shot_and_quit, shot)
+        return False
+
+    def _qa_open_icon_popover(self):
+        if hasattr(self, "authoring") and self.authoring is not None:
+            self.authoring._on_change_icon()
         return False
 
     def _qa_shot_and_quit(self, path):
@@ -822,6 +832,13 @@ class CommandCenter(Gtk.Window):
                 self.show_authoring(path)
             else:
                 self.show_authoring(None)
+        elif mode == "form-popover":
+            if self.commands:
+                path, _meta = self.commands[0]
+                self.show_authoring(path)
+            else:
+                self.show_authoring(None)
+            GLib.timeout_add(200, self._qa_open_icon_popover)
         elif mode == "delete":
             self.edit_commands = True
             self._sync_edit_cmd_button()
@@ -862,6 +879,9 @@ class CommandCenter(Gtk.Window):
             return False
         if self.stack.get_visible_child_name() == "authoring":
             if event.keyval == Gdk.KEY_Escape:
+                if self.authoring.popover_visible():
+                    self.authoring._icon_popover.popdown()
+                    return True
                 self.on_authoring_cancel(self.authoring)
                 return True
             return False
