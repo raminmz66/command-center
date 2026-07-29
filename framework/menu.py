@@ -255,20 +255,17 @@ class CommandCenter(Gtk.Window):
         self.commands_label.set_no_show_all(True)
         self.commands_label.hide()
 
-        self.edit_banner = Gtk.Label(
-            label="Editing commands — tap ✎ to edit or 🗑 to delete. Launch paused."
-        )
-        self.edit_banner.set_line_wrap(True)
-        self.edit_banner.get_style_context().add_class("cc-edit-banner")
-        self.edit_banner.set_no_show_all(True)
-        self.edit_banner.hide()
+        self.edit_status = Gtk.Label(label="Launch paused", xalign=0)
+        self.edit_status.get_style_context().add_class("cc-edit-status")
+        self.edit_status.set_no_show_all(True)
+        self.edit_status.hide()
 
         self.content = Gtk.Box(
             orientation=Gtk.Orientation.VERTICAL,
             spacing=10,
         )
         self.content.pack_start(self.chip_box, False, False, 0)
-        self.content.pack_start(self.edit_banner, False, False, 0)
+        self.content.pack_start(self.edit_status, False, False, 0)
         self.content.pack_start(self.favorites_box, False, False, 0)
         self.content.pack_start(self.commands_label, False, False, 0)
         self.content.pack_start(self.grid, True, True, 0)
@@ -353,12 +350,14 @@ class CommandCenter(Gtk.Window):
         ctx = self.edit_cmd_button.get_style_context()
         if self.edit_commands:
             ctx.add_class("active")
+            self.edit_cmd_button.set_label("Done")
             self.edit_cmd_button.set_tooltip_text("Done editing commands")
-            self.edit_banner.show()
+            self.edit_status.show()
         else:
             ctx.remove_class("active")
+            self.edit_cmd_button.set_label("Edit")
             self.edit_cmd_button.set_tooltip_text("Edit commands")
-            self.edit_banner.hide()
+            self.edit_status.hide()
 
     def _exit_edit_commands(self, render=True):
         if not self.edit_commands:
@@ -396,6 +395,10 @@ class CommandCenter(Gtk.Window):
                 widget.hide()
 
     def _launch_command(self):
+        from shutil import which
+
+        if which("command-center"):
+            return "command-center"
         return "python3 {}".format(os.path.abspath(__file__))
 
     def on_shortcut_setup_clicked(self, *_args):
@@ -776,13 +779,15 @@ class CommandCenter(Gtk.Window):
         run_command(None, path, meta.get("terminal", False))
 
     def discover_commands(self):
+        ensure_scripts_dir()
+        root = scripts_dir()
         self.commands = []
-        if not os.path.exists(SCRIPTS_DIR):
+        if not os.path.exists(root):
             return
-        for file in sorted(os.listdir(SCRIPTS_DIR)):
+        for file in sorted(os.listdir(root)):
             if not file.endswith(".sh"):
                 continue
-            path = os.path.join(SCRIPTS_DIR, file)
+            path = os.path.join(root, file)
             meta = read_metadata(path)
             self.commands.append((path, meta))
 
@@ -1081,7 +1086,7 @@ class CommandCenter(Gtk.Window):
         subprocess.Popen(
             [
                 "xdg-open",
-                SCRIPTS_DIR
+                scripts_dir(),
             ]
         )
 

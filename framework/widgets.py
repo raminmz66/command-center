@@ -31,6 +31,8 @@ class CommandCard(Gtk.Button):
         self.get_style_context().add_class(
             "command-card"
         )
+        if commands_edit:
+            self.get_style_context().add_class("commands-edit")
 
         overlay = Gtk.Overlay()
 
@@ -38,6 +40,8 @@ class CommandCard(Gtk.Button):
             orientation=Gtk.Orientation.VERTICAL,
             spacing=8
         )
+        box.get_style_context().add_class("cc-card-body")
+
 
         box.set_halign(
             Gtk.Align.CENTER
@@ -122,16 +126,16 @@ class CommandCard(Gtk.Button):
         overlay.add(box)
 
         if commands_edit:
-            actions = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=4)
+            actions = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
             actions.set_halign(Gtk.Align.END)
             actions.set_valign(Gtk.Align.START)
-            actions.set_margin_top(4)
-            actions.set_margin_end(4)
+            actions.set_margin_top(6)
+            actions.set_margin_end(6)
             actions.get_style_context().add_class("cc-card-actions")
 
             edit_btn = Gtk.Button()
             edit_btn.set_relief(Gtk.ReliefStyle.NONE)
-            edit_btn.set_tooltip_text("Edit")
+            edit_btn.set_tooltip_text("Edit command")
             edit_btn.get_style_context().add_class("cc-card-edit")
             edit_icon = Gtk.Image.new_from_icon_name(
                 "document-edit-symbolic",
@@ -148,7 +152,7 @@ class CommandCard(Gtk.Button):
 
             del_btn = Gtk.Button()
             del_btn.set_relief(Gtk.ReliefStyle.NONE)
-            del_btn.set_tooltip_text("Delete")
+            del_btn.set_tooltip_text("Delete command")
             del_btn.get_style_context().add_class("cc-card-delete")
             del_icon = Gtk.Image.new_from_icon_name(
                 "user-trash-symbolic",
