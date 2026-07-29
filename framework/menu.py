@@ -797,9 +797,19 @@ class CommandCenter(Gtk.Window):
 
     def on_search_key_press(self, widget, event):
         if event.keyval == Gdk.KEY_Escape:
+            return self._escape_main_launcher()
+        return False
+
+    def _escape_main_launcher(self):
+        """Launcher-style Esc: dismiss confirm, clear search, or quit."""
+        if self.pending_confirm is not None:
+            self.hide_confirm()
+            return True
+        if self.search_entry.get_text():
             self.search_entry.set_text("")
             return True
-        return False
+        self.close()
+        return True
 
     def on_map_event(self, *args):
         if not self._initial_search_focus:
@@ -918,8 +928,8 @@ class CommandCenter(Gtk.Window):
             Gtk.main_quit()
 
     def on_window_key_press(self, widget, event):
-        # Don't intercept keys while typing in the search field.
-        if self.search_entry.has_focus():
+        # Search field handles Esc via on_search_key_press; other keys pass through.
+        if self.search_entry.has_focus() and event.keyval != Gdk.KEY_Escape:
             return False
         if self.stack.get_visible_child_name() == "authoring":
             if event.keyval == Gdk.KEY_Escape:
@@ -929,12 +939,8 @@ class CommandCenter(Gtk.Window):
                 self.on_authoring_cancel(self.authoring)
                 return True
             return False
-        if (
-            self.pending_confirm is not None
-            and event.keyval == Gdk.KEY_Escape
-        ):
-            self.hide_confirm()
-            return True
+        if event.keyval == Gdk.KEY_Escape:
+            return self._escape_main_launcher()
         ctrl = bool(event.state & Gdk.ModifierType.CONTROL_MASK)
         if ctrl and event.keyval in (Gdk.KEY_f, Gdk.KEY_F):
             self.focus_search()
