@@ -59,16 +59,16 @@ class AuthoringForm(Gtk.Box):
         body.set_margin_bottom(12)
 
         # —— Identity ——
-        identity = self._section("Identity")
+        identity, identity_body = self._section("Identity")
         id_row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10)
         self.name_entry = self._labeled_entry(id_row, "Name", expand=True)
         self.category_entry = self._labeled_entry(id_row, "Category", expand=True)
-        identity.pack_start(id_row, False, False, 0)
-        self.desc_entry = self._labeled_entry(identity, "Description")
+        identity_body.pack_start(id_row, False, False, 0)
+        self.desc_entry = self._labeled_entry(identity_body, "Description")
         body.pack_start(identity, False, False, 0)
 
         # —— Appearance ——
-        appearance = self._section("Appearance")
+        appearance, appearance_body = self._section("Appearance")
         icon_field = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=4)
         icon_lbl = Gtk.Label(label="ICON", xalign=0)
         icon_lbl.get_style_context().add_class("cc-authoring-label")
@@ -94,7 +94,7 @@ class AuthoringForm(Gtk.Box):
         chip_row.pack_start(self.change_btn, False, False, 0)
 
         icon_field.pack_start(chip_row, False, False, 0)
-        appearance.pack_start(icon_field, False, False, 0)
+        appearance_body.pack_start(icon_field, False, False, 0)
 
         self._icon_buttons = {}
         pop_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=0)
@@ -132,7 +132,7 @@ class AuthoringForm(Gtk.Box):
         body.pack_start(appearance, False, False, 0)
 
         # —— Behavior ——
-        behavior = self._section("Behavior")
+        behavior, behavior_body = self._section("Behavior")
         switches = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=18)
         self.terminal_switch = Gtk.Switch()
         self.confirm_switch = Gtk.Switch()
@@ -143,12 +143,13 @@ class AuthoringForm(Gtk.Box):
             False,
             0,
         )
-        behavior.pack_start(switches, False, False, 0)
+        behavior_body.pack_start(switches, False, False, 0)
         body.pack_start(behavior, False, False, 0)
 
         # —— Script ——
-        script_sec = self._section("Script")
+        script_sec, script_body = self._section("Script")
         script_sec.set_vexpand(True)
+        script_body.set_vexpand(True)
         self.script_view = Gtk.TextView()
         self.script_view.set_wrap_mode(Gtk.WrapMode.WORD_CHAR)
         self.script_view.set_monospace(True)
@@ -157,9 +158,10 @@ class AuthoringForm(Gtk.Box):
         script_frame.set_min_content_height(140)
         script_frame.set_vexpand(True)
         script_frame.set_policy(Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.AUTOMATIC)
+        script_frame.set_shadow_type(Gtk.ShadowType.IN)
         script_frame.add(self.script_view)
         script_frame.get_style_context().add_class("cc-authoring-script-frame")
-        script_sec.pack_start(script_frame, True, True, 0)
+        script_body.pack_start(script_frame, True, True, 0)
         body.pack_start(script_sec, True, True, 0)
 
         self.error_label = Gtk.Label(xalign=0)
@@ -176,13 +178,25 @@ class AuthoringForm(Gtk.Box):
         self._icon_name = _DEFAULT_ICON
         self._select_icon(self._icon_name)
     def _section(self, title):
-        box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=10)
-        box.get_style_context().add_class("cc-authoring-section")
+        """Cream rounded shell with inset body so children are not corner-clipped."""
+        shell = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=0)
+        shell.get_style_context().add_class("cc-authoring-section")
+        shell.set_hexpand(True)
+
+        content = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=10)
+        content.set_margin_start(16)
+        content.set_margin_end(16)
+        content.set_margin_top(12)
+        content.set_margin_bottom(16)
+        content.set_hexpand(True)
+        content.set_vexpand(True)
+
         # Uppercase in text — GTK CSS has no text-transform.
         lbl = Gtk.Label(label=title.upper(), xalign=0)
         lbl.get_style_context().add_class("cc-authoring-section-title")
-        box.pack_start(lbl, False, False, 0)
-        return box
+        content.pack_start(lbl, False, False, 0)
+        shell.pack_start(content, True, True, 0)
+        return shell, content
 
     def _labeled_entry(self, parent, label, expand=False):
         box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=4)

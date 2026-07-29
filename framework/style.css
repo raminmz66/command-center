@@ -340,7 +340,7 @@ button.cc-authoring-save:hover {
   background-color: #fff8e7;
   border: 1px solid alpha(#f6c32a, 0.38);
   border-radius: 14px;
-  padding: 12px 14px;
+  /* Padding via Gtk.Box.set_border_width — CSS padding is ignored on Box. */
 }
 
 .cc-authoring-section-title {
