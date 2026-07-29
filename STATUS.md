@@ -8,17 +8,17 @@
 | Field | Value |
 |-------|--------|
 | **Phase** | 4 — Framework Release |
-| **Cycle** | Step 32 — Packaging (`.deb` / release package) |
-| **Stage** | `brainstorm` |
-| **Active spec** | — |
-| **Active plan** | — |
-| **Visual ref** | — |
-| **Builds on** | Packaging prep (`~/.local` + `paths.py`); [docs/superpowers/specs/2026-07-29-packaging-prep-design.md](docs/superpowers/specs/2026-07-29-packaging-prep-design.md) |
+| **Cycle** | Step 32 — Packaging (`.deb`) |
+| **Stage** | `done` |
+| **Active spec** | [docs/superpowers/specs/2026-07-30-deb-packaging-design.md](docs/superpowers/specs/2026-07-30-deb-packaging-design.md) |
+| **Active plan** | [docs/superpowers/plans/2026-07-30-deb-packaging.md](docs/superpowers/plans/2026-07-30-deb-packaging.md) |
+| **Artifact** | `dist/command-center_0.1.0_all.deb` (local build; `dist/` gitignored) |
 
 ## Completed references
 
 | Cycle | Spec | Plan |
 |-------|------|------|
+| Step 32 — `.deb` packaging | [docs/superpowers/specs/2026-07-30-deb-packaging-design.md](docs/superpowers/specs/2026-07-30-deb-packaging-design.md) | [docs/superpowers/plans/2026-07-30-deb-packaging.md](docs/superpowers/plans/2026-07-30-deb-packaging.md) |
 | Edit mode UX polish | [docs/superpowers/specs/2026-07-29-edit-mode-ux-design.md](docs/superpowers/specs/2026-07-29-edit-mode-ux-design.md) | [docs/superpowers/plans/2026-07-29-edit-mode-ux.md](docs/superpowers/plans/2026-07-29-edit-mode-ux.md) |
 | Packaging prep | [docs/superpowers/specs/2026-07-29-packaging-prep-design.md](docs/superpowers/specs/2026-07-29-packaging-prep-design.md) | [docs/superpowers/plans/2026-07-29-packaging-prep.md](docs/superpowers/plans/2026-07-29-packaging-prep.md) |
 | Desktop summon | [docs/superpowers/specs/2026-07-29-desktop-summon-design.md](docs/superpowers/specs/2026-07-29-desktop-summon-design.md) | [docs/superpowers/plans/2026-07-29-desktop-summon.md](docs/superpowers/plans/2026-07-29-desktop-summon.md) |
@@ -35,7 +35,8 @@
 
 ## Next action
 
-Brainstorming Step 32 packaging — clarify format / install target / scope.
+Step 32 (`.deb`) **done**. Ready to brainstorm next (Step 30 generator, Step 31 templates, or polish). Say **Start next cycle** when ready.
+
 ## Stages (per cycle)
 
 `ready to brainstorm` → `brainstorm` → `spec` → `plan` → `execute` → `done`
@@ -49,7 +50,7 @@ Then either start the next cycle or advance the phase.
 | 1 | UI Professionalization (Steps 20–23) | **Complete** (+ polish 23b/23c) |
 | 2 | Smart Launcher (Steps 24–26) | Step 24 done; **25–26 parked** |
 | 3 | Desktop Integration (Steps 27–29) | Summon (27 lite) **done**; 28–29 still parked |
-| 4 | Framework Release (Steps 30–32) | Packaging prep **done**; Step 32 (real package) **in brainstorm** |
+| 4 | Framework Release (Steps 30–32) | Packaging prep + **Step 32 `.deb` done**; 30–31 open |
 
 ## Session cues
 

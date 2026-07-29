@@ -1,6 +1,6 @@
 # Step 32 — Debian `.deb` Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [x]`) syntax for tracking.
 
 **Goal:** Build a shippable `command-center_*.deb` with `/usr` layout, first-launch demo seed, and docs for switching from `~/.local` install.
 
@@ -45,7 +45,7 @@
 - Produces: `samples_dir() -> str`, `seed_sample_scripts() -> list[str]` (basenames newly copied)
 - Consumes: `ensure_scripts_dir()`, `scripts_dir()`, `framework_dir()`
 
-- [ ] **Step 1: Write failing tests**
+- [x] **Step 1: Write failing tests**
 
 In `framework/test_paths.py`, add:
 
@@ -78,7 +78,7 @@ def test_seed_copies_missing_only(self):
             self.assertEqual(f.read(), "USER\n")
 ```
 
-- [ ] **Step 2: Run tests — expect FAIL**
+- [x] **Step 2: Run tests — expect FAIL**
 
 ```bash
 cd /home/ramin/CommandCenter/framework && python3 -m unittest test_paths -v
@@ -86,7 +86,7 @@ cd /home/ramin/CommandCenter/framework && python3 -m unittest test_paths -v
 
 Expected: FAIL — `samples_dir` / `seed_sample_scripts` missing.
 
-- [ ] **Step 3: Implement**
+- [x] **Step 3: Implement**
 
 In `framework/paths.py`:
 
@@ -130,13 +130,13 @@ def seed_sample_scripts():
 
 Put `import shutil` at module top instead of inline.
 
-- [ ] **Step 4: Run tests — expect PASS**
+- [x] **Step 4: Run tests — expect PASS**
 
 ```bash
 cd /home/ramin/CommandCenter/framework && python3 -m unittest test_paths -v
 ```
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add framework/paths.py framework/test_paths.py
@@ -153,9 +153,9 @@ git commit -m "feat: seed demo scripts into XDG on first launch."
 **Interfaces:**
 - Consumes: `paths.seed_sample_scripts`
 
-- [ ] **Step 1:** Add `seed_sample_scripts` to the paths import.
+- [x] **Step 1:** Add `seed_sample_scripts` to the paths import.
 
-- [ ] **Step 2:** At start of `discover_commands`, call `seed_sample_scripts()` after or instead of bare `ensure_scripts_dir()` (seed already ensures dir):
+- [x] **Step 2:** At start of `discover_commands`, call `seed_sample_scripts()` after or instead of bare `ensure_scripts_dir()` (seed already ensures dir):
 
 ```python
 def discover_commands(self):
@@ -164,7 +164,7 @@ def discover_commands(self):
     ...
 ```
 
-- [ ] **Step 3:** Smoke: empty temp XDG → discover should pick up samples when `packaging/samples` resolves.
+- [x] **Step 3:** Smoke: empty temp XDG → discover should pick up samples when `packaging/samples` resolves.
 
 ```bash
 cd /home/ramin/CommandCenter/framework && \
@@ -179,7 +179,7 @@ print(sorted(os.listdir(scripts_dir())))
 
 Expected: both sample basenames listed.
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add framework/menu.py
@@ -199,9 +199,9 @@ git commit -m "feat: seed sample commands before discovering scripts."
 **Interfaces:**
 - Produces: `dist/command-center_<VERSION>_all.deb`
 
-- [ ] **Step 1:** Write `packaging/VERSION` with `0.1.0`.
+- [x] **Step 1:** Write `packaging/VERSION` with `0.1.0`.
 
-- [ ] **Step 2:** Write `packaging/deb/postinst`:
+- [x] **Step 2:** Write `packaging/deb/postinst`:
 
 ```bash
 #!/bin/sh
@@ -212,7 +212,7 @@ fi
 exit 0
 ```
 
-- [ ] **Step 3:** Write `packaging/build-deb.sh`:
+- [x] **Step 3:** Write `packaging/build-deb.sh`:
 
 ```bash
 #!/usr/bin/env bash
@@ -277,15 +277,15 @@ echo "Built ${DEB}"
 dpkg-deb -c "${DEB}" | head -40
 ```
 
-- [ ] **Step 4:** `chmod +x packaging/build-deb.sh packaging/deb/postinst`
+- [x] **Step 4:** `chmod +x packaging/build-deb.sh packaging/deb/postinst`
 
-- [ ] **Step 5:** Ensure `dist/` is gitignored:
+- [x] **Step 5:** Ensure `dist/` is gitignored:
 
 ```bash
 grep -q '^dist/$' .gitignore 2>/dev/null || echo 'dist/' >> .gitignore
 ```
 
-- [ ] **Step 6:** Build and verify contents
+- [x] **Step 6:** Build and verify contents
 
 ```bash
 ./packaging/build-deb.sh
@@ -294,7 +294,7 @@ dpkg-deb -c dist/command-center_0.1.0_all.deb | grep -E 'usr/bin/command-center|
 
 Expected: those paths present.
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add packaging/VERSION packaging/build-deb.sh packaging/deb/postinst .gitignore
@@ -309,7 +309,7 @@ git commit -m "feat: add lightweight dpkg-deb build for command-center."
 - Modify: `packaging/README.md`
 - Modify: `STATUS.md`
 
-- [ ] **Step 1:** Extend `packaging/README.md` with sections:
+- [x] **Step 1:** Extend `packaging/README.md` with sections:
 
 ```markdown
 ## Build `.deb`
@@ -338,9 +338,9 @@ Your scripts under `~/.local/share/command-center/scripts/` are kept. The old co
 
 Keep existing `install.sh` docs.
 
-- [ ] **Step 2:** Update `STATUS.md`: cycle Step 32, stage `done` when complete; next action ready to brainstorm.
+- [x] **Step 2:** Update `STATUS.md`: cycle Step 32, stage `done` when complete; next action ready to brainstorm.
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add packaging/README.md STATUS.md
@@ -351,20 +351,20 @@ git commit -m "docs: document .deb build, install, and switch from ~/.local."
 
 ### Task 5: Final verification
 
-- [ ] **Step 1:** Re-run unit tests
+- [x] **Step 1:** Re-run unit tests
 
 ```bash
 cd /home/ramin/CommandCenter/framework && python3 -m unittest test_paths -v
 ```
 
-- [ ] **Step 2:** Rebuild `.deb` and confirm control Depends line
+- [x] **Step 2:** Rebuild `.deb` and confirm control Depends line
 
 ```bash
 ./packaging/build-deb.sh
 dpkg-deb -I dist/command-center_0.1.0_all.deb | grep -E 'Depends|Version|Architecture'
 ```
 
-- [ ] **Step 3:** Mark plan checkboxes done in this file; commit if needed
+- [x] **Step 3:** Mark plan checkboxes done in this file; commit if needed
 
 ```bash
 git add docs/superpowers/plans/2026-07-30-deb-packaging.md
