@@ -45,6 +45,34 @@ class PathsTest(unittest.TestCase):
             os.path.join(paths.framework_dir(), "style.css"),
         )
 
+    def test_samples_dir_prefers_usr_share(self):
+        usr = paths._USR_SAMPLES
+
+        def fake_isdir(p):
+            return p == usr
+
+        with mock.patch("paths.os.path.isdir", side_effect=fake_isdir):
+            self.assertEqual(paths.samples_dir(), usr)
+
+    def test_seed_copies_missing_only(self):
+        samples = os.path.join(self._tmpdir.name, "samples")
+        os.makedirs(samples)
+        src = os.path.join(samples, "hello-terminal.sh")
+        with open(src, "w", encoding="utf-8") as f:
+            f.write("#!/bin/bash\n")
+        os.chmod(src, 0o755)
+        with mock.patch.object(paths, "samples_dir", return_value=samples):
+            created = paths.seed_sample_scripts()
+            self.assertEqual(created, ["hello-terminal.sh"])
+            dest = os.path.join(paths.scripts_dir(), "hello-terminal.sh")
+            self.assertTrue(os.path.isfile(dest))
+            with open(dest, "w", encoding="utf-8") as f:
+                f.write("USER\n")
+            created2 = paths.seed_sample_scripts()
+            self.assertEqual(created2, [])
+            with open(dest, encoding="utf-8") as f:
+                self.assertEqual(f.read(), "USER\n")
+
 
 if __name__ == "__main__":
     unittest.main()
