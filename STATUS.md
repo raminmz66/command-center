@@ -9,10 +9,10 @@
 |-------|--------|
 | **Phase** | 4 — Framework Release (polish) |
 | **Cycle** | Edit mode UX polish |
-| **Stage** | `execute` |
+| **Stage** | `done` |
 | **Active spec** | [docs/superpowers/specs/2026-07-29-edit-mode-ux-design.md](docs/superpowers/specs/2026-07-29-edit-mode-ux-design.md) |
 | **Active plan** | [docs/superpowers/plans/2026-07-29-edit-mode-ux.md](docs/superpowers/plans/2026-07-29-edit-mode-ux.md) |
-| **Visual ref** | `.superpowers/qa/edit-mode-chrome-reference.html` (Option C) |
+| **Visual ref** | `.superpowers/qa/edit-mode-chrome-reference.html` (C); shot `.superpowers/qa/edit-mode-c-v2.png` |
 
 ## Completed references
 
@@ -33,7 +33,7 @@
 
 ## Next action
 
-Brainstorming edit mode UX polish. Clarifying priority issues with user.
+Executing edit mode UX polish (Done + status → card CSS → QA iterate).
 ## Stages (per cycle)
 
 `ready to brainstorm` → `brainstorm` → `spec` → `plan` → `execute` → `done`
