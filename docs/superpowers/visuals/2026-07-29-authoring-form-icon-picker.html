@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Authoring form — icon picker options</title>
+  <style>
+    :root {
+      --bg: #ebebeb;
+      --fg: #2e3436;
+      --muted: #5e5c64;
+      --border: rgba(0,0,0,0.12);
+      --accent: #f6c32a;
+      --accent-text: #1a1a1a;
+      --cream: #fff8e7;
+      --chrome: #e4e4e4;
+      --rec: #26a269;
+      --surface: #fff;
+      --win: 420px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Cantarell", "Ubuntu", system-ui, sans-serif;
+      color: var(--fg);
+      background:
+        radial-gradient(ellipse at 12% 0%, #fff8e7 0%, transparent 45%),
+        radial-gradient(ellipse at 90% 5%, #e8f0ff 0%, transparent 40%),
+        var(--bg);
+      padding: 28px 20px 56px;
+    }
+    header.page { max-width: 1280px; margin: 0 auto 22px; }
+    header.page h1 { margin: 0 0 6px; font-size: 1.4rem; }
+    header.page p { margin: 0; color: var(--muted); max-width: 70ch; line-height: 1.45; font-size: 0.95rem; }
+    .rec {
+      margin-top: 12px;
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      background: color-mix(in srgb, var(--rec) 14%, white);
+      border: 1px solid color-mix(in srgb, var(--rec) 40%, white);
+      color: #0e3d24;
+      padding: 8px 12px;
+      border-radius: 10px;
+      font-size: 0.9rem;
+    }
+    .grid {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    @media (max-width: 1100px) { .grid { grid-template-columns: 1fr; } }
+    .option {
+      background: color-mix(in srgb, white 75%, transparent);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .option.recommended {
+      border-color: color-mix(in srgb, var(--rec) 55%, var(--border));
+      box-shadow: 0 0 0 2px color-mix(in srgb, var(--rec) 22%, transparent);
+    }
+    .option h2 {
+      margin: 0;
+      font-size: 1rem;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .badge {
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      background: var(--rec);
+      color: white;
+      padding: 2px 7px;
+      border-radius: 999px;
+    }
+    .option > p { margin: 0; font-size: 0.82rem; color: var(--muted); line-height: 1.4; }
+    .trade { margin: 0; font-size: 0.78rem; color: var(--muted); line-height: 1.35; }
+    .trade span { color: var(--fg); font-weight: 600; }
+
+    .stage {
+      background: #d4d4d4;
+      border-radius: 12px;
+      padding: 14px;
+      display: flex;
+      justify-content: center;
+    }
+    .win {
+      width: var(--win);
+      background: #f6f6f6;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      box-shadow: 0 10px 28px rgba(0,0,0,0.12);
+      overflow: hidden;
+      min-height: 520px;
+      display: flex;
+      flex-direction: column;
+    }
+    .hb {
+      background: var(--chrome);
+      border-bottom: 1px solid var(--border);
+      min-height: 42px;
+      padding: 6px 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .hb .title { flex: 1; text-align: center; font-weight: 700; font-size: 0.85rem; }
+    .back { font-size: 0.78rem; font-weight: 700; padding: 4px 8px; }
+    .save {
+      background: var(--accent);
+      border: 1px solid #d4a017;
+      border-radius: 8px;
+      padding: 5px 12px;
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+    .body { padding: 12px; flex: 1; display: flex; flex-direction: column; gap: 10px; }
+
+    .section {
+      background: var(--cream);
+      border: 1px solid color-mix(in srgb, var(--accent) 35%, #ccc);
+      border-radius: 12px;
+      padding: 10px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .section-title {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: 0 0 2px;
+    }
+    .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .field { display: flex; flex-direction: column; gap: 3px; }
+    .field label {
+      font-size: 0.62rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--muted);
+    }
+    .input {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 6px 8px;
+      font-size: 0.82rem;
+      min-height: 30px;
+    }
+    .script {
+      font-family: ui-monospace, monospace;
+      font-size: 0.75rem;
+      min-height: 72px;
+      color: #3d3846;
+      white-space: pre-wrap;
+    }
+    .toggles { display: flex; gap: 14px; flex-wrap: wrap; font-size: 0.8rem; font-weight: 600; }
+    .sw { display: flex; align-items: center; gap: 6px; }
+    .tog {
+      width: 34px; height: 20px; border-radius: 999px; background: #c0bfbc; position: relative;
+    }
+    .tog.on { background: var(--accent); }
+    .tog::after {
+      content: ""; position: absolute; top: 2px; left: 2px;
+      width: 16px; height: 16px; border-radius: 50%; background: white;
+    }
+    .tog.on::after { left: 16px; }
+    .swatches { display: flex; gap: 5px; }
+    .dot {
+      width: 18px; height: 18px; border-radius: 999px;
+      border: 2px solid white; box-shadow: 0 0 0 1px var(--border);
+    }
+    .dot.sel { box-shadow: 0 0 0 2px #1a1a1a; }
+    .dot.r { background: #e01b24; }
+    .dot.g { background: #2ec27e; }
+    .dot.b { background: #3584e4; }
+    .dot.o { background: #ff7800; }
+    .dot.p { background: #9141ac; }
+    .dot.y { background: #f5c211; }
+    .dot.n { background: white; }
+
+    .glyphs {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 2px 4px;
+      font-size: 0.95rem;
+      text-align: center;
+      line-height: 1.5;
+    }
+    .glyphs.compact { font-size: 0.85rem; gap: 1px 2px; }
+    .g { padding: 2px; border-radius: 5px; }
+    .g.sel {
+      background: color-mix(in srgb, var(--accent) 28%, transparent);
+      box-shadow: 0 0 0 1.5px var(--accent);
+    }
+    .preview-big {
+      width: 40px; height: 40px; border-radius: 10px;
+      background: white; border: 1px solid var(--border);
+      display: grid; place-items: center; font-size: 1.2rem; flex-shrink: 0;
+    }
+    .icon-row { display: flex; gap: 8px; align-items: flex-start; }
+    .chip-row {
+      display: flex; align-items: center; gap: 8px;
+    }
+    .chip {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: white; border: 1px solid var(--border);
+      border-radius: 999px; padding: 4px 10px 4px 6px;
+      font-size: 0.78rem; font-weight: 600;
+    }
+    .chip .e { font-size: 1.05rem; }
+    .link {
+      color: #1c71d8; font-size: 0.78rem; font-weight: 600;
+      background: none; border: none; padding: 0; cursor: default;
+    }
+    .expand {
+      margin-top: 6px;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 8px;
+    }
+    .pop-wrap { position: relative; }
+    .popover {
+      position: absolute;
+      top: 36px; left: 0;
+      z-index: 2;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px;
+      box-shadow: 0 12px 28px rgba(0,0,0,0.18);
+      width: 220px;
+    }
+    .caption {
+      text-align: center;
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin: 6px 0 0;
+    }
+  </style>
+</head>
+<body>
+  <header class="page">
+    <h1>Icon picker in the redesigned form</h1>
+    <p>
+      Shared chrome for all three: sectioned Soft GNOME form, header <strong>Save</strong> only (no footer buttons).
+      Compare only how icons are chosen.
+    </p>
+    <div class="rec"><strong>Recommendation: B</strong> — collapsed until needed; name &amp; script keep priority.</div>
+  </header>
+
+  <div class="grid">
+    <!-- A -->
+    <section class="option">
+      <h2>A — Always visible, compact</h2>
+      <p>Small 6×6 grid always shown; tiny chip preview, no large frame.</p>
+      <div class="stage">
+        <div class="win">
+          <div class="hb">
+            <div class="back">← Back</div>
+            <div class="title">Edit command</div>
+            <div class="save">Save</div>
+          </div>
+          <div class="body">
+            <div class="section">
+              <div class="section-title">Identity</div>
+              <div class="row2">
+                <div class="field"><label>Name</label><div class="input">Lockdown Status</div></div>
+                <div class="field"><label>Category</label><div class="input">Security</div></div>
+              </div>
+              <div class="field"><label>Description</label><div class="input">Show lockdown status</div></div>
+            </div>
+            <div class="section">
+              <div class="section-title">Appearance</div>
+              <div class="field">
+                <label>Icon</label>
+                <div class="icon-row">
+                  <div class="preview-big">🔥</div>
+                  <div class="glyphs compact" style="flex:1">
+                    <span class="g">🖥</span><span class="g">💾</span><span class="g">🔒</span><span class="g">🌐</span><span class="g">⚙</span><span class="g">🗂</span>
+                    <span class="g">🛡</span><span class="g">📡</span><span class="g">🧹</span><span class="g">⏱</span><span class="g">📦</span><span class="g">🔧</span>
+                    <span class="g">🗒</span><span class="g">🚀</span><span class="g">🔑</span><span class="g">☁</span><span class="g">🔊</span><span class="g">🔋</span>
+                    <span class="g">🏠</span><span class="g">⭐</span><span class="g sel">🔥</span><span class="g">💡</span><span class="g">🗑</span><span class="g">📁</span>
+                    <span class="g">🔄</span><span class="g">🛠</span><span class="g">📊</span><span class="g">🖧</span><span class="g">🧩</span><span class="g">🎮</span>
+                    <span class="g">📝</span><span class="g">🛰</span><span class="g">🔐</span><span class="g">💻</span><span class="g">🧭</span><span class="g">⚡</span>
+                  </div>
+                </div>
+              </div>
+              <div class="field"><label>Color</label>
+                <div class="swatches">
+                  <div class="dot n"></div><div class="dot r sel"></div><div class="dot g"></div>
+                  <div class="dot b"></div><div class="dot o"></div><div class="dot p"></div><div class="dot y"></div>
+                </div>
+              </div>
+            </div>
+            <div class="section">
+              <div class="section-title">Behavior</div>
+              <div class="toggles">
+                <div class="sw"><div class="tog on"></div> Terminal</div>
+                <div class="sw"><div class="tog on"></div> Confirm</div>
+              </div>
+            </div>
+            <div class="section" style="flex:1">
+              <div class="section-title">Script</div>
+              <div class="input script">sudo update-lockdown --status</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="caption">Grid always on screen</p>
+      <p class="trade"><span>Pros:</span> fastest pick, everything visible.<br><span>Cons:</span> still competes with Script.</p>
+    </section>
+
+    <!-- B -->
+    <section class="option recommended">
+      <h2>B — Collapsed + expand <span class="badge">Recommended</span></h2>
+      <p>Selected emoji + Change…; expand inline grid when editing icon.</p>
+      <div class="stage">
+        <div class="win">
+          <div class="hb">
+            <div class="back">← Back</div>
+            <div class="title">Edit command</div>
+            <div class="save">Save</div>
+          </div>
+          <div class="body">
+            <div class="section">
+              <div class="section-title">Identity</div>
+              <div class="row2">
+                <div class="field"><label>Name</label><div class="input">Lockdown Status</div></div>
+                <div class="field"><label>Category</label><div class="input">Security</div></div>
+              </div>
+              <div class="field"><label>Description</label><div class="input">Show lockdown status</div></div>
+            </div>
+            <div class="section">
+              <div class="section-title">Appearance</div>
+              <div class="field">
+                <label>Icon</label>
+                <div class="chip-row">
+                  <div class="chip"><span class="e">🔥</span> Selected</div>
+                  <span class="link">Change…</span>
+                </div>
+                <div class="expand">
+                  <div class="glyphs">
+                    <span class="g">🖥</span><span class="g">💾</span><span class="g">🔒</span><span class="g">🌐</span><span class="g">⚙</span><span class="g">🗂</span>
+                    <span class="g">🛡</span><span class="g">📡</span><span class="g">🧹</span><span class="g">⏱</span><span class="g">📦</span><span class="g">🔧</span>
+                    <span class="g">🗒</span><span class="g">🚀</span><span class="g">🔑</span><span class="g">☁</span><span class="g">🔊</span><span class="g">🔋</span>
+                    <span class="g">🏠</span><span class="g">⭐</span><span class="g sel">🔥</span><span class="g">💡</span><span class="g">🗑</span><span class="g">📁</span>
+                    <span class="g">🔄</span><span class="g">🛠</span><span class="g">📊</span><span class="g">🖧</span><span class="g">🧩</span><span class="g">🎮</span>
+                    <span class="g">📝</span><span class="g">🛰</span><span class="g">🔐</span><span class="g">💻</span><span class="g">🧭</span><span class="g">⚡</span>
+                  </div>
+                </div>
+              </div>
+              <div class="field"><label>Color</label>
+                <div class="swatches">
+                  <div class="dot n"></div><div class="dot r sel"></div><div class="dot g"></div>
+                  <div class="dot b"></div><div class="dot o"></div><div class="dot p"></div><div class="dot y"></div>
+                </div>
+              </div>
+            </div>
+            <div class="section">
+              <div class="section-title">Behavior</div>
+              <div class="toggles">
+                <div class="sw"><div class="tog on"></div> Terminal</div>
+                <div class="sw"><div class="tog on"></div> Confirm</div>
+              </div>
+            </div>
+            <div class="section" style="flex:1">
+              <div class="section-title">Script</div>
+              <div class="input script">sudo update-lockdown --status</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="caption">Shown expanded for comparison — default is collapsed</p>
+      <p class="trade"><span>Pros:</span> calm by default; room for Script.<br><span>Cons:</span> one extra click to change icon.</p>
+    </section>
+
+    <!-- C -->
+    <section class="option">
+      <h2>C — Popover picker</h2>
+      <p>Selected + Change… opens a floating grid; closes after pick.</p>
+      <div class="stage">
+        <div class="win">
+          <div class="hb">
+            <div class="back">← Back</div>
+            <div class="title">Edit command</div>
+            <div class="save">Save</div>
+          </div>
+          <div class="body">
+            <div class="section">
+              <div class="section-title">Identity</div>
+              <div class="row2">
+                <div class="field"><label>Name</label><div class="input">Lockdown Status</div></div>
+                <div class="field"><label>Category</label><div class="input">Security</div></div>
+              </div>
+              <div class="field"><label>Description</label><div class="input">Show lockdown status</div></div>
+            </div>
+            <div class="section">
+              <div class="section-title">Appearance</div>
+              <div class="field">
+                <label>Icon</label>
+                <div class="chip-row pop-wrap">
+                  <div class="chip"><span class="e">🔥</span> Selected</div>
+                  <span class="link">Change…</span>
+                  <div class="popover">
+                    <div class="glyphs">
+                      <span class="g">🖥</span><span class="g">💾</span><span class="g">🔒</span><span class="g">🌐</span><span class="g">⚙</span><span class="g">🗂</span>
+                      <span class="g">🛡</span><span class="g">📡</span><span class="g">🧹</span><span class="g">⏱</span><span class="g">📦</span><span class="g">🔧</span>
+                      <span class="g">🏠</span><span class="g">⭐</span><span class="g sel">🔥</span><span class="g">💡</span><span class="g">🗑</span><span class="g">📁</span>
+                      <span class="g">📝</span><span class="g">💻</span><span class="g">🧭</span><span class="g">⚡</span><span class="g">🚀</span><span class="g">🔑</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="field"><label>Color</label>
+                <div class="swatches">
+                  <div class="dot n"></div><div class="dot r sel"></div><div class="dot g"></div>
+                  <div class="dot b"></div><div class="dot o"></div><div class="dot p"></div><div class="dot y"></div>
+                </div>
+              </div>
+            </div>
+            <div class="section">
+              <div class="section-title">Behavior</div>
+              <div class="toggles">
+                <div class="sw"><div class="tog on"></div> Terminal</div>
+                <div class="sw"><div class="tog on"></div> Confirm</div>
+              </div>
+            </div>
+            <div class="section" style="flex:1">
+              <div class="section-title">Script</div>
+              <div class="input script" style="min-height:96px">sudo update-lockdown --status
+
+echo
+read -p "Press Enter…"</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="caption">Most Script space when closed</p>
+      <p class="trade"><span>Pros:</span> calmest default layout.<br><span>Cons:</span> popover layering in GTK is fiddlier.</p>
+    </section>
+  </div>
+</div>
+</body>
+</html>

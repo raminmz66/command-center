@@ -8,11 +8,11 @@
 | Field | Value |
 |-------|--------|
 | **Phase** | 4 — Framework Release (reordered) |
-| **Cycle** | Authoring icon catalog (more icons + card display) |
-| **Stage** | `done` |
-| **Active spec** | [docs/superpowers/specs/2026-07-29-authoring-icon-catalog-design.md](docs/superpowers/specs/2026-07-29-authoring-icon-catalog-design.md) |
-| **Active plan** | [docs/superpowers/plans/2026-07-29-authoring-icon-catalog.md](docs/superpowers/plans/2026-07-29-authoring-icon-catalog.md) |
-| **Visual ref** | [docs/superpowers/visuals/2026-07-28-script-authoring.html](docs/superpowers/visuals/2026-07-28-script-authoring.html) |
+| **Cycle** | Authoring form redesign (UI/UX) |
+| **Stage** | `execute` |
+| **Active spec** | [docs/superpowers/specs/2026-07-29-authoring-form-redesign-design.md](docs/superpowers/specs/2026-07-29-authoring-form-redesign-design.md) |
+| **Active plan** | [docs/superpowers/plans/2026-07-29-authoring-form-redesign.md](docs/superpowers/plans/2026-07-29-authoring-form-redesign.md) |
+| **Visual ref** | [docs/superpowers/visuals/2026-07-29-authoring-form-redesign.html](docs/superpowers/visuals/2026-07-29-authoring-form-redesign.html) |
 
 ## Completed references
 
@@ -28,8 +28,7 @@
 
 ## Next action
 
-Ready for packaging (**Step 32**) or next feature. Say **continue** / **push**.
-
+Execute authoring form redesign; screenshot QA vs visual HTML.
 ## Stages (per cycle)
 
 `ready to brainstorm` → `brainstorm` → `spec` → `plan` → `execute` → `done`

@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Command Center — Authoring form redesign (locked)</title>
+  <style>
+    :root {
+      --bg: #ebebeb;
+      --fg: #2e3436;
+      --muted: #5e5c64;
+      --border: rgba(0,0,0,0.12);
+      --accent: #f6c32a;
+      --cream: #fff8e7;
+      --chrome: #e4e4e4;
+      --win: 520px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Cantarell", "Ubuntu", system-ui, sans-serif;
+      color: var(--fg);
+      background:
+        radial-gradient(ellipse at 15% 0%, #fff8e7 0%, transparent 45%),
+        var(--bg);
+      padding: 32px 24px 48px;
+    }
+    h1 { margin: 0 0 8px; font-size: 1.4rem; }
+    .note { color: var(--muted); max-width: 62ch; line-height: 1.45; margin: 0 0 20px; }
+    .stage {
+      display: flex; justify-content: center;
+      background: #d6d6d6; border-radius: 16px; padding: 28px; border: 1px solid var(--border);
+      max-width: 640px; margin: 0 auto;
+    }
+    .win {
+      width: var(--win);
+      background: #f6f6f6;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      box-shadow: 0 14px 36px rgba(0,0,0,0.14);
+      overflow: hidden;
+      min-height: 580px;
+      display: flex; flex-direction: column;
+    }
+    .hb {
+      background: var(--chrome);
+      border-bottom: 1px solid var(--border);
+      min-height: 46px;
+      padding: 6px 10px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .hb .title { flex: 1; text-align: center; font-weight: 700; font-size: 0.92rem; }
+    .back { font-weight: 700; font-size: 0.85rem; padding: 6px 8px; }
+    .save {
+      background: var(--accent); border: 1px solid #d4a017;
+      border-radius: 9px; padding: 7px 14px; font-weight: 700; font-size: 0.85rem;
+    }
+    .body { padding: 14px; display: flex; flex-direction: column; gap: 12px; flex: 1; }
+    .section {
+      background: var(--cream);
+      border: 1px solid color-mix(in srgb, var(--accent) 38%, #ccc);
+      border-radius: 14px;
+      padding: 12px 14px;
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .section-title {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.07em;
+      text-transform: uppercase; color: var(--muted); margin: 0;
+    }
+    .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .field { display: flex; flex-direction: column; gap: 4px; }
+    .field label {
+      font-size: 0.65rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.04em; color: var(--muted);
+    }
+    .input {
+      background: #fff; border: 1px solid var(--border);
+      border-radius: 8px; padding: 8px 10px; font-size: 0.9rem; min-height: 34px;
+    }
+    .script {
+      font-family: ui-monospace, monospace; font-size: 0.8rem;
+      min-height: 120px; color: #3d3846; white-space: pre-wrap; flex: 1;
+    }
+    .chip-row { display: flex; align-items: center; gap: 10px; position: relative; }
+    .chip {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: #fff; border: 1px solid var(--border);
+      border-radius: 999px; padding: 5px 12px 5px 8px;
+      font-size: 0.85rem; font-weight: 600;
+    }
+    .chip .e { font-size: 1.15rem; }
+    .link { color: #1c71d8; font-size: 0.85rem; font-weight: 600; }
+    .swatches { display: flex; gap: 6px; }
+    .dot {
+      width: 22px; height: 22px; border-radius: 999px;
+      border: 2px solid #fff; box-shadow: 0 0 0 1px var(--border);
+    }
+    .dot.sel { box-shadow: 0 0 0 2px #1a1a1a; }
+    .dot.n { background: #fff; }
+    .dot.r { background: #e01b24; }
+    .dot.g { background: #2ec27e; }
+    .dot.b { background: #3584e4; }
+    .dot.o { background: #ff7800; }
+    .dot.p { background: #9141ac; }
+    .dot.y { background: #f5c211; }
+    .toggles { display: flex; gap: 18px; font-size: 0.88rem; font-weight: 600; }
+    .sw { display: flex; align-items: center; gap: 8px; }
+    .tog {
+      width: 38px; height: 22px; border-radius: 999px; background: #c0bfbc; position: relative;
+    }
+    .tog.on { background: var(--accent); }
+    .tog::after {
+      content: ""; position: absolute; top: 2px; left: 2px;
+      width: 18px; height: 18px; border-radius: 50%; background: #fff;
+    }
+    .tog.on::after { left: 18px; }
+    .popover {
+      position: absolute; top: 42px; left: 0; z-index: 3;
+      background: #fff; border: 1px solid var(--border);
+      border-radius: 12px; padding: 10px;
+      box-shadow: 0 12px 28px rgba(0,0,0,0.2);
+      width: 240px;
+    }
+    .glyphs {
+      display: grid; grid-template-columns: repeat(6, 1fr);
+      gap: 4px; text-align: center; font-size: 1.05rem; line-height: 1.55;
+    }
+    .g { padding: 3px; border-radius: 6px; }
+    .g.sel {
+      background: color-mix(in srgb, var(--accent) 28%, transparent);
+      box-shadow: 0 0 0 1.5px var(--accent);
+    }
+    .checklist {
+      max-width: 640px; margin: 20px auto 0;
+      background: #fff; border: 1px solid var(--border); border-radius: 12px;
+      padding: 14px 16px; font-size: 0.88rem; color: var(--muted); line-height: 1.5;
+    }
+    .checklist strong { color: var(--fg); }
+  </style>
+</head>
+<body>
+  <h1>Authoring form redesign — locked visual</h1>
+  <p class="note">
+    Soft GNOME target for create/edit. Header Save only. Four sections.
+    Icon via chip + Change… popover (shown open here for documentation).
+  </p>
+  <div class="stage">
+    <div class="win" aria-label="Redesigned authoring form">
+      <div class="hb">
+        <div class="back">← Back</div>
+        <div class="title">Edit command</div>
+        <div class="save">Save</div>
+      </div>
+      <div class="body">
+        <div class="section">
+          <p class="section-title">Identity</p>
+          <div class="row2">
+            <div class="field"><label>Name</label><div class="input">Lockdown Status</div></div>
+            <div class="field"><label>Category</label><div class="input">Security</div></div>
+          </div>
+          <div class="field"><label>Description</label><div class="input">Show automatic update lockdown status</div></div>
+        </div>
+        <div class="section">
+          <p class="section-title">Appearance</p>
+          <div class="field">
+            <label>Icon</label>
+            <div class="chip-row">
+              <div class="chip"><span class="e">🔒</span> Selected</div>
+              <span class="link">Change…</span>
+              <div class="popover" aria-label="Icon popover">
+                <div class="glyphs">
+                  <span class="g">🖥</span><span class="g">💾</span><span class="g sel">🔒</span><span class="g">🌐</span><span class="g">⚙</span><span class="g">🗂</span>
+                  <span class="g">🛡</span><span class="g">📡</span><span class="g">🧹</span><span class="g">⏱</span><span class="g">📦</span><span class="g">🔧</span>
+                  <span class="g">🗒</span><span class="g">🚀</span><span class="g">🔑</span><span class="g">☁</span><span class="g">🔊</span><span class="g">🔋</span>
+                  <span class="g">🏠</span><span class="g">⭐</span><span class="g">🔥</span><span class="g">💡</span><span class="g">🗑</span><span class="g">📁</span>
+                  <span class="g">🔄</span><span class="g">🛠</span><span class="g">📊</span><span class="g">🖧</span><span class="g">🧩</span><span class="g">🎮</span>
+                  <span class="g">📝</span><span class="g">🛰</span><span class="g">🔐</span><span class="g">💻</span><span class="g">🧭</span><span class="g">⚡</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="field">
+            <label>Color</label>
+            <div class="swatches">
+              <div class="dot n"></div><div class="dot r sel"></div><div class="dot g"></div>
+              <div class="dot b"></div><div class="dot o"></div><div class="dot p"></div><div class="dot y"></div>
+            </div>
+          </div>
+        </div>
+        <div class="section">
+          <p class="section-title">Behavior</p>
+          <div class="toggles">
+            <div class="sw"><div class="tog on"></div> Terminal</div>
+            <div class="sw"><div class="tog on"></div> Confirm before run</div>
+          </div>
+        </div>
+        <div class="section" style="flex:1">
+          <p class="section-title">Script</p>
+          <div class="input script">sudo update-lockdown --status
+
+echo
+read -p "Press Enter to close..."</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="checklist">
+    <strong>QA checklist:</strong> four cream sections · no footer Cancel/Save · icon chip + Change…
+    · popover does not resize page · Script has generous height · Soft GNOME gold Save.
+  </div>
+</body>
+</html>
