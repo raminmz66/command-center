@@ -67,9 +67,9 @@ class AuthoringForm(Gtk.Box):
         body = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=12)
         body.set_hexpand(True)
         body.set_vexpand(True)
-        body.set_margin_start(2)
-        body.set_margin_end(2)
-        body.set_margin_bottom(4)
+        body.set_margin_start(12)
+        body.set_margin_end(12)
+        body.set_margin_bottom(12)
 
         # —— Identity ——
         identity = self._section("Identity")
@@ -100,7 +100,7 @@ class AuthoringForm(Gtk.Box):
         self.icon_chip.pack_start(chip_text, False, False, 0)
         chip_row.pack_start(self.icon_chip, False, False, 0)
 
-        self.change_btn = Gtk.Button(label="Change…")
+        self.change_btn = Gtk.Button(label="Change\u2026")
         self.change_btn.set_relief(Gtk.ReliefStyle.NONE)
         self.change_btn.get_style_context().add_class("cc-authoring-change")
         self.change_btn.connect("clicked", self._on_change_icon)
@@ -124,8 +124,11 @@ class AuthoringForm(Gtk.Box):
             cell.set_visible_window(True)
             cell.set_can_focus(False)
             cell.set_halign(Gtk.Align.CENTER)
+            cell.set_size_request(34, 34)
             cell.get_style_context().add_class("cc-authoring-icon-cell")
             label = Gtk.Label(label=glyph)
+            label.set_halign(Gtk.Align.CENTER)
+            label.set_valign(Gtk.Align.CENTER)
             label.get_style_context().add_class("cc-authoring-icon-glyph")
             cell.add(label)
             cell.connect("button-press-event", self._on_icon_cell_pressed, glyph)
@@ -213,7 +216,8 @@ class AuthoringForm(Gtk.Box):
     def _section(self, title):
         box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=10)
         box.get_style_context().add_class("cc-authoring-section")
-        lbl = Gtk.Label(label=title, xalign=0)
+        # Uppercase in text — GTK CSS has no text-transform.
+        lbl = Gtk.Label(label=title.upper(), xalign=0)
         lbl.get_style_context().add_class("cc-authoring-section-title")
         box.pack_start(lbl, False, False, 0)
         return box

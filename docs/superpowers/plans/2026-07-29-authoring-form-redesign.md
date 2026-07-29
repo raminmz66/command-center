@@ -34,8 +34,8 @@
 
 **Files:** Modify `framework/style.css`
 
-- [ ] Add `.cc-authoring-section`, `.cc-authoring-section-title`, `.cc-authoring-chip`, `.cc-authoring-change`, popover glyph styles; remove reliance on footer button layout.
-- [ ] Commit: `style: Soft GNOME section chrome for authoring form.`
+- [x] Add `.cc-authoring-section`, `.cc-authoring-section-title`, `.cc-authoring-chip`, `.cc-authoring-change`, popover glyph styles; remove reliance on footer button layout.
+- [x] Commit: `style: Soft GNOME section chrome for authoring form.`
 
 ---
 
@@ -43,15 +43,15 @@
 
 **Files:** Modify `framework/authoring.py`
 
-- [ ] Four sections; remove footer actions; icon chip + Change… + `Gtk.Popover` with 36-grid; Escape closes popover via form handler if needed.
-- [ ] Bump default window height in `menu.py` if Script still cramped (~780–820).
-- [ ] Commit: `feat: sectioned authoring form with icon popover.`
+- [x] Four sections; remove footer actions; icon chip + Change… + `Gtk.Popover` with 36-grid; Escape closes popover via form handler if needed.
+- [x] Bump default window height in `menu.py` if Script still cramped (~780–820).
+- [x] Commit: `feat: sectioned authoring form with icon popover.`
 
 ---
 
 ### Task 3: Screenshot QA loop
 
-- [ ] Capture form (popover closed + open); compare to visual HTML; fix spacing until senior-UX accept.
-- [ ] Update STATUS; commit: `fix: polish authoring form to match redesign visual.`
+- [x] Capture form (popover closed + open); compare to visual HTML; fix spacing until senior-UX accept.
+- [x] Update STATUS; commit: `fix: polish authoring form to match redesign visual.`
 
 ---

@@ -65,7 +65,7 @@ class CommandCenter(Gtk.Window):
 
         self.set_default_size(
             640,
-            820
+            780
         )
 
         self.set_resizable(
@@ -805,16 +805,20 @@ class CommandCenter(Gtk.Window):
 
     def _qa_shot_and_quit(self, path):
         try:
+            parent = os.path.dirname(path)
+            if parent:
+                os.makedirs(parent, exist_ok=True)
+            self.present()
             gdk_win = self.get_window()
-            if gdk_win is not None:
-                w = gdk_win.get_width()
-                h = gdk_win.get_height()
-                pb = Gdk.pixbuf_get_from_window(gdk_win, 0, 0, w, h)
-                if pb is not None:
-                    parent = os.path.dirname(path)
-                    if parent:
-                        os.makedirs(parent, exist_ok=True)
-                    pb.savev(path, "png", [], [])
+            if gdk_win is None:
+                return False
+            xid = gdk_win.get_xid()
+            # External grab — Gdk.pixbuf_get_from_window can abort via cairo.
+            subprocess.run(
+                ["import", "-window", hex(xid), path],
+                check=False,
+                timeout=8,
+            )
         finally:
             Gtk.main_quit()
         return False

@@ -305,10 +305,11 @@ button.cc-card-delete:hover {
 
 .cc-authoring-page {
   background-color: #f6f6f6;
+  padding: 2px 0 0;
 }
 
 .cc-authoring-header {
-  margin: 0 0 4px;
+  margin: 0 12px 4px;
 }
 
 .cc-authoring-title {
@@ -350,7 +351,6 @@ button.cc-authoring-save:hover {
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.07em;
-  text-transform: uppercase;
   opacity: 0.7;
   margin: 0 0 2px;
 }
@@ -403,11 +403,11 @@ button.cc-authoring-change:hover {
 
 .cc-authoring-icon-popover {
   background-color: #ffffff;
-  padding: 0;
+  padding: 2px;
 }
 
 .cc-authoring-icon-glyph {
-  font-size: 18px;
+  font-size: 17px;
   padding: 0;
   margin: 0;
 }
@@ -416,9 +416,21 @@ button.cc-authoring-change:hover {
   background-color: transparent;
   border: none;
   border-radius: 6px;
-  padding: 3px;
+  padding: 4px;
+  min-width: 34px;
+  min-height: 34px;
   box-shadow: none;
   outline: none;
+}
+
+.cc-authoring-page switch:checked {
+  background-image: none;
+  background-color: #f6c32a;
+}
+
+.cc-authoring-page switch:checked:hover {
+  background-image: none;
+  background-color: #e0b020;
 }
 
 .cc-authoring-icon-cell:hover {
