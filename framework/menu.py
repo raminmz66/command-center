@@ -51,9 +51,9 @@ def load_css():
 
 class CommandCenter(Gtk.Window):
 
-    def __init__(self):
+    def __init__(self, application=None):
 
-        super().__init__()
+        super().__init__(application=application)
 
         self.get_style_context().add_class(
             "command-center-window"
@@ -62,6 +62,7 @@ class CommandCenter(Gtk.Window):
         self.set_title(
             "Command Center"
         )
+        self.set_wmclass("command-center", "Command Center")
 
         self.set_default_size(
             640,
@@ -843,7 +844,7 @@ class CommandCenter(Gtk.Window):
                 timeout=8,
             )
         finally:
-            Gtk.main_quit()
+            self._quit_application()
         return False
 
     def _qa_authoring(self, mode):
@@ -900,6 +901,22 @@ class CommandCenter(Gtk.Window):
         self._restore_search_focus()
         return False
 
+    def present_and_focus_search(self):
+        """Show/focus window; focus search when the main launcher is visible."""
+        self.present()
+        if (
+            hasattr(self, "stack")
+            and self.stack.get_visible_child_name() != "authoring"
+        ):
+            GLib.idle_add(self.focus_search)
+
+    def _quit_application(self):
+        app = self.get_application()
+        if app is not None:
+            app.quit()
+        else:
+            Gtk.main_quit()
+
     def on_window_key_press(self, widget, event):
         # Don't intercept keys while typing in the search field.
         if self.search_entry.has_focus():
@@ -948,19 +965,7 @@ class CommandCenter(Gtk.Window):
         )
 
 
-load_css()
+if __name__ == "__main__":
+    from app import main
 
-
-window = CommandCenter()
-
-window.connect(
-    "destroy",
-    Gtk.main_quit
-)
-
-
-window.show_all()
-# show_all can fight Favorites visibility — re-apply strip show/hide.
-window.render_commands()
-
-Gtk.main()
+    raise SystemExit(main())
