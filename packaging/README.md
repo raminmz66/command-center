@@ -8,11 +8,21 @@ No root required. Layout mirrors the `.deb` (`bin` + `share/command-center`).
 ./packaging/install.sh
 ```
 
+### Uninstall (`~/.local`)
+
+```bash
+./packaging/uninstall.sh           # app only — keeps scripts + favorites
+./packaging/uninstall.sh --purge   # also delete scripts + ~/.config/command-center
+./packaging/uninstall.sh --deb     # also: sudo apt-get remove --purge command-center
+./packaging/uninstall.sh --all     # --purge + --deb
+```
+
 | Path | Purpose |
 |------|---------|
 | `~/.local/bin/command-center` | Launcher |
 | `~/.local/share/command-center/framework/` | App code + CSS |
 | `~/.local/share/applications/command-center.desktop` | App menu / shortcuts |
+| `~/.local/share/icons/hicolor/…/apps/command-center.*` | App icon |
 | `~/.local/share/command-center/scripts/` | Your commands |
 
 On first install it seeds **Hello Terminal** and **Confirm Demo** if those files are missing. It never overwrites existing scripts. The running app also seeds those demos on startup if missing.
