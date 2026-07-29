@@ -165,6 +165,10 @@ class CommandCenter(Gtk.Window):
         self._initial_search_focus = False
         self._header = header
 
+        self.header_sep = Gtk.Separator(orientation=Gtk.Orientation.VERTICAL)
+        self.header_sep.get_style_context().add_class("cc-header-sep")
+        header.pack_start(self.header_sep)
+
         self.edit_fav_button = Gtk.Button()
         self.edit_fav_button.set_tooltip_text("Edit favorites")
         self.edit_fav_button.get_style_context().add_class("cc-header-button")
@@ -178,14 +182,12 @@ class CommandCenter(Gtk.Window):
         self.edit_cmd_button.get_style_context().add_class("cc-header-button")
         self.edit_cmd_button.get_style_context().add_class("cc-edit-commands")
         self.edit_cmd_button.connect("clicked", self.on_edit_commands_clicked)
-        header.pack_start(self.edit_cmd_button)
 
         self.add_cmd_button = Gtk.Button(label="+")
         self.add_cmd_button.set_tooltip_text("New command")
         self.add_cmd_button.get_style_context().add_class("cc-header-button")
         self.add_cmd_button.get_style_context().add_class("cc-header-plus")
         self.add_cmd_button.connect("clicked", self.on_add_command_clicked)
-        header.pack_end(self.add_cmd_button)
 
         self.search_entry = Gtk.SearchEntry()
         self.search_entry.set_placeholder_text("Search commands…")
@@ -194,6 +196,10 @@ class CommandCenter(Gtk.Window):
         self.search_entry.set_size_request(220, -1)
         self.search_entry.connect("search-changed", self.on_search_changed)
         self.search_entry.connect("key-press-event", self.on_search_key_press)
+
+        # pack_end stacks toward center: first = far right → + · Edit · search
+        header.pack_end(self.add_cmd_button)
+        header.pack_end(self.edit_cmd_button)
         header.pack_end(self.search_entry)
 
         self.grid = Gtk.Grid()
@@ -236,6 +242,11 @@ class CommandCenter(Gtk.Window):
         self.favorites_box.pack_start(self.favorites_label, False, False, 0)
         self.favorites_box.pack_start(self.favorites_grid, False, False, 0)
 
+        self.commands_label = Gtk.Label(label="All commands", xalign=0)
+        self.commands_label.get_style_context().add_class("cc-commands-label")
+        self.commands_label.set_no_show_all(True)
+        self.commands_label.hide()
+
         self.edit_banner = Gtk.Label(
             label="Editing commands — tap ✎ to edit or 🗑 to delete. Launch paused."
         )
@@ -251,6 +262,7 @@ class CommandCenter(Gtk.Window):
         self.content.pack_start(self.chip_box, False, False, 0)
         self.content.pack_start(self.edit_banner, False, False, 0)
         self.content.pack_start(self.favorites_box, False, False, 0)
+        self.content.pack_start(self.commands_label, False, False, 0)
         self.content.pack_start(self.grid, True, True, 0)
 
         self.authoring = AuthoringForm()
@@ -692,18 +704,30 @@ class CommandCenter(Gtk.Window):
             # no_show_all so startup window.show_all() cannot revive an empty strip
             self.favorites_box.set_no_show_all(True)
             self.favorites_box.hide()
+            fav_visible = False
         else:
             self.favorites_box.set_no_show_all(False)
             self._attach_cards(self.favorites_grid, fav_items)
             self.favorites_box.show_all()
+            fav_visible = True
 
+        fav_bases = set(self.favorites)
         main_items = []
         for path, meta in self.commands:
+            if os.path.basename(path) in fav_bases:
+                continue
             if matches_filters(meta, query, self.selected_category):
                 main_items.append((path, meta))
         self._attach_cards(self.grid, main_items)
         # Only show the grid — window show_all() remaps widgets and steals focus.
         self.grid.show_all()
+
+        if fav_visible or main_items:
+            self.commands_label.set_no_show_all(False)
+            self.commands_label.show()
+        else:
+            self.commands_label.set_no_show_all(True)
+            self.commands_label.hide()
 
         if had_search_focus:
             self._restore_search_focus(cursor)
