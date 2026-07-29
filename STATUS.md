@@ -12,12 +12,13 @@
 | **Stage** | `done` |
 | **Active spec** | [docs/superpowers/specs/2026-07-29-edit-mode-ux-design.md](docs/superpowers/specs/2026-07-29-edit-mode-ux-design.md) |
 | **Active plan** | [docs/superpowers/plans/2026-07-29-edit-mode-ux.md](docs/superpowers/plans/2026-07-29-edit-mode-ux.md) |
-| **Visual ref** | `.superpowers/qa/edit-mode-chrome-reference.html` (C); shot `.superpowers/qa/edit-mode-c-v2.png` |
+| **Visual ref** | `.superpowers/qa/edit-mode-chrome-reference.html` (C); shot `.superpowers/qa/edit-mode-c-v6.png` |
 
 ## Completed references
 
 | Cycle | Spec | Plan |
 |-------|------|------|
+| Edit mode UX polish | [docs/superpowers/specs/2026-07-29-edit-mode-ux-design.md](docs/superpowers/specs/2026-07-29-edit-mode-ux-design.md) | [docs/superpowers/plans/2026-07-29-edit-mode-ux.md](docs/superpowers/plans/2026-07-29-edit-mode-ux.md) |
 | Packaging prep | [docs/superpowers/specs/2026-07-29-packaging-prep-design.md](docs/superpowers/specs/2026-07-29-packaging-prep-design.md) | [docs/superpowers/plans/2026-07-29-packaging-prep.md](docs/superpowers/plans/2026-07-29-packaging-prep.md) |
 | Desktop summon | [docs/superpowers/specs/2026-07-29-desktop-summon-design.md](docs/superpowers/specs/2026-07-29-desktop-summon-design.md) | [docs/superpowers/plans/2026-07-29-desktop-summon.md](docs/superpowers/plans/2026-07-29-desktop-summon.md) |
 | Launcher UX polish | [docs/superpowers/specs/2026-07-29-launcher-ux-polish-design.md](docs/superpowers/specs/2026-07-29-launcher-ux-polish-design.md) | [docs/superpowers/plans/2026-07-29-launcher-ux-polish.md](docs/superpowers/plans/2026-07-29-launcher-ux-polish.md) |
@@ -33,7 +34,7 @@
 
 ## Next action
 
-Executing edit mode UX polish (Done + status → card CSS → QA iterate).
+Edit mode UX polish **done**. Ready to brainstorm next. Say **Start next cycle** when ready.
 ## Stages (per cycle)
 
 `ready to brainstorm` → `brainstorm` → `spec` → `plan` → `execute` → `done`

@@ -127,10 +127,6 @@ class CommandCard(Gtk.Button):
 
         if commands_edit:
             actions = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
-            actions.set_halign(Gtk.Align.END)
-            actions.set_valign(Gtk.Align.START)
-            actions.set_margin_top(6)
-            actions.set_margin_end(6)
             actions.get_style_context().add_class("cc-card-actions")
 
             edit_btn = Gtk.Button()
@@ -164,7 +160,17 @@ class CommandCard(Gtk.Button):
 
             actions.pack_start(edit_btn, False, False, 0)
             actions.pack_start(del_btn, False, False, 0)
-            overlay.add_overlay(actions)
+
+            # Full-width overlay row + expanders → true horizontal center (GTK3).
+            bar = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=0)
+            bar.set_halign(Gtk.Align.FILL)
+            bar.set_valign(Gtk.Align.START)
+            bar.set_hexpand(True)
+            bar.set_margin_top(6)
+            bar.pack_start(Gtk.Box(), True, True, 0)
+            bar.pack_start(actions, False, False, 0)
+            bar.pack_start(Gtk.Box(), True, True, 0)
+            overlay.add_overlay(bar)
 
         self.add(
             overlay

@@ -73,7 +73,8 @@ button.cc-shortcut-secondary {
 
 .command-card {
   border-radius: 14px;
-  border: 1px solid alpha(@borders, 0.9);
+  /* 2px always — edit dotted uses same width so cards do not resize. */
+  border: 2px solid alpha(@borders, 0.9);
   padding: 14px 10px;
   background-color: @theme_base_color;
   box-shadow: 0 1px 2px alpha(black, 0.06);
@@ -295,14 +296,6 @@ button.cc-header-plus:hover {
   background-color: #f6c32a;
 }
 
-.cc-edit-status {
-  font-size: 11px;
-  font-weight: 600;
-  opacity: 0.7;
-  margin: 0 2px 2px;
-  letter-spacing: 0.02em;
-}
-
 .cc-card-actions {
   margin: 0;
   padding: 4px;
@@ -312,15 +305,27 @@ button.cc-header-plus:hover {
   box-shadow: 0 1px 3px alpha(black, 0.08);
 }
 
+/* Keep border-width 2px (same as idle) so cards do not resize when entering edit. */
 button.command-card.commands-edit {
-  background-color: #f7f7f7;
-  border-color: alpha(@borders, 0.8);
+  background-color: #f3f3f3;
+  border-color: alpha(@borders, 0.85);
+  border-style: dotted;
+  border-width: 2px;
+}
+
+/* Stable header Edit/Done width — avoids pack_end buttons shifting. */
+button.cc-edit-commands {
+  min-width: 64px;
 }
 
 /* Dim text only — opacity on the body box can hide emoji icons in GTK3. */
 button.command-card.commands-edit .command-title,
 button.command-card.commands-edit .command-desc {
-  opacity: 0.72;
+  opacity: 0.32;
+}
+
+button.command-card.commands-edit .command-icon {
+  opacity: 0.40;
 }
 
 button.command-card.commands-edit .cc-card-actions {
