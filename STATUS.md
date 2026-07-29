@@ -7,12 +7,13 @@
 
 | Field | Value |
 |-------|--------|
-| **Phase** | 4 — Framework Release (polish) |
-| **Cycle** | Edit mode UX polish |
-| **Stage** | `done` |
-| **Active spec** | [docs/superpowers/specs/2026-07-29-edit-mode-ux-design.md](docs/superpowers/specs/2026-07-29-edit-mode-ux-design.md) |
-| **Active plan** | [docs/superpowers/plans/2026-07-29-edit-mode-ux.md](docs/superpowers/plans/2026-07-29-edit-mode-ux.md) |
-| **Visual ref** | `.superpowers/qa/edit-mode-chrome-reference.html` (C); shot `.superpowers/qa/edit-mode-c-v6.png` |
+| **Phase** | 4 — Framework Release |
+| **Cycle** | Step 32 — Packaging (`.deb` / release package) |
+| **Stage** | `brainstorm` |
+| **Active spec** | — |
+| **Active plan** | — |
+| **Visual ref** | — |
+| **Builds on** | Packaging prep (`~/.local` + `paths.py`); [docs/superpowers/specs/2026-07-29-packaging-prep-design.md](docs/superpowers/specs/2026-07-29-packaging-prep-design.md) |
 
 ## Completed references
 
@@ -34,7 +35,7 @@
 
 ## Next action
 
-Edit mode UX polish **done**. Ready to brainstorm next. Say **Start next cycle** when ready.
+Brainstorming Step 32 packaging — clarify format / install target / scope.
 ## Stages (per cycle)
 
 `ready to brainstorm` → `brainstorm` → `spec` → `plan` → `execute` → `done`
@@ -48,7 +49,7 @@ Then either start the next cycle or advance the phase.
 | 1 | UI Professionalization (Steps 20–23) | **Complete** (+ polish 23b/23c) |
 | 2 | Smart Launcher (Steps 24–26) | Step 24 done; **25–26 parked** |
 | 3 | Desktop Integration (Steps 27–29) | Summon (27 lite) **done**; 28–29 still parked |
-| 4 | Framework Release (Steps 30–32) | Packaging prep (32 lite / `~/.local`) **done**; real `.deb` later |
+| 4 | Framework Release (Steps 30–32) | Packaging prep **done**; Step 32 (real package) **in brainstorm** |
 
 ## Session cues
 
