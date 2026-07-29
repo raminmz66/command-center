@@ -7,11 +7,11 @@
 
 | Field | Value |
 |-------|--------|
-| **Phase** | 4 — Framework Release (reordered) |
-| **Cycle** | Launcher UX polish |
-| **Stage** | `done` |
-| **Active spec** | [docs/superpowers/specs/2026-07-29-launcher-ux-polish-design.md](docs/superpowers/specs/2026-07-29-launcher-ux-polish-design.md) |
-| **Active plan** | [docs/superpowers/plans/2026-07-29-launcher-ux-polish.md](docs/superpowers/plans/2026-07-29-launcher-ux-polish.md) |
+| **Phase** | 3 — Desktop Integration (pulled forward) |
+| **Cycle** | Desktop summon (global shortcut) |
+| **Stage** | `execute` |
+| **Active spec** | [docs/superpowers/specs/2026-07-29-desktop-summon-design.md](docs/superpowers/specs/2026-07-29-desktop-summon-design.md) |
+| **Active plan** | [docs/superpowers/plans/2026-07-29-desktop-summon.md](docs/superpowers/plans/2026-07-29-desktop-summon.md) |
 | **Visual ref** | n/a |
 
 ## Completed references
@@ -31,7 +31,7 @@
 
 ## Next action
 
-Ready to brainstorm next cycle (packaging / Step 32, or other Phase 4 work). Say **Start next cycle** when ready.
+Executing desktop summon plan task-by-task (Gtk.Application → Esc → desktop entry → setup popover → STATUS).
 ## Stages (per cycle)
 
 `ready to brainstorm` → `brainstorm` → `spec` → `plan` → `execute` → `done`
@@ -44,8 +44,8 @@ Then either start the next cycle or advance the phase.
 |-------|--------|--------|
 | 1 | UI Professionalization (Steps 20–23) | **Complete** (+ polish 23b/23c) |
 | 2 | Smart Launcher (Steps 24–26) | Step 24 done; **25–26 parked** |
-| 3 | Desktop Integration (Steps 27–29) | **Parked** |
-| 4 | Framework Release (Steps 30–32) | Launcher UX polish **done**; packaging (32) next |
+| 3 | Desktop Integration (Steps 27–29) | **In progress** — summon (27 lite) brainstorming; 28–29 still parked |
+| 4 | Framework Release (Steps 30–32) | Launcher UX polish **done**; packaging (32) after desktop summon |
 
 ## Session cues
 
