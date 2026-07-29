@@ -6,3 +6,4 @@ venv/
 *.swp
 .DS_Store
 .superpowers/
+dist/

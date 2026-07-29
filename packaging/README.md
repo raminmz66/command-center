@@ -1,14 +1,12 @@
-# Command Center — local install
+# Command Center — packaging
 
-User install under `~/.local` (layout mirrors a future `/usr` package).
+## Local install (`~/.local`)
 
-## Install
+No root required. Layout mirrors the `.deb` (`bin` + `share/command-center`).
 
 ```bash
 ./packaging/install.sh
 ```
-
-This installs:
 
 | Path | Purpose |
 |------|---------|
@@ -17,7 +15,47 @@ This installs:
 | `~/.local/share/applications/command-center.desktop` | App menu / shortcuts |
 | `~/.local/share/command-center/scripts/` | Your commands |
 
-On first install it seeds **Hello Terminal** and **Confirm Demo** if those files are missing. It never overwrites existing scripts.
+On first install it seeds **Hello Terminal** and **Confirm Demo** if those files are missing. It never overwrites existing scripts. The running app also seeds those demos on startup if missing.
+
+## Build `.deb`
+
+```bash
+./packaging/build-deb.sh
+# → dist/command-center_<version>_all.deb
+```
+
+Requires `dpkg-deb` (usually from the `dpkg` package).
+
+## Install `.deb`
+
+```bash
+sudo apt install ./dist/command-center_*.deb
+```
+
+This installs:
+
+| Path | Purpose |
+|------|---------|
+| `/usr/bin/command-center` | Launcher |
+| `/usr/share/command-center/framework/` | App code + CSS |
+| `/usr/share/command-center/samples/` | Demo templates (seeded into XDG on first run) |
+| `/usr/share/applications/command-center.desktop` | App menu / shortcuts |
+
+User scripts still live under:
+
+```text
+~/.local/share/command-center/scripts/
+```
+
+### Switching from `~/.local` install
+
+If you previously ran `./packaging/install.sh`, remove the user launcher so `/usr/bin/command-center` wins (many shells put `~/.local/bin` before `/usr/bin`):
+
+```bash
+rm -f ~/.local/bin/command-center
+```
+
+Your scripts under `~/.local/share/command-center/scripts/` are kept. The old framework copy under `~/.local/share/command-center/framework/` is unused after switching.
 
 ## Personal scripts
 
@@ -34,23 +72,24 @@ Do not keep relying on `~/CommandCenter/scripts` for the running app — that pa
 Recommended: **Ctrl+Space** as a GNOME Custom Shortcut running:
 
 ```text
-~/.local/bin/command-center
+/usr/bin/command-center
 ```
+
+(or `~/.local/bin/command-center` if you only use `install.sh`)
 
 Or use the in-app keyboard button (Copy command / Open Keyboard Settings).
 
 ## PATH
 
-If `command-center` is not found:
+For the local install, if `command-center` is not found:
 
 ```bash
 export PATH="$HOME/.local/bin:$PATH"
 ```
 
+The `.deb` puts the binary on the normal system PATH.
+
 ## Re-install
 
-Re-running `install.sh` refreshes framework files. User scripts and already-present samples are left alone.
-
-## Future
-
-A `.deb` / Flatpak can reuse the same `bin` + `share/command-center` layout with system prefixes.
+- `install.sh` — refreshes `~/.local` framework files; user scripts and present samples are left alone.
+- `.deb` — `sudo apt install --reinstall ./dist/command-center_*.deb` (or rebuild then install).
