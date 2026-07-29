@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=Command Center
+GenericName=Command launcher
+Comment=Personal Soft GNOME command launcher
+Exec=python3 REPLACE_ME_FRAMEWORK/menu.py
+Icon=utilities-terminal
+Terminal=false
+Categories=Utility;GTK;
+StartupNotify=true
+StartupWMClass=command-center
+Keywords=launcher;scripts;commands;
