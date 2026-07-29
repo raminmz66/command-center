@@ -190,6 +190,19 @@ class CommandCenter(Gtk.Window):
         self.add_cmd_button.get_style_context().add_class("cc-header-plus")
         self.add_cmd_button.connect("clicked", self.on_add_command_clicked)
 
+        self.shortcut_button = Gtk.Button()
+        shortcut_icon = Gtk.Image.new_from_icon_name(
+            "input-keyboard-symbolic",
+            Gtk.IconSize.BUTTON,
+        )
+        self.shortcut_button.set_image(shortcut_icon)
+        self.shortcut_button.set_tooltip_text("Desktop shortcut setup")
+        self.shortcut_button.get_style_context().add_class("cc-header-button")
+        self.shortcut_button.get_style_context().add_class("cc-shortcut-setup")
+        self.shortcut_button.connect("clicked", self.on_shortcut_setup_clicked)
+        self._shortcut_popover = None
+        self._shortcut_status = None
+
         self.search_entry = Gtk.SearchEntry()
         self.search_entry.set_placeholder_text("Search commands…")
         self.search_entry.get_style_context().add_class("cc-search-entry")
@@ -198,9 +211,10 @@ class CommandCenter(Gtk.Window):
         self.search_entry.connect("search-changed", self.on_search_changed)
         self.search_entry.connect("key-press-event", self.on_search_key_press)
 
-        # pack_end stacks toward center: first = far right → + · Edit · search
+        # pack_end: far right → + · Edit · gear · search
         header.pack_end(self.add_cmd_button)
         header.pack_end(self.edit_cmd_button)
+        header.pack_end(self.shortcut_button)
         header.pack_end(self.search_entry)
 
         self.grid = Gtk.Grid()
@@ -378,6 +392,7 @@ class CommandCenter(Gtk.Window):
     def _set_launcher_chrome_visible(self, visible):
         for widget in (
             self.search_entry,
+            self.shortcut_button,
             self.edit_cmd_button,
             self.edit_fav_button,
             self.add_cmd_button,
@@ -386,6 +401,105 @@ class CommandCenter(Gtk.Window):
                 widget.show()
             else:
                 widget.hide()
+
+    def _launch_command(self):
+        return "python3 {}".format(os.path.abspath(__file__))
+
+    def on_shortcut_setup_clicked(self, *_args):
+        if self._shortcut_popover is None:
+            self._shortcut_popover = self._build_shortcut_popover()
+        self._shortcut_popover.set_relative_to(self.shortcut_button)
+        if self._shortcut_status is not None:
+            self._shortcut_status.set_text("")
+            self._shortcut_status.hide()
+        self._shortcut_popover.popup()
+
+    def _build_shortcut_popover(self):
+        pop = Gtk.Popover()
+        pop.set_position(Gtk.PositionType.BOTTOM)
+        pop.get_style_context().add_class("cc-shortcut-popover")
+
+        box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=10)
+        box.set_border_width(14)
+        box.set_size_request(320, -1)
+
+        title = Gtk.Label(label="Desktop shortcut", xalign=0)
+        title.get_style_context().add_class("cc-shortcut-title")
+        box.pack_start(title, False, False, 0)
+
+        blurb = Gtk.Label(
+            label=(
+                "Recommended: Ctrl+Space\n\n"
+                "1. Open Keyboard Settings\n"
+                "2. Custom Shortcuts → add one\n"
+                "3. Paste the command below"
+            ),
+            xalign=0,
+        )
+        blurb.set_line_wrap(True)
+        blurb.get_style_context().add_class("cc-shortcut-blurb")
+        box.pack_start(blurb, False, False, 0)
+
+        cmd = Gtk.Entry()
+        cmd.set_text(self._launch_command())
+        cmd.set_editable(False)
+        cmd.set_can_focus(True)
+        cmd.get_style_context().add_class("cc-shortcut-command")
+        self._shortcut_cmd_entry = cmd
+        box.pack_start(cmd, False, False, 0)
+
+        row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8)
+        copy_btn = Gtk.Button(label="Copy command")
+        copy_btn.get_style_context().add_class("cc-shortcut-secondary")
+        copy_btn.connect("clicked", self._on_copy_launch_command)
+        open_btn = Gtk.Button(label="Open Keyboard Settings")
+        open_btn.get_style_context().add_class("cc-shortcut-primary")
+        open_btn.connect("clicked", self._on_open_keyboard_settings)
+        row.pack_start(copy_btn, True, True, 0)
+        row.pack_start(open_btn, True, True, 0)
+        box.pack_start(row, False, False, 0)
+
+        status = Gtk.Label(xalign=0)
+        status.set_line_wrap(True)
+        status.get_style_context().add_class("cc-shortcut-status")
+        status.set_no_show_all(True)
+        status.hide()
+        self._shortcut_status = status
+        box.pack_start(status, False, False, 0)
+
+        box.show_all()
+        pop.add(box)
+        return pop
+
+    def _on_copy_launch_command(self, *_args):
+        text = self._launch_command()
+        clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
+        clipboard.set_text(text, -1)
+        clipboard.store()
+        if self._shortcut_status is not None:
+            self._shortcut_status.set_text("Command copied.")
+            self._shortcut_status.show()
+
+    def _on_open_keyboard_settings(self, *_args):
+        attempts = [
+            ["gnome-control-center", "keyboard"],
+            ["xdg-open", "gnome-control-center://keyboard"],
+        ]
+        for cmd in attempts:
+            try:
+                subprocess.Popen(cmd)
+                if self._shortcut_status is not None:
+                    self._shortcut_status.set_text("")
+                    self._shortcut_status.hide()
+                return
+            except OSError:
+                continue
+        if self._shortcut_status is not None:
+            self._shortcut_status.set_text(
+                "Could not open Settings. Use: Settings → Keyboard → "
+                "View and Customize Shortcuts → Custom Shortcuts."
+            )
+            self._shortcut_status.show()
 
     def show_authoring(self, path):
         self.hide_confirm()
@@ -818,6 +932,8 @@ class CommandCenter(Gtk.Window):
             if os.environ.get("CC_QA_CONFIRM") == "1":
                 # After layout/show_all settle so the target card exists.
                 GLib.timeout_add(400, self._qa_show_first_confirm)
+            if os.environ.get("CC_QA_SHORTCUT", "").strip() == "1":
+                GLib.timeout_add(500, self._qa_open_shortcut_popover)
             qa = os.environ.get("CC_QA_AUTHORING", "").strip().lower()
             if qa in ("edit", "new", "delete", "form", "form-popover"):
                 GLib.timeout_add(450, self._qa_authoring, qa)
@@ -827,9 +943,15 @@ class CommandCenter(Gtk.Window):
                     delay = 1200
                 elif qa == "form-popover":
                     delay = 1100
+                elif os.environ.get("CC_QA_SHORTCUT", "").strip() == "1":
+                    delay = 1000
                 else:
                     delay = 900
                 GLib.timeout_add(delay, self._qa_shot_and_quit, shot)
+        return False
+
+    def _qa_open_shortcut_popover(self):
+        self.on_shortcut_setup_clicked()
         return False
 
     def _qa_open_icon_popover(self):

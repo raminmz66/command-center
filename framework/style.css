@@ -22,6 +22,49 @@
   background-color: alpha(@theme_fg_color, 0.08);
 }
 
+.cc-shortcut-popover {
+  padding: 0;
+}
+
+.cc-shortcut-title {
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.cc-shortcut-blurb {
+  opacity: 0.85;
+  font-size: 12.5px;
+}
+
+.cc-shortcut-command {
+  border-radius: 8px;
+  font-family: monospace;
+  font-size: 11px;
+}
+
+button.cc-shortcut-primary {
+  background-image: none;
+  background-color: #f6c32a;
+  border: 1px solid #d4a017;
+  border-radius: 8px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+button.cc-shortcut-primary:hover {
+  background-image: none;
+  background-color: #e0b020;
+}
+
+button.cc-shortcut-secondary {
+  border-radius: 8px;
+}
+
+.cc-shortcut-status {
+  font-size: 12px;
+  opacity: 0.85;
+}
+
 .cc-header-sep {
   min-width: 1px;
   margin: 4px 6px;
