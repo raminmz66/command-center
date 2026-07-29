@@ -9,15 +9,16 @@
 |-------|--------|
 | **Phase** | 3 — Desktop Integration (pulled forward) |
 | **Cycle** | Desktop summon (global shortcut) |
-| **Stage** | `execute` |
+| **Stage** | `done` |
 | **Active spec** | [docs/superpowers/specs/2026-07-29-desktop-summon-design.md](docs/superpowers/specs/2026-07-29-desktop-summon-design.md) |
 | **Active plan** | [docs/superpowers/plans/2026-07-29-desktop-summon.md](docs/superpowers/plans/2026-07-29-desktop-summon.md) |
-| **Visual ref** | n/a |
+| **Visual ref** | `.superpowers/qa/desktop-summon-popover.png` |
 
 ## Completed references
 
 | Cycle | Spec | Plan |
 |-------|------|------|
+| Desktop summon | [docs/superpowers/specs/2026-07-29-desktop-summon-design.md](docs/superpowers/specs/2026-07-29-desktop-summon-design.md) | [docs/superpowers/plans/2026-07-29-desktop-summon.md](docs/superpowers/plans/2026-07-29-desktop-summon.md) |
 | Launcher UX polish | [docs/superpowers/specs/2026-07-29-launcher-ux-polish-design.md](docs/superpowers/specs/2026-07-29-launcher-ux-polish-design.md) | [docs/superpowers/plans/2026-07-29-launcher-ux-polish.md](docs/superpowers/plans/2026-07-29-launcher-ux-polish.md) |
 | Authoring color removal | [docs/superpowers/specs/2026-07-29-authoring-color-removal-design.md](docs/superpowers/specs/2026-07-29-authoring-color-removal-design.md) | [docs/superpowers/plans/2026-07-29-authoring-color-removal.md](docs/superpowers/plans/2026-07-29-authoring-color-removal.md) |
 | Authoring form redesign | [docs/superpowers/specs/2026-07-29-authoring-form-redesign-design.md](docs/superpowers/specs/2026-07-29-authoring-form-redesign-design.md) | [docs/superpowers/plans/2026-07-29-authoring-form-redesign.md](docs/superpowers/plans/2026-07-29-authoring-form-redesign.md) |
@@ -31,7 +32,7 @@
 
 ## Next action
 
-Executing desktop summon plan task-by-task (Gtk.Application → Esc → desktop entry → setup popover → STATUS).
+Desktop summon **done**. Ready to brainstorm next (packaging / Step 32, or tray/notifications). Say **Start next cycle** when ready.
 ## Stages (per cycle)
 
 `ready to brainstorm` → `brainstorm` → `spec` → `plan` → `execute` → `done`
@@ -44,7 +45,7 @@ Then either start the next cycle or advance the phase.
 |-------|--------|--------|
 | 1 | UI Professionalization (Steps 20–23) | **Complete** (+ polish 23b/23c) |
 | 2 | Smart Launcher (Steps 24–26) | Step 24 done; **25–26 parked** |
-| 3 | Desktop Integration (Steps 27–29) | **In progress** — summon (27 lite) brainstorming; 28–29 still parked |
+| 3 | Desktop Integration (Steps 27–29) | Summon (27 lite) **done**; 28–29 still parked |
 | 4 | Framework Release (Steps 30–32) | Launcher UX polish **done**; packaging (32) after desktop summon |
 
 ## Session cues
