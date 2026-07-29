@@ -9,15 +9,16 @@
 |-------|--------|
 | **Phase** | 4 — Framework Release |
 | **Cycle** | Packaging (Step 32 lite) |
-| **Stage** | `execute` |
+| **Stage** | `done` |
 | **Active spec** | [docs/superpowers/specs/2026-07-29-packaging-prep-design.md](docs/superpowers/specs/2026-07-29-packaging-prep-design.md) |
 | **Active plan** | [docs/superpowers/plans/2026-07-29-packaging-prep.md](docs/superpowers/plans/2026-07-29-packaging-prep.md) |
-| **Visual ref** | n/a |
+| **Visual ref** | `.superpowers/qa/packaging-samples.png` |
 
 ## Completed references
 
 | Cycle | Spec | Plan |
 |-------|------|------|
+| Packaging prep | [docs/superpowers/specs/2026-07-29-packaging-prep-design.md](docs/superpowers/specs/2026-07-29-packaging-prep-design.md) | [docs/superpowers/plans/2026-07-29-packaging-prep.md](docs/superpowers/plans/2026-07-29-packaging-prep.md) |
 | Desktop summon | [docs/superpowers/specs/2026-07-29-desktop-summon-design.md](docs/superpowers/specs/2026-07-29-desktop-summon-design.md) | [docs/superpowers/plans/2026-07-29-desktop-summon.md](docs/superpowers/plans/2026-07-29-desktop-summon.md) |
 | Launcher UX polish | [docs/superpowers/specs/2026-07-29-launcher-ux-polish-design.md](docs/superpowers/specs/2026-07-29-launcher-ux-polish-design.md) | [docs/superpowers/plans/2026-07-29-launcher-ux-polish.md](docs/superpowers/plans/2026-07-29-launcher-ux-polish.md) |
 | Authoring color removal | [docs/superpowers/specs/2026-07-29-authoring-color-removal-design.md](docs/superpowers/specs/2026-07-29-authoring-color-removal-design.md) | [docs/superpowers/plans/2026-07-29-authoring-color-removal.md](docs/superpowers/plans/2026-07-29-authoring-color-removal.md) |
@@ -32,7 +33,7 @@
 
 ## Next action
 
-Brainstorming packaging (Step 32 lite). Clarifying install target and scope with user.
+Executing packaging-prep plan (paths → menu wire → samples → install.sh → STATUS).
 ## Stages (per cycle)
 
 `ready to brainstorm` → `brainstorm` → `spec` → `plan` → `execute` → `done`
