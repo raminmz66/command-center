@@ -52,25 +52,6 @@
   color: #3584e4;
 }
 
-/* Optional # COLOR= metadata (always-on tint; brighter on hover) */
-.command-card .command-icon-r { color: #e01b24; }
-.command-card:hover .command-icon-r { color: #c01c28; }
-
-.command-card .command-icon-g { color: #2ec27e; }
-.command-card:hover .command-icon-g { color: #26a269; }
-
-.command-card .command-icon-b { color: #3584e4; }
-.command-card:hover .command-icon-b { color: #1c71d8; }
-
-.command-card .command-icon-o { color: #ff7800; }
-.command-card:hover .command-icon-o { color: #e66100; }
-
-.command-card .command-icon-p { color: #9141ac; }
-.command-card:hover .command-icon-p { color: #813d9c; }
-
-.command-card .command-icon-y { color: #f5c211; }
-.command-card:hover .command-icon-y { color: #e5a50a; }
-
 .command-title {
   font-weight: bold;
   color: @theme_fg_color;
@@ -454,32 +435,6 @@ button.cc-authoring-change:hover {
   font-weight: 600;
   font-size: 13px;
 }
-
-button.cc-color-swatch {
-  background-image: none;
-  border-radius: 999px;
-  border: 2px solid #ffffff;
-  box-shadow: 0 0 0 1px alpha(@borders, 0.9);
-  min-width: 24px;
-  min-height: 24px;
-  padding: 0;
-}
-
-button.cc-color-swatch.selected {
-  box-shadow: 0 0 0 2px #1a1a1a;
-}
-
-button.cc-color-none {
-  background-color: #ffffff;
-  font-size: 11px;
-}
-
-button.cc-color-r { background-color: #e01b24; }
-button.cc-color-g { background-color: #2ec27e; }
-button.cc-color-b { background-color: #3584e4; }
-button.cc-color-o { background-color: #ff7800; }
-button.cc-color-p { background-color: #9141ac; }
-button.cc-color-y { background-color: #f5c211; }
 
 .cc-delete-dialog {
   background-color: #fff8e7;

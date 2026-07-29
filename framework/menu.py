@@ -383,7 +383,6 @@ class CommandCenter(Gtk.Window):
                 "desc": "",
                 "category": "General",
                 "icon": "🔧",
-                "color": None,
                 "terminal": False,
                 "confirm": False,
             }, body="")

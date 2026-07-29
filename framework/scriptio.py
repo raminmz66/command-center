@@ -65,8 +65,6 @@ def write_script(path, meta, body):
     add("NAME", meta.get("name"))
     add("ICON", meta.get("icon"))
     add("DESC", meta.get("desc"))
-    if meta.get("color"):
-        add("COLOR", meta.get("color"))
     add("TERMINAL", "true" if meta.get("terminal") else "false")
     add("CONFIRM", "true" if meta.get("confirm") else "false")
     add("CATEGORY", meta.get("category") or "General")

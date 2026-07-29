@@ -4,7 +4,6 @@ import unittest
 
 from textutil import (
     truncate_description,
-    normalize_icon_color,
     matches_query,
     ordered_categories,
     matches_filters,
@@ -39,20 +38,6 @@ class TruncateDescriptionTests(unittest.TestCase):
             truncate_description("abcdefghij", 5),
             "abcd…",
         )
-
-
-class NormalizeIconColorTests(unittest.TestCase):
-
-    def test_aliases(self):
-        self.assertEqual(normalize_icon_color("r"), "r")
-        self.assertEqual(normalize_icon_color("RED"), "r")
-        self.assertEqual(normalize_icon_color("green"), "g")
-        self.assertEqual(normalize_icon_color("b"), "b")
-
-    def test_invalid(self):
-        self.assertIsNone(normalize_icon_color(""))
-        self.assertIsNone(normalize_icon_color(None))
-        self.assertIsNone(normalize_icon_color("pink"))
 
 
 class MatchesQueryTests(unittest.TestCase):

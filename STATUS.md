@@ -8,16 +8,17 @@
 | Field | Value |
 |-------|--------|
 | **Phase** | 4 — Framework Release (reordered) |
-| **Cycle** | Authoring form redesign (UI/UX) |
+| **Cycle** | Authoring color removal |
 | **Stage** | `done` |
-| **Active spec** | [docs/superpowers/specs/2026-07-29-authoring-form-redesign-design.md](docs/superpowers/specs/2026-07-29-authoring-form-redesign-design.md) |
-| **Active plan** | [docs/superpowers/plans/2026-07-29-authoring-form-redesign.md](docs/superpowers/plans/2026-07-29-authoring-form-redesign.md) |
-| **Visual ref** | [docs/superpowers/visuals/2026-07-29-authoring-form-redesign.html](docs/superpowers/visuals/2026-07-29-authoring-form-redesign.html) |
+| **Active spec** | [docs/superpowers/specs/2026-07-29-authoring-color-removal-design.md](docs/superpowers/specs/2026-07-29-authoring-color-removal-design.md) |
+| **Active plan** | [docs/superpowers/plans/2026-07-29-authoring-color-removal.md](docs/superpowers/plans/2026-07-29-authoring-color-removal.md) |
+| **Visual ref** | n/a |
 
 ## Completed references
 
 | Cycle | Spec | Plan |
 |-------|------|------|
+| Authoring color removal | [docs/superpowers/specs/2026-07-29-authoring-color-removal-design.md](docs/superpowers/specs/2026-07-29-authoring-color-removal-design.md) | [docs/superpowers/plans/2026-07-29-authoring-color-removal.md](docs/superpowers/plans/2026-07-29-authoring-color-removal.md) |
 | Authoring form redesign | [docs/superpowers/specs/2026-07-29-authoring-form-redesign-design.md](docs/superpowers/specs/2026-07-29-authoring-form-redesign-design.md) | [docs/superpowers/plans/2026-07-29-authoring-form-redesign.md](docs/superpowers/plans/2026-07-29-authoring-form-redesign.md) |
 | Script authoring | [docs/superpowers/specs/2026-07-28-script-authoring-design.md](docs/superpowers/specs/2026-07-28-script-authoring-design.md) | [docs/superpowers/plans/2026-07-28-script-authoring.md](docs/superpowers/plans/2026-07-28-script-authoring.md) |
 | Authoring icon catalog | [docs/superpowers/specs/2026-07-29-authoring-icon-catalog-design.md](docs/superpowers/specs/2026-07-29-authoring-icon-catalog-design.md) | [docs/superpowers/plans/2026-07-29-authoring-icon-catalog.md](docs/superpowers/plans/2026-07-29-authoring-icon-catalog.md) |
@@ -43,7 +44,7 @@ Then either start the next cycle or advance the phase.
 | 1 | UI Professionalization (Steps 20–23) | **Complete** (+ polish 23b/23c) |
 | 2 | Smart Launcher (Steps 24–26) | Step 24 done; **25–26 parked** |
 | 3 | Desktop Integration (Steps 27–29) | **Parked** |
-| 4 | Framework Release (Steps 30–32) | Authoring + form redesign **done**; packaging (32) next; 30–31 optional |
+| 4 | Framework Release (Steps 30–32) | Authoring + form redesign + color cleanup **done**; packaging (32) next |
 
 ## Session cues
 

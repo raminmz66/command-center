@@ -32,14 +32,16 @@ class ScriptioTests(unittest.TestCase):
             "category": "System",
             "terminal": True,
             "confirm": False,
-            "color": "b",
         }
         scriptio.write_script(path, meta, "echo hi\n")
         data = scriptio.read_script(path)
+        with open(path, "r", encoding="utf-8") as fh:
+            text = fh.read()
         self.assertEqual(data["meta"]["name"], "Demo")
         self.assertEqual(data["meta"]["icon"], "💾")
         self.assertEqual(data["meta"]["terminal"], True)
-        self.assertEqual(data["meta"]["color"], "b")
+        self.assertIsNone(data["meta"]["color"])
+        self.assertNotIn("# COLOR=", text)
         self.assertEqual(data["body"].strip(), "echo hi")
         mode = os.stat(path).st_mode
         self.assertTrue(mode & stat.S_IXUSR)
@@ -53,6 +55,24 @@ class ScriptioTests(unittest.TestCase):
         scriptio.write_script(path, {"name": "X"}, "true\n")
         scriptio.delete_script(path)
         self.assertFalse(os.path.exists(path))
+
+    def test_read_legacy_color_metadata(self):
+        path = os.path.join(self.dir, "legacy.sh")
+        with open(path, "w", encoding="utf-8") as fh:
+            fh.write(
+                "#!/bin/bash\n"
+                "# NAME=Legacy\n"
+                "# ICON=🔒\n"
+                "# COLOR=b\n"
+                "# TERMINAL=false\n"
+                "# CONFIRM=false\n"
+                "# CATEGORY=Security\n"
+                "\n"
+                "echo legacy\n"
+            )
+        data = scriptio.read_script(path)
+        self.assertEqual(data["meta"]["color"], "b")
+        self.assertEqual(data["body"].strip(), "echo legacy")
 
 
 if __name__ == "__main__":

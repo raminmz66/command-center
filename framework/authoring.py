@@ -6,8 +6,6 @@ gi.require_version("Gtk", "3.0")
 
 from gi.repository import Gtk, Gdk
 
-from textutil import normalize_icon_color
-
 
 ICON_CATALOG = [
     "🖥", "💾", "🔒", "🌐", "⚙", "🗂",
@@ -19,17 +17,6 @@ ICON_CATALOG = [
 ]
 
 _DEFAULT_ICON = "🔧"
-
-COLOR_KEYS = [
-    (None, "None"),
-    ("r", "Red"),
-    ("g", "Green"),
-    ("b", "Blue"),
-    ("o", "Orange"),
-    ("p", "Purple"),
-    ("y", "Yellow"),
-]
-
 
 class AuthoringForm(Gtk.Box):
     """Sectioned Soft GNOME create/edit form with icon popover."""
@@ -142,29 +129,6 @@ class AuthoringForm(Gtk.Box):
         self._icon_popover.set_modal(True)
         self._icon_popover.add(pop_box)
 
-        color_field = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=4)
-        color_lbl = Gtk.Label(label="COLOR", xalign=0)
-        color_lbl.get_style_context().add_class("cc-authoring-label")
-        color_field.pack_start(color_lbl, False, False, 0)
-        self.color_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
-        self._color_buttons = {}
-        self._selected_color = None
-        for key, tip in COLOR_KEYS:
-            btn = Gtk.Button()
-            btn.set_relief(Gtk.ReliefStyle.NONE)
-            btn.set_tooltip_text(tip)
-            btn.set_size_request(28, 28)
-            btn.get_style_context().add_class("cc-color-swatch")
-            if key is None:
-                btn.get_style_context().add_class("cc-color-none")
-                btn.set_label("∅")
-            else:
-                btn.get_style_context().add_class(f"cc-color-{key}")
-            btn.connect("clicked", self._on_color_picked, key)
-            self._color_buttons[key] = btn
-            self.color_box.pack_start(btn, False, False, 0)
-        color_field.pack_start(self.color_box, False, False, 0)
-        appearance.pack_start(color_field, False, False, 0)
         body.pack_start(appearance, False, False, 0)
 
         # —— Behavior ——
@@ -211,8 +175,6 @@ class AuthoringForm(Gtk.Box):
 
         self._icon_name = _DEFAULT_ICON
         self._select_icon(self._icon_name)
-        self._select_color(None)
-
     def _section(self, title):
         box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=10)
         box.get_style_context().add_class("cc-authoring-section")
@@ -267,25 +229,6 @@ class AuthoringForm(Gtk.Box):
             else:
                 ctx.remove_class("selected")
 
-    def _on_color_picked(self, _btn, key):
-        self._select_color(key)
-
-    def _select_color(self, key):
-        self._selected_color = key
-        for k, btn in self._color_buttons.items():
-            ctx = btn.get_style_context()
-            if k == key:
-                ctx.add_class("selected")
-            else:
-                ctx.remove_class("selected")
-        ctx = self.chip_emoji.get_style_context()
-        for c in list(ctx.list_classes()):
-            if c.startswith("command-icon-"):
-                ctx.remove_class(c)
-        nk = normalize_icon_color(key)
-        if nk:
-            ctx.add_class(f"command-icon-{nk}")
-
     def _on_key_press(self, _widget, event):
         if event.keyval == Gdk.KEY_Escape and self._icon_popover is not None:
             if self._icon_popover.get_visible():
@@ -316,7 +259,6 @@ class AuthoringForm(Gtk.Box):
         self.desc_entry.set_text(meta.get("desc") or "")
         self.category_entry.set_text(meta.get("category") or "General")
         self._select_icon(meta.get("icon") or _DEFAULT_ICON)
-        self._select_color(normalize_icon_color(meta.get("color")))
         self.terminal_switch.set_active(bool(meta.get("terminal")))
         self.confirm_switch.set_active(bool(meta.get("confirm")))
         self._set_script_text(body)
@@ -334,7 +276,6 @@ class AuthoringForm(Gtk.Box):
             "desc": self.desc_entry.get_text().strip(),
             "category": self.category_entry.get_text().strip() or "General",
             "icon": self._icon_name,
-            "color": self._selected_color,
             "terminal": self.terminal_switch.get_active(),
             "confirm": self.confirm_switch.get_active(),
         }

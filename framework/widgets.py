@@ -6,7 +6,7 @@ gi.require_version("Gtk", "3.0")
 
 from gi.repository import Gtk
 
-from textutil import truncate_description, normalize_icon_color
+from textutil import truncate_description
 
 
 class CommandCard(Gtk.Button):
@@ -59,15 +59,6 @@ class CommandCard(Gtk.Button):
         icon = Gtk.Label(label=meta.get("icon") or "🔧")
         icon.set_halign(Gtk.Align.CENTER)
         icon.get_style_context().add_class("command-icon")
-
-        color_key = normalize_icon_color(
-            meta.get("color")
-        )
-
-        if color_key:
-            icon.get_style_context().add_class(
-                f"command-icon-{color_key}"
-            )
 
         title = Gtk.Label(
             label=meta["name"]
