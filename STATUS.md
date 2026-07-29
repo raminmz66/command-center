@@ -7,12 +7,12 @@
 
 | Field | Value |
 |-------|--------|
-| **Phase** | 3 — Desktop Integration (pulled forward) |
-| **Cycle** | Desktop summon (global shortcut) |
-| **Stage** | `done` |
-| **Active spec** | [docs/superpowers/specs/2026-07-29-desktop-summon-design.md](docs/superpowers/specs/2026-07-29-desktop-summon-design.md) |
-| **Active plan** | [docs/superpowers/plans/2026-07-29-desktop-summon.md](docs/superpowers/plans/2026-07-29-desktop-summon.md) |
-| **Visual ref** | `.superpowers/qa/desktop-summon-popover.png` |
+| **Phase** | 4 — Framework Release |
+| **Cycle** | Packaging (Step 32 lite) |
+| **Stage** | `execute` |
+| **Active spec** | [docs/superpowers/specs/2026-07-29-packaging-prep-design.md](docs/superpowers/specs/2026-07-29-packaging-prep-design.md) |
+| **Active plan** | [docs/superpowers/plans/2026-07-29-packaging-prep.md](docs/superpowers/plans/2026-07-29-packaging-prep.md) |
+| **Visual ref** | n/a |
 
 ## Completed references
 
@@ -32,7 +32,7 @@
 
 ## Next action
 
-Desktop summon **done**. Ready to brainstorm next (packaging / Step 32, or tray/notifications). Say **Start next cycle** when ready.
+Brainstorming packaging (Step 32 lite). Clarifying install target and scope with user.
 ## Stages (per cycle)
 
 `ready to brainstorm` → `brainstorm` → `spec` → `plan` → `execute` → `done`
