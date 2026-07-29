@@ -11,7 +11,7 @@ from gi.repository import Gtk, Gdk, GLib
 from authoring import AuthoringForm
 from favorites import load_favorites, save_favorites
 from metadata import read_metadata
-from paths import css_path, ensure_scripts_dir, scripts_dir
+from paths import css_path, scripts_dir, seed_sample_scripts
 from scriptio import (
     delete_script,
     read_script,
@@ -771,7 +771,7 @@ class CommandCenter(Gtk.Window):
         run_command(None, path, meta.get("terminal", False))
 
     def discover_commands(self):
-        ensure_scripts_dir()
+        seed_sample_scripts()
         root = scripts_dir()
         self.commands = []
         if not os.path.exists(root):
