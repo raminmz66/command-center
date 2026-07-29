@@ -339,20 +339,20 @@ button.cc-authoring-save:hover {
   background-color: #e0b020;
 }
 
-button.cc-authoring-cancel {
-  background-image: none;
-  background-color: #ffffff;
-  border: 1px solid alpha(@borders, 0.95);
-  border-radius: 9px;
-  padding: 7px 14px;
-  font-weight: 700;
+.cc-authoring-section {
+  background-color: #fff8e7;
+  border: 1px solid alpha(#f6c32a, 0.38);
+  border-radius: 14px;
+  padding: 12px 14px;
 }
 
-.cc-authoring-shell {
-  background-color: #fff8e7;
-  border: 1px solid alpha(#f6c32a, 0.4);
-  border-radius: 14px;
-  padding: 14px;
+.cc-authoring-section-title {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  opacity: 0.7;
+  margin: 0 0 2px;
 }
 
 .cc-authoring-label {
@@ -367,32 +367,56 @@ button.cc-authoring-cancel {
   min-height: 34px;
 }
 
-.cc-authoring-icon-preview-frame {
-  border-radius: 10px;
-  border: 1px solid alpha(@borders, 0.7);
+.cc-authoring-chip {
   background-color: #ffffff;
-  padding: 4px;
-  min-width: 44px;
-  min-height: 44px;
+  border: 1px solid alpha(@borders, 0.95);
+  border-radius: 999px;
+  padding: 4px 12px 4px 8px;
 }
 
-.cc-authoring-icon-preview-emoji {
-  font-size: 22px;
-  padding: 2px;
+.cc-authoring-chip-emoji {
+  font-size: 18px;
+}
+
+.cc-authoring-chip-text {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+button.cc-authoring-change {
+  background-image: none;
+  background-color: transparent;
+  border: none;
+  color: #1c71d8;
+  font-weight: 600;
+  font-size: 13px;
+  padding: 4px 2px;
+  box-shadow: none;
+}
+
+button.cc-authoring-change:hover {
+  background-image: none;
+  background-color: transparent;
+  color: #1a5fb4;
+  text-decoration: underline;
+}
+
+.cc-authoring-icon-popover {
+  background-color: #ffffff;
+  padding: 0;
 }
 
 .cc-authoring-icon-glyph {
-  font-size: 20px;
+  font-size: 18px;
   padding: 0;
   margin: 0;
 }
 
-/* Flat glyphs only — no button chrome */
 .cc-authoring-icon-cell {
   background-color: transparent;
   border: none;
   border-radius: 6px;
-  padding: 2px;
+  padding: 3px;
   box-shadow: none;
   outline: none;
 }
@@ -404,6 +428,19 @@ button.cc-authoring-cancel {
 .cc-authoring-icon-cell.selected {
   background-color: alpha(#f6c32a, 0.22);
   box-shadow: 0 0 0 1.5px #f6c32a;
+}
+
+.cc-authoring-script-frame {
+  border: 1px solid alpha(@borders, 0.95);
+  border-radius: 8px;
+  background-color: #ffffff;
+  min-height: 140px;
+}
+
+.cc-authoring-error {
+  color: #c01c28;
+  font-weight: 600;
+  font-size: 13px;
 }
 
 button.cc-color-swatch {
@@ -431,18 +468,6 @@ button.cc-color-b { background-color: #3584e4; }
 button.cc-color-o { background-color: #ff7800; }
 button.cc-color-p { background-color: #9141ac; }
 button.cc-color-y { background-color: #f5c211; }
-
-.cc-authoring-script-frame {
-  border: 1px solid alpha(@borders, 0.95);
-  border-radius: 8px;
-  background-color: #ffffff;
-}
-
-.cc-authoring-error {
-  color: #c01c28;
-  font-weight: 600;
-  font-size: 13px;
-}
 
 .cc-delete-dialog {
   background-color: #fff8e7;
