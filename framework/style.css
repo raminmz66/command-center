@@ -314,12 +314,15 @@ button.cc-header-plus:hover {
 
 button.command-card.commands-edit {
   background-color: #fafafa;
-  border-color: alpha(@borders, 0.7);
-  opacity: 0.92;
+  border-color: alpha(@borders, 0.75);
 }
 
 button.command-card.commands-edit .cc-card-body {
-  opacity: 0.85;
+  opacity: 0.78;
+}
+
+button.command-card.commands-edit .command-icon {
+  opacity: 0.9;
 }
 
 button.command-card.commands-edit .cc-card-actions {
