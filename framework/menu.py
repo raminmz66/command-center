@@ -11,6 +11,7 @@ from gi.repository import Gtk, Gdk, GLib
 from authoring import AuthoringForm
 from favorites import load_favorites, save_favorites
 from metadata import read_metadata
+from paths import css_path, ensure_scripts_dir, scripts_dir
 from scriptio import (
     delete_script,
     read_script,
@@ -23,23 +24,15 @@ from widgets import CommandCard
 from launcher import run_command
 
 
-SCRIPTS_DIR = os.path.expanduser(
-    "~/CommandCenter/scripts"
-)
-
-CSS_FILE = os.path.expanduser(
-    "~/CommandCenter/framework/style.css"
-)
-
-
 def load_css():
 
     provider = Gtk.CssProvider()
+    css = css_path()
 
-    if os.path.exists(CSS_FILE):
+    if os.path.exists(css):
 
         provider.load_from_path(
-            CSS_FILE
+            css
         )
 
         Gtk.StyleContext.add_provider_for_screen(
@@ -543,7 +536,7 @@ class CommandCenter(Gtk.Window):
         try:
             if path is None:
                 filename = slug_filename(meta["name"])
-                path = unique_path(SCRIPTS_DIR, filename)
+                path = unique_path(scripts_dir(), filename)
             write_script(path, meta, body)
         except OSError as exc:
             form.show_error(str(exc))
