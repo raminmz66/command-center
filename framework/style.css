@@ -339,9 +339,38 @@ button.cc-authoring-save:hover {
 .cc-authoring-section {
   background-color: #fff8e7;
   border: 1px solid alpha(#f6c32a, 0.38);
-  border-radius: 14px;
-  /* Padding via Gtk.Box.set_border_width — CSS padding is ignored on Box. */
+  /* Radius OK when children use border_width inset (>= radius). */
+  border-radius: 12px;
 }
+
+/* Script chrome is drawn with Cairo (_RoundedScriptChrome). Keep CSS flat
+   so GTK does not clip; children must stay transparent to show round fill. */
+.cc-authoring-script-frame {
+  background-color: transparent;
+  border: none;
+  min-height: 140px;
+}
+
+.cc-authoring-script-scroll,
+.cc-authoring-script-scroll > viewport,
+.cc-authoring-script-scroll undershoot.top,
+.cc-authoring-script-scroll undershoot.bottom,
+.cc-authoring-script-scroll undershoot.left,
+.cc-authoring-script-scroll undershoot.right,
+.cc-authoring-script-scroll overshoot.top,
+.cc-authoring-script-scroll overshoot.bottom {
+  background-color: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.cc-authoring-script,
+.cc-authoring-script text {
+  background-color: transparent;
+  color: @theme_fg_color;
+}
+
 
 .cc-authoring-section-title {
   font-size: 11px;
@@ -436,13 +465,6 @@ button.cc-authoring-change:hover {
 .cc-authoring-icon-cell.selected {
   background-color: alpha(#f6c32a, 0.22);
   box-shadow: 0 0 0 1.5px #f6c32a;
-}
-
-.cc-authoring-script-frame {
-  border: 1px solid alpha(@borders, 0.95);
-  border-radius: 8px;
-  background-color: #ffffff;
-  min-height: 140px;
 }
 
 .cc-authoring-error {

@@ -18,6 +18,52 @@ ICON_CATALOG = [
 
 _DEFAULT_ICON = "🔧"
 
+
+class _RoundedScriptChrome(Gtk.EventBox):
+    """White editor chrome with real rounded corners.
+
+    Gtk.Entry paints border-radius correctly; ScrolledWindow/TextView do not —
+    CSS radius either no-ops or clips the fill (looks cropped). Cairo draws the
+    round rect; children stay transparent so corners stay clean.
+    """
+
+    def __init__(self, radius=8):
+        super().__init__()
+        self._radius = radius
+        self.set_visible_window(True)
+        self.set_app_paintable(True)
+        self.connect("realize", self._on_realize)
+        self.connect("draw", self._on_draw)
+
+    def _on_realize(self, *_args):
+        window = self.get_window()
+        if window is not None:
+            window.set_background_rgba(Gdk.RGBA(red=0, green=0, blue=0, alpha=0))
+
+    def _on_draw(self, _widget, cr):
+        w = self.get_allocated_width()
+        h = self.get_allocated_height()
+        r = min(self._radius, w / 2, h / 2)
+        cr.save()
+        self._round_rect(cr, 0.5, 0.5, w - 1, h - 1, r)
+        cr.set_source_rgb(1, 1, 1)
+        cr.fill_preserve()
+        cr.set_source_rgba(0, 0, 0, 0.22)
+        cr.set_line_width(1)
+        cr.stroke()
+        cr.restore()
+        return False
+
+    @staticmethod
+    def _round_rect(cr, x, y, w, h, r):
+        cr.new_sub_path()
+        cr.arc(x + w - r, y + r, r, -0.5 * 3.14159265, 0)
+        cr.arc(x + w - r, y + h - r, r, 0, 0.5 * 3.14159265)
+        cr.arc(x + r, y + h - r, r, 0.5 * 3.14159265, 3.14159265)
+        cr.arc(x + r, y + r, r, 3.14159265, 1.5 * 3.14159265)
+        cr.close_path()
+
+
 class AuthoringForm(Gtk.Box):
     """Sectioned Soft GNOME create/edit form with icon popover."""
 
@@ -153,15 +199,28 @@ class AuthoringForm(Gtk.Box):
         self.script_view = Gtk.TextView()
         self.script_view.set_wrap_mode(Gtk.WrapMode.WORD_CHAR)
         self.script_view.set_monospace(True)
+        self.script_view.set_top_margin(6)
+        self.script_view.set_bottom_margin(6)
+        self.script_view.set_left_margin(8)
+        self.script_view.set_right_margin(8)
         self.script_view.get_style_context().add_class("cc-authoring-script")
-        script_frame = Gtk.ScrolledWindow()
-        script_frame.set_min_content_height(140)
-        script_frame.set_vexpand(True)
-        script_frame.set_policy(Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.AUTOMATIC)
-        script_frame.set_shadow_type(Gtk.ShadowType.IN)
-        script_frame.add(self.script_view)
-        script_frame.get_style_context().add_class("cc-authoring-script-frame")
-        script_body.pack_start(script_frame, True, True, 0)
+
+        # Cairo-rounded chrome (same 8px as entries). Avoid CSS radius on
+        # ScrolledWindow — GTK clips and corners look cropped.
+        script_chrome = _RoundedScriptChrome(radius=8)
+        script_chrome.set_vexpand(True)
+        script_chrome.set_hexpand(True)
+        script_chrome.get_style_context().add_class("cc-authoring-script-frame")
+
+        script_scroll = Gtk.ScrolledWindow()
+        script_scroll.set_min_content_height(140)
+        script_scroll.set_vexpand(True)
+        script_scroll.set_policy(Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.AUTOMATIC)
+        script_scroll.set_shadow_type(Gtk.ShadowType.NONE)
+        script_scroll.get_style_context().add_class("cc-authoring-script-scroll")
+        script_scroll.add(self.script_view)
+        script_chrome.add(script_scroll)
+        script_body.pack_start(script_chrome, True, True, 0)
         body.pack_start(script_sec, True, True, 0)
 
         self.error_label = Gtk.Label(xalign=0)
@@ -178,25 +237,23 @@ class AuthoringForm(Gtk.Box):
         self._icon_name = _DEFAULT_ICON
         self._select_icon(self._icon_name)
     def _section(self, title):
-        """Cream rounded shell with inset body so children are not corner-clipped."""
-        shell = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=0)
-        shell.get_style_context().add_class("cc-authoring-section")
-        shell.set_hexpand(True)
+        """Cream section with real inset padding (GTK Box CSS padding is ignored)."""
+        frame = Gtk.Frame()
+        frame.set_shadow_type(Gtk.ShadowType.NONE)
+        frame.set_hexpand(True)
+        frame.get_style_context().add_class("cc-authoring-section")
 
         content = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=10)
-        content.set_margin_start(16)
-        content.set_margin_end(16)
-        content.set_margin_top(12)
-        content.set_margin_bottom(16)
+        # border_width is reliable inset; keeps children clear of rounded clip.
+        content.set_border_width(18)
         content.set_hexpand(True)
         content.set_vexpand(True)
 
-        # Uppercase in text — GTK CSS has no text-transform.
         lbl = Gtk.Label(label=title.upper(), xalign=0)
         lbl.get_style_context().add_class("cc-authoring-section-title")
         content.pack_start(lbl, False, False, 0)
-        shell.pack_start(content, True, True, 0)
-        return shell, content
+        frame.add(content)
+        return frame, content
 
     def _labeled_entry(self, parent, label, expand=False):
         box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=4)
