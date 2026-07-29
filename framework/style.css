@@ -313,16 +313,14 @@ button.cc-header-plus:hover {
 }
 
 button.command-card.commands-edit {
-  background-color: #fafafa;
-  border-color: alpha(@borders, 0.75);
+  background-color: #f7f7f7;
+  border-color: alpha(@borders, 0.8);
 }
 
-button.command-card.commands-edit .cc-card-body {
-  opacity: 0.78;
-}
-
-button.command-card.commands-edit .command-icon {
-  opacity: 0.9;
+/* Dim text only — opacity on the body box can hide emoji icons in GTK3. */
+button.command-card.commands-edit .command-title,
+button.command-card.commands-edit .command-desc {
+  opacity: 0.72;
 }
 
 button.command-card.commands-edit .cc-card-actions {
