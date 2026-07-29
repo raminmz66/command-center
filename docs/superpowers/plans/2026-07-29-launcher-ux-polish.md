@@ -33,24 +33,10 @@
 - Modify: `framework/menu.py` (HeaderBar pack order)
 - Modify: `framework/style.css`
 
-- [ ] **Step 1:** After packing refresh, pack a thin vertical separator (Gtk.Separator or Box with class `cc-header-sep`), then `edit_fav_button`. Do **not** `pack_start` `edit_cmd_button`.
-- [ ] **Step 2:** Pack order on the end: `add_cmd_button` first (`pack_end`), then `edit_cmd_button` (`pack_end`), then `search_entry` (`pack_end`) so visual right-to-left from window edge is: + · Edit · search (GTK pack_end stacks toward the center).
-- [ ] **Step 3:** Add CSS:
-
-```css
-.cc-header-sep {
-  min-width: 1px;
-  margin: 4px 6px;
-  opacity: 0.35;
-}
-```
-
-- [ ] **Step 4:** Commit
-
-```bash
-git add framework/menu.py framework/style.css
-git commit -m "feat: split launcher header chrome by favorites vs commands."
-```
+- [x] **Step 1:** After packing refresh, pack a thin vertical separator (Gtk.Separator or Box with class `cc-header-sep`), then `edit_fav_button`. Do **not** `pack_start` `edit_cmd_button`.
+- [x] **Step 2:** Pack order on the end: `add_cmd_button` first (`pack_end`), then `edit_cmd_button` (`pack_end`), then `search_entry` (`pack_end`) so visual right-to-left from window edge is: + · Edit · search (GTK pack_end stacks toward the center).
+- [x] **Step 3:** Add CSS for `.cc-header-sep`.
+- [x] **Step 4:** Commit
 
 ---
 
@@ -60,26 +46,16 @@ git commit -m "feat: split launcher header chrome by favorites vs commands."
 - Modify: `framework/menu.py` (`render_commands` / content packing)
 - Modify: `framework/style.css`
 
-- [ ] **Step 1:** Create `self.commands_label = Gtk.Label(label="All commands", xalign=0)` with class `cc-commands-label`; `set_no_show_all(True)`; pack between `favorites_box` and `grid`.
-- [ ] **Step 2:** In main-grid build loop, after `matches_filters`, skip if `os.path.basename(path)` is in the saved favorites set used for the strip (`self.favorites`).
-- [ ] **Step 3:** Show `commands_label` when Favorites section is visible **or** main grid has ≥1 card; hide only when both Favorites and main are empty.
-- [ ] **Step 4:** CSS for `.cc-commands-label` — ~11–12px, weight 700, opacity ~0.7, letter-spacing, margin under Favorites (~8–12px).
-- [ ] **Step 5:** Commit
-
-```bash
-git add framework/menu.py framework/style.css
-git commit -m "feat: hide favorited commands from main grid; add All commands label."
-```
+- [x] **Step 1:** Create `self.commands_label` with class `cc-commands-label`; pack between `favorites_box` and `grid`.
+- [x] **Step 2:** In main-grid build loop, after filters, skip saved favorites basenames.
+- [x] **Step 3:** Show `commands_label` when Favorites visible or main has cards.
+- [x] **Step 4:** CSS for `.cc-commands-label`.
+- [x] **Step 5:** Commit
 
 ---
 
 ### Task 3: Screenshot QA + STATUS done
 
-- [ ] **Step 1:** Launch app; verify no duplicate Conky/Lockdown cards; header order matches spec; label present.
-- [ ] **Step 2:** Update `STATUS.md` cycle to done; mark plan checkboxes.
-- [ ] **Step 3:** Commit
-
-```bash
-git add STATUS.md docs/superpowers/plans/2026-07-29-launcher-ux-polish.md
-git commit -m "docs: mark launcher UX polish done after visual QA."
-```
+- [x] **Step 1:** Launch app; verify no duplicate cards; header order; label present.
+- [x] **Step 2:** Update `STATUS.md` cycle to done; mark plan checkboxes.
+- [x] **Step 3:** Commit
