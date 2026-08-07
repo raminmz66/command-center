@@ -80,20 +80,14 @@ Current metadata:
 
 ```bash
 # NAME=
-# ICON=
+# ICON=          # emoji or legacy symbolic name
 # DESC=
-# TERMINAL=
-```
-
-Future metadata:
-
-```bash
 # CATEGORY=
+# TERMINAL=
 # CONFIRM=
-# FAVORITE=
-# TYPE=
-# SHORTCUT=
 ```
+
+Favorites live in user config (`~/.config/command-center/`), not script metadata.
 
 ---
 
@@ -138,9 +132,9 @@ CSS handles:
 
 ## Version
 
-Foundation v1.0-alpha
+Soft GNOME personal launcher — installable via `.deb` / `~/.local` (`packaging/`).
 
-The project has evolved from a simple Python launcher into a modular GTK application framework.
+Live cursor for day-to-day work: **`STATUS.md`**. This file is long-term vision + backlog only.
 
 ---
 
@@ -386,391 +380,78 @@ Status:
 
 ---
 
-# Remaining Roadmap
+# Roadmap (refined 2026-07-30)
 
----
+Park = keep for a later pass; re-decide then (implement or trash).
+Trash = removed from the plan.
 
-# Phase 1 — UI Professionalization
+## Done
 
-Goal:
+| Area | Notes |
+|------|--------|
+| Soft GNOME UI / CSS | Cards, header, theme-friendly styling |
+| Search | Instant filter, focus, shortcuts |
+| Categories | `# CATEGORY=` + chips |
+| Favorites | Edit/Apply, separated strip |
+| Confirmation | `# CONFIRM=` + popover |
+| Script authoring | In-app create/edit/delete, emoji icons |
+| Desktop summon (lite) | GNOME global shortcut + show/focus + Esc |
+| Packaging | XDG paths, `install.sh` / `uninstall.sh`, `.deb`, app icon |
 
-Make Command Center look like a polished GNOME application.
+## Parked (later)
 
----
+| Item | Goal (when we reopen) |
+|------|------------------------|
+| **29** — System tray | Background tray icon + quick commands (vs summon-and-close) |
+| **31** — Templates | Curated script packs beyond Hello Terminal / Confirm Demo |
+| **32 leftovers** — Flatpak / AppImage | Extra formats; `.deb` already ships |
 
-# Step 20 — Final CSS Design
+Card keyboard nav (old 27 leftovers) moved to **Active backlog** below.
 
-Improve visual quality.
+## Active backlog (do in order)
 
-Add:
+Each item: brainstorm → spec → plan → execute.
 
-- rounded cards
-- modern spacing
-- better typography
-- hover animations
-- improved header
-- dark mode support
-- theme integration
+1. **Arrow + Enter on cards** — keyboard navigate the grid; Enter runs highlighted command  
+2. **Reorder favorites by drag** — drag to reorder the favorites strip  
+3. **Empty-state that teaches** — clear CTA when scripts dir is empty  
+4. **Remember window size/position** — restore geometry on summon  
 
-Target:
+## Removed (trashed 2026-07-30)
 
-```
-╭──────────────────────────────╮
-│ Command Center          📁 ⟳ │
-├──────────────────────────────┤
-│                              │
-│   🖥 Conky     🔒 Security    │
-│                              │
-│   💾 Backup    🌐 VPN         │
-│                              │
-╰──────────────────────────────╯
-```
+| Item | Why dropped |
+|------|-------------|
+| **25** Advanced execution engine | Fire-and-forget is enough; history/logs out of scope |
+| **26** Status commands | Live card status / polling not needed for personal use |
+| **28** Desktop notifications | Prefer `notify-send` inside scripts when wanted |
+| **30** Project generator | Not distributing as a multi-project framework right now |
 
----
+## Next
 
-# Step 21 — Search System
+Active backlog (in order) — each: brainstorm → spec → plan → execute:
 
-Add:
+1. Arrow + Enter on cards  
+2. Reorder favorites by drag  
+3. Empty-state that teaches  
+4. Remember window size/position  
 
-```
-🔍 Search commands...
-```
-
-Features:
-
-- instant filtering
-- keyboard focus
-- fast discovery
-
-Example:
-
-Typing:
-
-```
-con
-```
-
-shows:
-
-```
-Conky
-```
-
----
-
-# Step 22 — Categories
-
-Metadata:
-
-```bash
-# CATEGORY=System
-```
-
-Interface:
-
-```
-All
-
-Desktop
-
-System
-
-Network
-
-Maintenance
-
-Security
-```
-
----
-
-# Step 23 — Favorites
-
-Metadata:
-
-```bash
-# FAVORITE=true
-```
-
-Features:
-
-- favorite commands section
-- quick access
-- priority sorting
-
----
-
-# Phase 2 — Smart Launcher
-
----
-
-# Step 24 — Confirmation System
-
-For dangerous commands:
-
-Metadata:
-
-```bash
-# CONFIRM=true
-```
-
-Example:
-
-```
-Run lockdown command?
-
-[Cancel] [Run]
-```
-
-Useful for:
-
-- sudo commands
-- cleanup
-- shutdown
-- system changes
-
----
-
-# Step 25 — Advanced Execution Engine
-
-Improve launcher.py.
-
-Add:
-
-- command output capture
-- error reporting
-- execution history
-- logs
-- success messages
-
-Example:
-
-```
-✓ Backup completed
-```
-
----
-
-# Step 26 — Status Commands
-
-Support commands that report state.
-
-Example:
-
-```
-Update Lockdown
-
-ACTIVE ✓
-```
-
-Metadata:
-
-```bash
-# TYPE=status
-```
-
----
-
-# Phase 3 — Desktop Integration
-
----
-
-# Step 27 — Keyboard Control
-
-Add:
-
-- global shortcut
-- arrow navigation
-- Enter execution
-- Escape close
-
-Example:
-
-```
-Ctrl + Space
-```
-
-opens Command Center.
-
----
-
-# Step 28 — Desktop Notifications
-
-Examples:
-
-```
-Backup completed successfully
-```
-
-or:
-
-```
-Firewall enabled
-```
-
----
-
-# Step 29 — System Tray Mode
-
-Optional background mode:
-
-```
-Command Center icon
-
-     |
-     |
-Quick commands
-```
-
----
-
-# Phase 4 — Framework Release
-
----
-
-# Step 30 — Project Generator
-
-Create:
-
-```
-command-center-init MyLauncher
-```
-
-Automatically creates:
-
-```
-MyLauncher/
-
-framework/
-
-scripts/
-
-icons/
-
-style.css
-
-README.md
-```
-
----
-
-# Step 31 — Templates
-
-Possible templates:
-
-## Desktop Utility
-
-Examples:
-
-- Conky
-- screenshots
-- wallpapers
-
-
-## Server Administration
-
-Examples:
-
-- service restart
-- logs
-- monitoring
-
-
-## Developer Toolbox
-
-Examples:
-
-- build
-- test
-- deploy
-
-
-## Home Automation
-
-Examples:
-
-- lights
-- sensors
-- scripts
-
----
-
-# Step 32 — Packaging
-
-Possible releases:
-
-- Debian package
-- AppImage
-- Flatpak
+Live cursor: `STATUS.md`.
 
 ---
 
 # Long-Term Vision
 
-Command Center becomes a reusable GTK framework.
+Command Center stays a **personal Soft GNOME launcher**: drop scripts with metadata, get a polished GUI — no Python edits to add commands.
 
-A user installs:
-
-```
-Command Center
-```
-
-Adds scripts:
-
-```
-backup.sh
-
-monitor.sh
-
-cleanup.sh
-
-vpn.sh
-```
-
-and immediately gets:
-
-```
-╭──────────────────────────╮
-│ Command Center           │
-├──────────────────────────┤
-│ 🖥 Conky                 │
-│ 🔒 Security              │
-│ 💾 Backup                │
-│ 🌐 VPN                   │
-╰──────────────────────────╯
-```
-
-No Python editing.
-
-No configuration files.
-
-Just scripts + metadata.
+Optional later paths (only if parked items earn their keep): tray mode, keyboard-palette nav, template packs, wider packaging.
 
 ---
 
 # Current Achievement Summary
 
-Completed:
-
-✅ Working GTK launcher  
-✅ Script-driven architecture  
-✅ Metadata API  
-✅ Native GNOME icons  
-✅ Card-based UI  
-✅ Modular framework  
-✅ CSS separation  
-✅ Dynamic refresh  
-✅ GNOME HeaderBar  
-✅ Clean project structure  
-
----
-
-# Next Development Point
-
-The next step is:
-
-## Step 20 — Professional CSS redesign
-
-After that:
-
-Command Center will not only function professionally — it will look like a polished GNOME desktop application.
+✅ GTK Soft GNOME launcher
+✅ Script-driven architecture + metadata API
+✅ Search, categories, favorites, confirm
+✅ In-app script authoring
+✅ Desktop summon (GNOME shortcut)
+✅ Relocatable install + `.deb` + uninstall + app icon

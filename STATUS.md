@@ -1,57 +1,40 @@
 # Command Center — Status
 
 > Single source of truth for **where we are** and **what is next**.
-> Long vision lives in `PROJECT_ROADMAP.md`. Do not invent “next” from memory — update this file at every gate.
+> Long vision + backlog live in `PROJECT_ROADMAP.md`.
 
 ## Now
 
 | Field | Value |
 |-------|--------|
-| **Phase** | 4 — Framework Release |
-| **Cycle** | App icon (launcher grid) |
-| **Stage** | `done` |
-| **Active spec** | [docs/superpowers/specs/2026-07-30-app-icon-design.md](docs/superpowers/specs/2026-07-30-app-icon-design.md) |
-| **Active plan** | — (executed from approved design) |
-| **Artifact** | `icons/hicolor/…`; `.deb` `command-center_0.1.1_all.deb` |
+| **Phase** | Polish backlog |
+| **Cycle** | 1 — Arrow + Enter on cards |
+| **Stage** | `brainstorm` |
+| **Active spec** | — |
+| **Active plan** | — |
 
-## Completed references
+## Active backlog (in order)
 
-| Cycle | Spec | Plan |
-|-------|------|------|
-| App icon (B) | [docs/superpowers/specs/2026-07-30-app-icon-design.md](docs/superpowers/specs/2026-07-30-app-icon-design.md) | — |
-| Step 32 — `.deb` packaging | [docs/superpowers/specs/2026-07-30-deb-packaging-design.md](docs/superpowers/specs/2026-07-30-deb-packaging-design.md) | [docs/superpowers/plans/2026-07-30-deb-packaging.md](docs/superpowers/plans/2026-07-30-deb-packaging.md) |
-| Edit mode UX polish | [docs/superpowers/specs/2026-07-29-edit-mode-ux-design.md](docs/superpowers/specs/2026-07-29-edit-mode-ux-design.md) | [docs/superpowers/plans/2026-07-29-edit-mode-ux.md](docs/superpowers/plans/2026-07-29-edit-mode-ux.md) |
-| Packaging prep | [docs/superpowers/specs/2026-07-29-packaging-prep-design.md](docs/superpowers/specs/2026-07-29-packaging-prep-design.md) | [docs/superpowers/plans/2026-07-29-packaging-prep.md](docs/superpowers/plans/2026-07-29-packaging-prep.md) |
-| Desktop summon | [docs/superpowers/specs/2026-07-29-desktop-summon-design.md](docs/superpowers/specs/2026-07-29-desktop-summon-design.md) | [docs/superpowers/plans/2026-07-29-desktop-summon.md](docs/superpowers/plans/2026-07-29-desktop-summon.md) |
-| Launcher UX polish | [docs/superpowers/specs/2026-07-29-launcher-ux-polish-design.md](docs/superpowers/specs/2026-07-29-launcher-ux-polish-design.md) | [docs/superpowers/plans/2026-07-29-launcher-ux-polish.md](docs/superpowers/plans/2026-07-29-launcher-ux-polish.md) |
-| Authoring color removal | [docs/superpowers/specs/2026-07-29-authoring-color-removal-design.md](docs/superpowers/specs/2026-07-29-authoring-color-removal-design.md) | [docs/superpowers/plans/2026-07-29-authoring-color-removal.md](docs/superpowers/plans/2026-07-29-authoring-color-removal.md) |
-| Authoring form redesign | [docs/superpowers/specs/2026-07-29-authoring-form-redesign-design.md](docs/superpowers/specs/2026-07-29-authoring-form-redesign-design.md) | [docs/superpowers/plans/2026-07-29-authoring-form-redesign.md](docs/superpowers/plans/2026-07-29-authoring-form-redesign.md) |
-| Script authoring | [docs/superpowers/specs/2026-07-28-script-authoring-design.md](docs/superpowers/specs/2026-07-28-script-authoring-design.md) | [docs/superpowers/plans/2026-07-28-script-authoring.md](docs/superpowers/plans/2026-07-28-script-authoring.md) |
-| Authoring icon catalog | [docs/superpowers/specs/2026-07-29-authoring-icon-catalog-design.md](docs/superpowers/specs/2026-07-29-authoring-icon-catalog-design.md) | [docs/superpowers/plans/2026-07-29-authoring-icon-catalog.md](docs/superpowers/plans/2026-07-29-authoring-icon-catalog.md) |
-| Step 24b — Confirm popover | [docs/superpowers/specs/2026-07-27-confirm-popover-design.md](docs/superpowers/specs/2026-07-27-confirm-popover-design.md) | [docs/superpowers/plans/2026-07-27-confirm-popover.md](docs/superpowers/plans/2026-07-27-confirm-popover.md) |
-| Step 24 — Confirmation | [docs/superpowers/specs/2026-07-27-confirmation-design.md](docs/superpowers/specs/2026-07-27-confirmation-design.md) | [docs/superpowers/plans/2026-07-27-confirmation.md](docs/superpowers/plans/2026-07-27-confirmation.md) |
-| Step 23c — Favorites separation | [docs/superpowers/specs/2026-07-27-favorites-separation-design.md](docs/superpowers/specs/2026-07-27-favorites-separation-design.md) | [docs/superpowers/plans/2026-07-27-favorites-separation.md](docs/superpowers/plans/2026-07-27-favorites-separation.md) |
-| Step 23b — Favorites Apply polish | [docs/superpowers/specs/2026-07-27-favorites-apply-design.md](docs/superpowers/specs/2026-07-27-favorites-apply-design.md) | [docs/superpowers/plans/2026-07-27-favorites-apply.md](docs/superpowers/plans/2026-07-27-favorites-apply.md) |
-| Step 23 — Favorites | [docs/superpowers/specs/2026-07-27-favorites-design.md](docs/superpowers/specs/2026-07-27-favorites-design.md) | [docs/superpowers/plans/2026-07-27-favorites.md](docs/superpowers/plans/2026-07-27-favorites.md) |
+1. **Arrow + Enter on cards** ← current  
+2. Reorder favorites by drag  
+3. Empty-state that teaches  
+4. Remember window size/position  
+
+## Roadmap snapshot (2026-07-30)
+
+| Bucket | Items |
+|--------|--------|
+| **Done** | Soft GNOME UI, search, categories, favorites, confirm, authoring, summon lite, `.deb` + icon |
+| **Parked** | 29 tray; 31 templates; 32 Flatpak/AppImage |
+| **Removed** | 25 execution engine; 26 status; 28 notifications; 30 generator |
 
 ## Next action
 
-App icon **done** (option B). Rebuild/reinstall `.deb` to see it in the app grid. Ready to brainstorm next.
+Brainstorming **Arrow + Enter on cards** — clarify keyboard UX vs search focus.
 
 ## Stages (per cycle)
 
 `ready to brainstorm` → `brainstorm` → `spec` → `plan` → `execute` → `done`
-
-Then either start the next cycle or advance the phase.
-
-## Roadmap snapshot
-
-| Phase | Focus | Status |
-|-------|--------|--------|
-| 1 | UI Professionalization (Steps 20–23) | **Complete** (+ polish 23b/23c) |
-| 2 | Smart Launcher (Steps 24–26) | Step 24 done; **25–26 parked** |
-| 3 | Desktop Integration (Steps 27–29) | Summon (27 lite) **done**; 28–29 still parked |
-| 4 | Framework Release (Steps 30–32) | Packaging prep + **Step 32 `.deb` done**; 30–31 open |
 
 ## Session cues
 
