@@ -12,6 +12,7 @@ from authoring import AuthoringForm
 from favorites import load_favorites, save_favorites
 from metadata import read_metadata
 from paths import css_path, scripts_dir, seed_sample_scripts
+from nav import next_highlight_index
 from scriptio import (
     delete_script,
     read_script,
@@ -22,6 +23,18 @@ from scriptio import (
 from textutil import matches_filters, ordered_categories, normalize_category
 from widgets import CommandCard
 from launcher import run_command
+
+
+_ARROW_KEYS = {
+    Gdk.KEY_Up: "Up",
+    Gdk.KEY_KP_Up: "Up",
+    Gdk.KEY_Down: "Down",
+    Gdk.KEY_KP_Down: "Down",
+    Gdk.KEY_Left: "Left",
+    Gdk.KEY_KP_Left: "Left",
+    Gdk.KEY_Right: "Right",
+    Gdk.KEY_KP_Right: "Right",
+}
 
 
 def load_css():
@@ -157,6 +170,8 @@ class CommandCenter(Gtk.Window):
         self.pending_confirm = None
         self.confirm_popover = None
         self._initial_search_focus = False
+        self._nav_cards = []
+        self._highlight_index = None
         self._header = header
 
         self.header_sep = Gtk.Separator(orientation=Gtk.Orientation.VERTICAL)
@@ -650,6 +665,7 @@ class CommandCenter(Gtk.Window):
 
     def _attach_cards(self, container, items, columns=3):
         self._clear_container(container)
+        cards = []
         row = col = 0
         for path, meta in items:
             basename = os.path.basename(path)
@@ -683,10 +699,12 @@ class CommandCenter(Gtk.Window):
             else:
                 card.connect("clicked", self.on_command_clicked, path, meta)
             container.attach(card, col, row, 1, 1)
+            cards.append(card)
             col += 1
             if col == columns:
                 col = 0
                 row += 1
+        return cards
 
     def on_favorite_card_clicked(self, _button, path):
         basename = os.path.basename(path)
@@ -786,6 +804,7 @@ class CommandCenter(Gtk.Window):
     def render_commands(self):
         if self.pending_confirm is not None:
             self.hide_confirm()
+        self._clear_highlight()
         # Preserve caret: rebuilding cards must not steal focus or select-all.
         had_search_focus = (
             self.search_entry is not None
@@ -805,6 +824,7 @@ class CommandCenter(Gtk.Window):
             if name in by_base:
                 fav_items.append(by_base[name])
 
+        fav_cards = []
         if not fav_items:
             # no_show_all so startup window.show_all() cannot revive an empty strip
             self.favorites_box.set_no_show_all(True)
@@ -812,7 +832,7 @@ class CommandCenter(Gtk.Window):
             fav_visible = False
         else:
             self.favorites_box.set_no_show_all(False)
-            self._attach_cards(self.favorites_grid, fav_items)
+            fav_cards = self._attach_cards(self.favorites_grid, fav_items)
             self.favorites_box.show_all()
             fav_visible = True
 
@@ -823,7 +843,8 @@ class CommandCenter(Gtk.Window):
                 continue
             if matches_filters(meta, query, self.selected_category):
                 main_items.append((path, meta))
-        self._attach_cards(self.grid, main_items)
+        main_cards = self._attach_cards(self.grid, main_items)
+        self._nav_cards = list(fav_cards) + list(main_cards)
         # Only show the grid — window show_all() remaps widgets and steals focus.
         self.grid.show_all()
 
@@ -899,15 +920,86 @@ class CommandCenter(Gtk.Window):
     def on_search_changed(self, entry):
         self.render_commands()
 
+    def _clear_highlight(self):
+        self._set_highlight(None)
+
+    def _set_highlight(self, index):
+        cards = getattr(self, "_nav_cards", None) or []
+        for i, card in enumerate(cards):
+            ctx = card.get_style_context()
+            if index is not None and i == index:
+                ctx.add_class("keyboard-focus")
+            else:
+                ctx.remove_class("keyboard-focus")
+        self._highlight_index = index
+
+    def _nav_enabled(self):
+        if (
+            hasattr(self, "stack")
+            and self.stack.get_visible_child_name() == "authoring"
+        ):
+            return False
+        if self.edit_commands or self.edit_favorites:
+            return False
+        return True
+
+    def _move_highlight(self, key):
+        if not self._nav_enabled():
+            return False
+        n = len(self._nav_cards)
+        nxt = next_highlight_index(self._highlight_index, key, n, columns=3)
+        if nxt is None:
+            return False
+        self._set_highlight(nxt)
+        return True
+
+    def _activate_highlight(self):
+        if not self._nav_enabled():
+            return False
+        if self._highlight_index is None:
+            return False
+        if not (0 <= self._highlight_index < len(self._nav_cards)):
+            return False
+        card = self._nav_cards[self._highlight_index]
+        path = getattr(card, "_cc_script_path", None)
+        if path is None:
+            return False
+        meta = None
+        for p, m in self.commands:
+            if p == path:
+                meta = m
+                break
+        if meta is None:
+            return False
+        self.on_command_clicked(card, path, meta)
+        return True
+
+    def _handle_launcher_nav_keys(self, event):
+        key = _ARROW_KEYS.get(event.keyval)
+        if key and self._move_highlight(key):
+            return True
+        if event.keyval in (Gdk.KEY_Return, Gdk.KEY_KP_Enter):
+            if self._activate_highlight():
+                return True
+        if event.keyval == Gdk.KEY_Escape and self._highlight_index is not None:
+            self._clear_highlight()
+            return True
+        return False
+
     def on_search_key_press(self, widget, event):
+        if self._handle_launcher_nav_keys(event):
+            return True
         if event.keyval == Gdk.KEY_Escape:
             return self._escape_main_launcher()
         return False
 
     def _escape_main_launcher(self):
-        """Launcher-style Esc: dismiss confirm, clear search, or quit."""
+        """Launcher-style Esc: dismiss confirm, clear highlight/search, or quit."""
         if self.pending_confirm is not None:
             self.hide_confirm()
+            return True
+        if self._highlight_index is not None:
+            self._clear_highlight()
             return True
         if self.search_entry.get_text():
             self.search_entry.set_text("")
@@ -924,6 +1016,8 @@ class CommandCenter(Gtk.Window):
                 GLib.timeout_add(400, self._qa_show_first_confirm)
             if os.environ.get("CC_QA_SHORTCUT", "").strip() == "1":
                 GLib.timeout_add(500, self._qa_open_shortcut_popover)
+            if os.environ.get("CC_QA_NAV", "").strip() == "1":
+                GLib.timeout_add(500, self._qa_nav_highlight)
             qa = os.environ.get("CC_QA_AUTHORING", "").strip().lower()
             if qa in ("edit", "new", "delete", "form", "form-popover"):
                 GLib.timeout_add(450, self._qa_authoring, qa)
@@ -935,6 +1029,8 @@ class CommandCenter(Gtk.Window):
                     delay = 1100
                 elif os.environ.get("CC_QA_SHORTCUT", "").strip() == "1":
                     delay = 1000
+                elif os.environ.get("CC_QA_NAV", "").strip() == "1":
+                    delay = 1000
                 else:
                     delay = 900
                 GLib.timeout_add(delay, self._qa_shot_and_quit, shot)
@@ -942,6 +1038,10 @@ class CommandCenter(Gtk.Window):
 
     def _qa_open_shortcut_popover(self):
         self.on_shortcut_setup_clicked()
+        return False
+
+    def _qa_nav_highlight(self):
+        self._move_highlight("Down")
         return False
 
     def _qa_open_icon_popover(self):
@@ -1040,9 +1140,6 @@ class CommandCenter(Gtk.Window):
             Gtk.main_quit()
 
     def on_window_key_press(self, widget, event):
-        # Search field handles Esc via on_search_key_press; other keys pass through.
-        if self.search_entry.has_focus() and event.keyval != Gdk.KEY_Escape:
-            return False
         if self.stack.get_visible_child_name() == "authoring":
             if event.keyval == Gdk.KEY_Escape:
                 if self.authoring.popover_visible():
@@ -1051,7 +1148,15 @@ class CommandCenter(Gtk.Window):
                 self.on_authoring_cancel(self.authoring)
                 return True
             return False
-        if event.keyval == Gdk.KEY_Escape:
+        # Search normally owns typing; still handle nav when it has focus via
+        # on_search_key_press. When it does not, handle nav here.
+        if not self.search_entry.has_focus():
+            if self._handle_launcher_nav_keys(event):
+                return True
+            if event.keyval == Gdk.KEY_Escape:
+                return self._escape_main_launcher()
+        elif event.keyval == Gdk.KEY_Escape:
+            # Prefer search handler; if we get here, still run ladder.
             return self._escape_main_launcher()
         ctrl = bool(event.state & Gdk.ModifierType.CONTROL_MASK)
         if ctrl and event.keyval in (Gdk.KEY_f, Gdk.KEY_F):
