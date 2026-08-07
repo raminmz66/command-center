@@ -1,6 +1,6 @@
 # Arrow + Enter on cards — Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [x]`) syntax for tracking.
 
 **Goal:** Arrow-key card highlight while search keeps focus; Enter runs highlighted card; Esc clears highlight first.
 
@@ -42,7 +42,7 @@
 - Produces: `next_highlight_index(current: int|None, key: str, n: int, columns: int = 3) -> int|None`
 - `key` in `{"Left","Right","Up","Down"}`; returns `None` if `n==0`
 
-- [ ] **Step 1: Write failing tests**
+- [x] **Step 1: Write failing tests**
 
 ```python
 # framework/test_nav.py
@@ -71,9 +71,9 @@ class NavTest(unittest.TestCase):
         self.assertEqual(next_highlight_index(5, "Down", 6, columns=3), 5)
 ```
 
-- [ ] **Step 2:** `cd framework && python3 -m unittest test_nav -v` — FAIL
+- [x] **Step 2:** `cd framework && python3 -m unittest test_nav -v` — FAIL
 
-- [ ] **Step 3: Implement**
+- [x] **Step 3: Implement**
 
 ```python
 # framework/nav.py
@@ -95,9 +95,9 @@ def next_highlight_index(current, key, n, columns=3):
     return current
 ```
 
-- [ ] **Step 4:** Tests PASS
+- [x] **Step 4:** Tests PASS
 
-- [ ] **Step 5: Commit** `feat: add keyboard highlight index helper.`
+- [x] **Step 5: Commit** `feat: add keyboard highlight index helper.`
 
 ---
 
@@ -107,7 +107,7 @@ def next_highlight_index(current, key, n, columns=3):
 - Modify: `framework/style.css`
 - Modify: `framework/menu.py`
 
-- [ ] **Step 1:** Add CSS:
+- [x] **Step 1:** Add CSS:
 
 ```css
 button.command-card.keyboard-focus {
@@ -118,11 +118,11 @@ button.command-card.keyboard-focus {
 }
 ```
 
-- [ ] **Step 2:** In `CommandCenter.__init__` (after grids): `self._nav_cards = []`, `self._highlight_index = None`
+- [x] **Step 2:** In `CommandCenter.__init__` (after grids): `self._nav_cards = []`, `self._highlight_index = None`
 
-- [ ] **Step 3:** After `_attach_cards` for favorites and main in `render_commands`, rebuild `_nav_cards` as list of card widgets in order (favorites children then main). Clear highlight via `_set_highlight(None)` at start of `render_commands`.
+- [x] **Step 3:** After `_attach_cards` for favorites and main in `render_commands`, rebuild `_nav_cards` as list of card widgets in order (favorites children then main). Clear highlight via `_set_highlight(None)` at start of `render_commands`.
 
-- [ ] **Step 4:** Add helpers:
+- [x] **Step 4:** Add helpers:
 
 ```python
 def _clear_highlight(self):
@@ -186,7 +186,7 @@ main_cards = self._attach_cards(...)
 self._nav_cards = list(fav_cards) + list(main_cards)
 ```
 
-- [ ] **Step 5: Commit** `feat: wire card keyboard-focus highlight state and CSS.`
+- [x] **Step 5: Commit** `feat: wire card keyboard-focus highlight state and CSS.`
 
 ---
 
@@ -195,7 +195,7 @@ self._nav_cards = list(fav_cards) + list(main_cards)
 **Files:**
 - Modify: `framework/menu.py`
 
-- [ ] **Step 1:** Import `next_highlight_index` from `nav` (if not already). Map Gdk keys:
+- [x] **Step 1:** Import `next_highlight_index` from `nav` (if not already). Map Gdk keys:
 
 ```python
 _ARROW = {
@@ -206,7 +206,7 @@ _ARROW = {
 }
 ```
 
-- [ ] **Step 2:** In `on_search_key_press`, before Esc:
+- [x] **Step 2:** In `on_search_key_press`, before Esc:
 
 ```python
 key = _ARROW.get(event.keyval)
@@ -222,9 +222,9 @@ if event.keyval == Gdk.KEY_Escape:
     return self._escape_main_launcher()
 ```
 
-- [ ] **Step 3:** In `on_window_key_press`, when search does **not** have focus (or always for arrows when nav enabled), handle same arrows/Enter/Esc-highlight before existing logic. Simplest: extract `_handle_launcher_nav_keys(event) -> bool` used from both handlers.
+- [x] **Step 3:** In `on_window_key_press`, when search does **not** have focus (or always for arrows when nav enabled), handle same arrows/Enter/Esc-highlight before existing logic. Simplest: extract `_handle_launcher_nav_keys(event) -> bool` used from both handlers.
 
-- [ ] **Step 4:** Update `_escape_main_launcher` — highlight already cleared in search handler; if called with highlight still set, clear first:
+- [x] **Step 4:** Update `_escape_main_launcher` — highlight already cleared in search handler; if called with highlight still set, clear first:
 
 ```python
 if self._highlight_index is not None:
@@ -232,7 +232,7 @@ if self._highlight_index is not None:
     return True
 ```
 
-- [ ] **Step 5: Commit** `feat: arrow-navigate cards and Enter to run from search.`
+- [x] **Step 5: Commit** `feat: arrow-navigate cards and Enter to run from search.`
 
 ---
 
@@ -242,9 +242,9 @@ if self._highlight_index is not None:
 - Modify: `framework/menu.py` (`on_map_event` QA)
 - Modify: `STATUS.md`
 
-- [ ] **Step 1:** If `CC_QA_NAV=1`, after show: timeout to `_move_highlight("Down")` then shot (existing `CC_QA_SHOT`).
+- [x] **Step 1:** If `CC_QA_NAV=1`, after show: timeout to `_move_highlight("Down")` then shot (existing `CC_QA_SHOT`).
 
-- [ ] **Step 2:** Run:
+- [x] **Step 2:** Run:
 
 ```bash
 cd framework
@@ -255,9 +255,9 @@ CC_QA_NAV=1 CC_QA_SHOT=/home/ramin/CommandCenter/.superpowers/qa/arrow-enter-hig
 
 Verify PNG shows blue highlight on first card.
 
-- [ ] **Step 3:** Mark cycle done in `STATUS.md`; advance backlog pointer to item 2 as next.
+- [x] **Step 3:** Mark cycle done in `STATUS.md`; advance backlog pointer to item 2 as next.
 
-- [ ] **Step 4: Commit** `docs: QA arrow-enter highlight; mark cycle done.`
+- [x] **Step 4: Commit** `docs: QA arrow-enter highlight; mark cycle done.`
 
 ---
 

@@ -9,14 +9,15 @@
 |-------|--------|
 | **Phase** | Polish backlog |
 | **Cycle** | 1 — Arrow + Enter on cards |
-| **Stage** | `brainstorm` |
-| **Active spec** | — |
-| **Active plan** | — |
+| **Stage** | `done` |
+| **Active spec** | [docs/superpowers/specs/2026-08-08-arrow-enter-cards-design.md](docs/superpowers/specs/2026-08-08-arrow-enter-cards-design.md) |
+| **Active plan** | [docs/superpowers/plans/2026-08-08-arrow-enter-cards.md](docs/superpowers/plans/2026-08-08-arrow-enter-cards.md) |
+| **QA** | `.superpowers/qa/arrow-enter-highlight.png` |
 
 ## Active backlog (in order)
 
-1. **Arrow + Enter on cards** ← current  
-2. Reorder favorites by drag  
+1. Arrow + Enter on cards ← **done**  
+2. **Reorder favorites by drag** ← next  
 3. Empty-state that teaches  
 4. Remember window size/position  
 
@@ -24,13 +25,13 @@
 
 | Bucket | Items |
 |--------|--------|
-| **Done** | Soft GNOME UI, search, categories, favorites, confirm, authoring, summon lite, `.deb` + icon |
+| **Done** | Soft GNOME UI, search, categories, favorites, confirm, authoring, summon lite, `.deb` + icon, arrow+enter |
 | **Parked** | 29 tray; 31 templates; 32 Flatpak/AppImage |
 | **Removed** | 25 execution engine; 26 status; 28 notifications; 30 generator |
 
 ## Next action
 
-Brainstorming **Arrow + Enter on cards** — clarify keyboard UX vs search focus.
+Arrow + Enter **done**. Say **Start next cycle** for **Reorder favorites by drag**, or continue.
 
 ## Stages (per cycle)
 
