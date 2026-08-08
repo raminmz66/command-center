@@ -1,6 +1,6 @@
 # Terminal hold — Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [x]`) syntax for tracking.
 
 **Goal:** After every `TERMINAL=true` script exits, keep gnome-terminal open until the user presses Enter.
 
@@ -38,7 +38,7 @@
 - Produces: `terminal_argv(path: str) -> list[str]`
 - Produces: `run_command(widget, path, terminal=False)` uses `terminal_argv` when `terminal` is true
 
-- [ ] **Step 1: Write failing tests**
+- [x] **Step 1: Write failing tests**
 
 ```python
 # framework/test_launcher.py
@@ -75,9 +75,9 @@ class LauncherTests(unittest.TestCase):
             popen.assert_called_once_with(["/tmp/x.sh"])
 ```
 
-- [ ] **Step 2:** `cd framework && python3 -m unittest test_launcher -v` — FAIL
+- [x] **Step 2:** `cd framework && python3 -m unittest test_launcher -v` — FAIL
 
-- [ ] **Step 3: Implement**
+- [x] **Step 3: Implement**
 
 ```python
 # framework/launcher.py
@@ -107,9 +107,9 @@ def run_command(widget, path, terminal=False):
         subprocess.Popen([path])
 ```
 
-- [ ] **Step 4:** Tests PASS; `python3 -m unittest discover` PASS
+- [x] **Step 4:** Tests PASS; `python3 -m unittest discover` PASS
 
-- [ ] **Step 5: Commit** `feat: hold terminal open until Enter after script exit.`
+- [x] **Step 5: Commit** `feat: hold terminal open until Enter after script exit.`
 
 ---
 
