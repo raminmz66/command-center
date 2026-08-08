@@ -11,6 +11,7 @@ class LauncherTests(unittest.TestCase):
         self.assertEqual(argv[:3], ["gnome-terminal", "--", "bash"])
         self.assertEqual(argv[3], "-c")
         self.assertIn("/tmp/hello.sh", argv[4])
+        self.assertIn("setsid bash", argv[4])
         self.assertIn("Press Enter to close", argv[4])
 
     def test_terminal_argv_quotes_spaces(self):

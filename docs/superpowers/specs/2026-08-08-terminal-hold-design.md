@@ -30,6 +30,8 @@ When a terminal command finishes, keep the gnome-terminal window open until the 
    `Press Enter to close…`
 4. Enter closes the shell → terminal window closes.
 5. Paths with spaces/special characters are safely quoted (`shlex.quote`).
+6. The script runs under `setsid` so daemons it starts (e.g. Conky) are not
+   killed by SIGHUP when the hold shell exits / the terminal closes.
 
 ## In scope
 

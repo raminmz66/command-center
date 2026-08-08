@@ -9,8 +9,11 @@ HOLD_PROMPT = "Press Enter to close…"
 
 def terminal_argv(path):
     quoted = shlex.quote(path)
+    # setsid: script (and daemons it starts, e.g. conky) leave the terminal
+    # session so SIGHUP on "Press Enter to close…" does not kill them.
+    # Output still goes to this terminal (FDs are inherited).
     shell = (
-        f"bash {quoted}; "
+        f"setsid bash {quoted}; "
         f"printf '\\n'; "
         f"read -r -p {shlex.quote(HOLD_PROMPT)} _"
     )
