@@ -8,30 +8,30 @@
 | Field | Value |
 |-------|--------|
 | **Phase** | Polish backlog |
-| **Cycle** | 1 — Arrow + Enter on cards |
-| **Stage** | `done` |
-| **Active spec** | [docs/superpowers/specs/2026-08-08-arrow-enter-cards-design.md](docs/superpowers/specs/2026-08-08-arrow-enter-cards-design.md) |
-| **Active plan** | [docs/superpowers/plans/2026-08-08-arrow-enter-cards.md](docs/superpowers/plans/2026-08-08-arrow-enter-cards.md) |
-| **QA** | `.superpowers/qa/arrow-enter-highlight.png` |
+| **Cycle** | Empty-state that teaches |
+| **Stage** | `execute` |
+| **Active spec** | [docs/superpowers/specs/2026-08-08-empty-state-design.md](docs/superpowers/specs/2026-08-08-empty-state-design.md) |
+| **Active plan** | [docs/superpowers/plans/2026-08-08-empty-state.md](docs/superpowers/plans/2026-08-08-empty-state.md) |
+| **QA** | — |
 
 ## Active backlog (in order)
 
 1. Arrow + Enter on cards ← **done**  
-2. **Reorder favorites by drag** ← next  
-3. Empty-state that teaches  
+2. Reorder favorites by drag ← deferred (user jumped ahead)  
+3. **Empty-state that teaches** ← **now**  
 4. Remember window size/position  
 
 ## Roadmap snapshot (2026-07-30)
 
 | Bucket | Items |
 |--------|--------|
-| **Done** | Soft GNOME UI, search, categories, favorites, confirm, authoring, summon lite, `.deb` + icon, arrow+enter |
+| **Done** | Soft GNOME UI, search, categories, favorites, confirm, authoring, summon lite, `.deb` + icon, arrow+enter, demo delete tombstone |
 | **Parked** | 29 tray; 31 templates; 32 Flatpak/AppImage |
 | **Removed** | 25 execution engine; 26 status; 28 notifications; 30 generator |
 
 ## Next action
 
-Arrow + Enter **done**. Say **Start next cycle** for **Reorder favorites by drag**, or continue.
+Brainstorm empty-state CTA when no scripts remain. Visual options next once scope is clear.
 
 ## Stages (per cycle)
 
