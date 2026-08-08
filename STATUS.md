@@ -9,29 +9,29 @@
 |-------|--------|
 | **Phase** | Polish backlog |
 | **Cycle** | Empty-state that teaches |
-| **Stage** | `execute` |
+| **Stage** | `done` |
 | **Active spec** | [docs/superpowers/specs/2026-08-08-empty-state-design.md](docs/superpowers/specs/2026-08-08-empty-state-design.md) |
 | **Active plan** | [docs/superpowers/plans/2026-08-08-empty-state.md](docs/superpowers/plans/2026-08-08-empty-state.md) |
-| **QA** | — |
+| **QA** | `.superpowers/qa/empty-state-cta.png` |
 
 ## Active backlog (in order)
 
 1. Arrow + Enter on cards ← **done**  
-2. Reorder favorites by drag ← deferred (user jumped ahead)  
-3. **Empty-state that teaches** ← **now**  
+2. **Reorder favorites by drag** ← next  
+3. Empty-state that teaches ← **done**  
 4. Remember window size/position  
 
 ## Roadmap snapshot (2026-07-30)
 
 | Bucket | Items |
 |--------|--------|
-| **Done** | Soft GNOME UI, search, categories, favorites, confirm, authoring, summon lite, `.deb` + icon, arrow+enter, demo delete tombstone |
+| **Done** | Soft GNOME UI, search, categories, favorites, confirm, authoring, summon lite, `.deb` + icon, arrow+enter, demo delete tombstone, empty-state CTA |
 | **Parked** | 29 tray; 31 templates; 32 Flatpak/AppImage |
 | **Removed** | 25 execution engine; 26 status; 28 notifications; 30 generator |
 
 ## Next action
 
-Brainstorm empty-state CTA when no scripts remain. Visual options next once scope is clear.
+Empty-state **done**. Say **Start next cycle** for **Reorder favorites by drag**, or continue.
 
 ## Stages (per cycle)
 

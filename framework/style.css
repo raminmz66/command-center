@@ -196,10 +196,6 @@ button.cc-category-chip.active:hover {
   color: @theme_fg_color;
 }
 
-.cc-empty-state {
-  spacing: 10px;
-}
-
 .cc-empty-state-title {
   font-weight: 700;
   font-size: 17px;

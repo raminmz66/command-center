@@ -135,7 +135,7 @@ If library empty: clear chip_box children and hide chip_box; return early. Else 
 - Modify: `STATUS.md`
 - Create: `.superpowers/qa/empty-state-cta.png` (via QA run; gitignored under `.superpowers/` — still capture for local QA; STATUS links path)
 
-- [ ] **Step 1: Capture screenshot**
+- [x] **Step 1: Capture screenshot**
 
 ```bash
 QA_ROOT=/tmp/cc-qa-empty-state
@@ -153,11 +153,11 @@ XDG_DATA_HOME="$QA_ROOT/share" XDG_CONFIG_HOME="$QA_ROOT/config" \
 
 Expected: window shows centered “No commands yet” + Create button; no All chip.
 
-- [ ] **Step 2:** Read PNG; if chips visible or layout off-center, fix CSS/packing and re-shot.
+- [x] **Step 2:** Read PNG; if chips visible or layout off-center, fix CSS/packing and re-shot.
 
-- [ ] **Step 3: Update STATUS** — cycle Empty-state that teaches → `done`; next = Reorder favorites by drag; link QA path.
+- [x] **Step 3: Update STATUS** — cycle Empty-state that teaches → `done`; next = Reorder favorites by drag; link QA path.
 
-- [ ] **Step 4: Commit** `docs: mark empty-state cycle done after CTA screenshot QA.`
+- [x] **Step 4: Commit** `docs: mark empty-state cycle done after CTA screenshot QA.`
 
 ---
 
