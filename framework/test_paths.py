@@ -73,6 +73,37 @@ class PathsTest(unittest.TestCase):
             with open(dest, encoding="utf-8") as f:
                 self.assertEqual(f.read(), "USER\n")
 
+    def test_seed_skips_tombstoned_samples(self):
+        samples = os.path.join(self._tmpdir.name, "samples")
+        os.makedirs(samples)
+        for name in ("hello-terminal.sh", "confirm-demo.sh"):
+            path = os.path.join(samples, name)
+            with open(path, "w", encoding="utf-8") as f:
+                f.write("#!/bin/bash\n")
+            os.chmod(path, 0o755)
+        cfg = os.path.join(self._tmpdir.name, "config")
+        with mock.patch.dict(os.environ, {"XDG_CONFIG_HOME": cfg}):
+            with mock.patch.object(paths, "samples_dir", return_value=samples):
+                paths.remember_deleted_sample("hello-terminal.sh")
+                created = paths.seed_sample_scripts()
+                self.assertEqual(created, ["confirm-demo.sh"])
+                scripts = paths.scripts_dir()
+                self.assertFalse(
+                    os.path.exists(os.path.join(scripts, "hello-terminal.sh"))
+                )
+                self.assertTrue(
+                    os.path.isfile(os.path.join(scripts, "confirm-demo.sh"))
+                )
+
+    def test_remember_deleted_sample_ignores_non_samples(self):
+        samples = os.path.join(self._tmpdir.name, "samples")
+        os.makedirs(samples)
+        cfg = os.path.join(self._tmpdir.name, "config")
+        with mock.patch.dict(os.environ, {"XDG_CONFIG_HOME": cfg}):
+            with mock.patch.object(paths, "samples_dir", return_value=samples):
+                paths.remember_deleted_sample("my-custom.sh")
+                self.assertEqual(paths.load_deleted_samples(), [])
+
 
 if __name__ == "__main__":
     unittest.main()

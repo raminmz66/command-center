@@ -11,7 +11,7 @@ from gi.repository import Gtk, Gdk, GLib
 from authoring import AuthoringForm
 from favorites import load_favorites, save_favorites
 from metadata import read_metadata
-from paths import css_path, scripts_dir, seed_sample_scripts
+from paths import css_path, remember_deleted_sample, scripts_dir, seed_sample_scripts
 from nav import next_highlight_index
 from scriptio import (
     delete_script,
@@ -638,6 +638,7 @@ class CommandCenter(Gtk.Window):
                 err.run()
                 err.destroy()
                 return
+            remember_deleted_sample(base)
             names = [n for n in load_favorites() if n != base]
             save_favorites(names)
             self.favorites = names
