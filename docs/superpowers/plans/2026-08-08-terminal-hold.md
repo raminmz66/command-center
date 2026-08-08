@@ -119,11 +119,11 @@ def run_command(widget, path, terminal=False):
 - Modify: `STATUS.md`
 - Modify: this plan checkboxes
 
-- [ ] **Step 1:** Set cycle Terminal hold → `done`; next action = Reorder favorites (or continue).
+- [x] **Step 1:** Set cycle Terminal hold → `done`; next action = Reorder favorites (or continue).
 
-- [ ] **Step 2:** Optional smoke: launch a `TERMINAL=true` sample and confirm prompt (manual; no screenshot required).
+- [x] **Step 2:** Optional smoke: launch a `TERMINAL=true` sample and confirm prompt (manual; no screenshot required).
 
-- [ ] **Step 3: Commit** `docs: mark terminal-hold cycle done.`
+- [x] **Step 3: Commit** `docs: mark terminal-hold cycle done.`
 
 ---
 

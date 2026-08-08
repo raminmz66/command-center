@@ -9,30 +9,30 @@
 |-------|--------|
 | **Phase** | Polish backlog |
 | **Cycle** | Terminal hold / press a key |
-| **Stage** | `execute` |
+| **Stage** | `done` |
 | **Active spec** | [docs/superpowers/specs/2026-08-08-terminal-hold-design.md](docs/superpowers/specs/2026-08-08-terminal-hold-design.md) |
 | **Active plan** | [docs/superpowers/plans/2026-08-08-terminal-hold.md](docs/superpowers/plans/2026-08-08-terminal-hold.md) |
-| **QA** | — |
+| **QA** | manual — `TERMINAL=true` → Enter prompt |
 
 ## Active backlog (in order)
 
 1. Arrow + Enter on cards ← **done**  
-2. Reorder favorites by drag ← deferred  
+2. **Reorder favorites by drag** ← next  
 3. Empty-state that teaches ← **done**  
 4. Remember window size/position  
-5. **Terminal hold / press a key** ← **now**
+5. Terminal hold / press a key ← **done**
 
 ## Roadmap snapshot (2026-07-30)
 
 | Bucket | Items |
 |--------|--------|
-| **Done** | Soft GNOME UI, search, categories, favorites, confirm, authoring, summon lite, `.deb` + icon, arrow+enter, demo delete tombstone, empty-state CTA |
+| **Done** | Soft GNOME UI, search, categories, favorites, confirm, authoring, summon lite, `.deb` + icon, arrow+enter, demo delete tombstone, empty-state CTA, terminal hold |
 | **Parked** | 29 tray; 31 templates; 32 Flatpak/AppImage |
 | **Removed** | 25 execution engine; 26 status; 28 notifications; 30 generator |
 
 ## Next action
 
-Brainstorm keeping terminal windows readable after short `TERMINAL=true` scripts exit.
+Terminal hold **done**. Say **Start next cycle** for **Reorder favorites by drag**, or continue.
 
 ## Stages (per cycle)
 
