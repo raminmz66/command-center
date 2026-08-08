@@ -9,6 +9,7 @@ gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk, Gdk, GLib
 
 from authoring import AuthoringForm
+from empty_state import BODY, CTA, TITLE, is_library_empty
 from favorites import load_favorites, save_favorites
 from metadata import read_metadata
 from paths import css_path, remember_deleted_sample, scripts_dir, seed_sample_scripts
@@ -270,6 +271,34 @@ class CommandCenter(Gtk.Window):
         self.commands_label.set_no_show_all(True)
         self.commands_label.hide()
 
+        self.empty_state_box = Gtk.Box(
+            orientation=Gtk.Orientation.VERTICAL,
+            spacing=10,
+        )
+        self.empty_state_box.get_style_context().add_class("cc-empty-state")
+        self.empty_state_box.set_halign(Gtk.Align.CENTER)
+        self.empty_state_box.set_valign(Gtk.Align.CENTER)
+        self.empty_state_box.set_hexpand(True)
+        self.empty_state_box.set_vexpand(True)
+        empty_title = Gtk.Label(label=TITLE)
+        empty_title.set_halign(Gtk.Align.CENTER)
+        empty_title.get_style_context().add_class("cc-empty-state-title")
+        empty_body = Gtk.Label(label=BODY)
+        empty_body.set_halign(Gtk.Align.CENTER)
+        empty_body.set_line_wrap(True)
+        empty_body.set_max_width_chars(36)
+        empty_body.set_justify(Gtk.Justification.CENTER)
+        empty_body.get_style_context().add_class("cc-empty-state-body")
+        empty_cta = Gtk.Button(label=CTA)
+        empty_cta.set_halign(Gtk.Align.CENTER)
+        empty_cta.get_style_context().add_class("cc-empty-state-cta")
+        empty_cta.connect("clicked", self.on_add_command_clicked)
+        self.empty_state_box.pack_start(empty_title, False, False, 0)
+        self.empty_state_box.pack_start(empty_body, False, False, 0)
+        self.empty_state_box.pack_start(empty_cta, False, False, 0)
+        self.empty_state_box.set_no_show_all(True)
+        self.empty_state_box.hide()
+
         self.content = Gtk.Box(
             orientation=Gtk.Orientation.VERTICAL,
             spacing=10,
@@ -278,6 +307,7 @@ class CommandCenter(Gtk.Window):
         self.content.pack_start(self.favorites_box, False, False, 0)
         self.content.pack_start(self.commands_label, False, False, 0)
         self.content.pack_start(self.grid, True, True, 0)
+        self.content.pack_start(self.empty_state_box, True, True, 0)
 
         self.authoring = AuthoringForm()
         self.authoring.on_save = self.on_authoring_save
@@ -819,6 +849,28 @@ class CommandCenter(Gtk.Window):
         if hasattr(self, "search_entry") and self.search_entry is not None:
             query = self.search_entry.get_text()
 
+        if is_library_empty(self.commands):
+            self.chip_box.set_no_show_all(True)
+            self.chip_box.hide()
+            self.favorites_box.set_no_show_all(True)
+            self.favorites_box.hide()
+            self.commands_label.set_no_show_all(True)
+            self.commands_label.hide()
+            self._clear_container(self.grid)
+            self.grid.hide()
+            self._nav_cards = []
+            self.empty_state_box.set_no_show_all(False)
+            self.empty_state_box.show_all()
+            if had_search_focus:
+                self._restore_search_focus(cursor)
+            return
+
+        self.empty_state_box.set_no_show_all(True)
+        self.empty_state_box.hide()
+        self.chip_box.set_no_show_all(False)
+        self.chip_box.show()
+        self.grid.show()
+
         by_base = {os.path.basename(p): (p, m) for p, m in self.commands}
         fav_items = []
         for name in self.favorites:
@@ -863,6 +915,13 @@ class CommandCenter(Gtk.Window):
         for child in self.chip_box.get_children():
             self.chip_box.remove(child)
         self.chip_buttons = {}
+
+        if is_library_empty(self.commands):
+            self.chip_box.set_no_show_all(True)
+            self.chip_box.hide()
+            return
+
+        self.chip_box.set_no_show_all(False)
 
         cats = []
         for _path, meta in self.commands:

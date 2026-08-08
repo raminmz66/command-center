@@ -1,6 +1,6 @@
 # Empty-state that teaches — Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [x]`) syntax for tracking.
 
 **Goal:** When the scripts library has zero commands, show a centered “No commands yet” CTA that opens Create command.
 
@@ -40,7 +40,7 @@
 - Produces: `is_library_empty(commands) -> bool` where `commands` is a sequence
 - Produces: `TITLE`, `BODY`, `CTA` string constants matching the spec
 
-- [ ] **Step 1: Write failing tests**
+- [x] **Step 1: Write failing tests**
 
 ```python
 # framework/test_empty_state.py
@@ -63,9 +63,9 @@ class EmptyStateTests(unittest.TestCase):
         self.assertEqual(empty_state.CTA, "Create command")
 ```
 
-- [ ] **Step 2:** `cd framework && python3 -m unittest test_empty_state -v` — FAIL (module missing)
+- [x] **Step 2:** `cd framework && python3 -m unittest test_empty_state -v` — FAIL (module missing)
 
-- [ ] **Step 3: Implement**
+- [x] **Step 3: Implement**
 
 ```python
 # framework/empty_state.py
@@ -77,9 +77,9 @@ def is_library_empty(commands):
     return len(commands) == 0
 ```
 
-- [ ] **Step 4:** Tests PASS
+- [x] **Step 4:** Tests PASS
 
-- [ ] **Step 5: Commit** `feat: add empty-library helper and copy constants.`
+- [x] **Step 5: Commit** `feat: add empty-library helper and copy constants.`
 
 ---
 
@@ -93,7 +93,7 @@ def is_library_empty(commands):
 - Consumes: `empty_state.is_library_empty`, `TITLE`, `BODY`, `CTA`
 - Produces: empty-state box shown when library empty; chips hidden; CTA → `show_authoring(None)`
 
-- [ ] **Step 1: Add CSS**
+- [x] **Step 1: Add CSS**
 
 ```css
 .cc-empty-state {
@@ -106,11 +106,11 @@ button.cc-empty-state-cta {
 }
 ```
 
-- [ ] **Step 2: Build widget once in `__init__` (after content packed)**
+- [x] **Step 2: Build widget once in `__init__` (after content packed)**
 
 Vertical box: title label, body label (wrap), CTA button with class `cc-empty-state-cta` + `cc-shortcut-primary` (or dedicated class matching yellow). Pack into `self.content` (e.g. after grid). Start hidden (`set_no_show_all(True); hide()`). Connect CTA to `on_add_command_clicked` or lambda → `show_authoring(None)`.
 
-- [ ] **Step 3: Toggle in `render_commands`**
+- [x] **Step 3: Toggle in `render_commands`**
 
 If `is_library_empty(self.commands)`:
 - Hide chip_box, favorites_box, commands_label, grid (clear grid children)
@@ -119,13 +119,13 @@ Else:
 - Hide empty-state
 - Existing favorites/grid/label logic unchanged
 
-- [ ] **Step 4: `rebuild_category_chips`**
+- [x] **Step 4: `rebuild_category_chips`**
 
 If library empty: clear chip_box children and hide chip_box; return early. Else existing chip rebuild + show.
 
-- [ ] **Step 5:** `cd framework && python3 -m unittest discover` — PASS
+- [x] **Step 5:** `cd framework && python3 -m unittest discover` — PASS
 
-- [ ] **Step 6: Commit** `feat: show centered empty-state CTA when no scripts.`
+- [x] **Step 6: Commit** `feat: show centered empty-state CTA when no scripts.`
 
 ---
 

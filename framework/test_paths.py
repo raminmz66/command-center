@@ -61,17 +61,22 @@ class PathsTest(unittest.TestCase):
         with open(src, "w", encoding="utf-8") as f:
             f.write("#!/bin/bash\n")
         os.chmod(src, 0o755)
-        with mock.patch.object(paths, "samples_dir", return_value=samples):
-            created = paths.seed_sample_scripts()
-            self.assertEqual(created, ["hello-terminal.sh"])
-            dest = os.path.join(paths.scripts_dir(), "hello-terminal.sh")
-            self.assertTrue(os.path.isfile(dest))
-            with open(dest, "w", encoding="utf-8") as f:
-                f.write("USER\n")
-            created2 = paths.seed_sample_scripts()
-            self.assertEqual(created2, [])
-            with open(dest, encoding="utf-8") as f:
-                self.assertEqual(f.read(), "USER\n")
+        cfg = os.path.join(self._tmpdir.name, "config")
+        with mock.patch.dict(
+            os.environ,
+            {"XDG_DATA_HOME": self.data, "XDG_CONFIG_HOME": cfg},
+        ):
+            with mock.patch.object(paths, "samples_dir", return_value=samples):
+                created = paths.seed_sample_scripts()
+                self.assertEqual(created, ["hello-terminal.sh"])
+                dest = os.path.join(paths.scripts_dir(), "hello-terminal.sh")
+                self.assertTrue(os.path.isfile(dest))
+                with open(dest, "w", encoding="utf-8") as f:
+                    f.write("USER\n")
+                created2 = paths.seed_sample_scripts()
+                self.assertEqual(created2, [])
+                with open(dest, encoding="utf-8") as f:
+                    self.assertEqual(f.read(), "USER\n")
 
     def test_seed_skips_tombstoned_samples(self):
         samples = os.path.join(self._tmpdir.name, "samples")

@@ -196,6 +196,38 @@ button.cc-category-chip.active:hover {
   color: @theme_fg_color;
 }
 
+.cc-empty-state {
+  spacing: 10px;
+}
+
+.cc-empty-state-title {
+  font-weight: 700;
+  font-size: 17px;
+  color: @theme_fg_color;
+}
+
+.cc-empty-state-body {
+  font-size: 13px;
+  opacity: 0.75;
+  color: @theme_fg_color;
+}
+
+button.cc-empty-state-cta {
+  background-image: none;
+  background-color: #f6c32a;
+  border: 1px solid #d4a017;
+  border-radius: 8px;
+  font-weight: 600;
+  color: #1a1a1a;
+  padding: 8px 16px;
+  margin-top: 6px;
+}
+
+button.cc-empty-state-cta:hover {
+  background-image: none;
+  background-color: #e0b020;
+}
+
 .cc-edit-favorites.active {
   background-color: #f6c32a;
   color: #1a1a1a;
